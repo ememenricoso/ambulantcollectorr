@@ -1,6 +1,6 @@
 import 'package:ambulantcollector/screens/add_vendor.dart';
 import 'package:ambulantcollector/screens/approve_vendor.dart';
-import 'package:ambulantcollector/screens/profile_screen.dart'; // Import ProfileScreen
+import 'package:ambulantcollector/screens/assignpayment_all.dart';
 import 'package:ambulantcollector/screens/settings_screen.dart'; // Import SettingsScreen
 import 'package:ambulantcollector/screens/status.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -64,7 +64,7 @@ class _VendorState extends State<Vendor> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ProfileScreen(), // Navigate to ProfileScreen
+                          builder: (context) => AssignPaymentAllScreen(), // Navigate to ProfileScreen
                         ),
                       );
                     },

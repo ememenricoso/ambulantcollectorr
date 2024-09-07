@@ -193,11 +193,13 @@ class _StatusScreenState extends State<StatusScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
-                      onPressed: status == 'Pending' || status == 'Request Info'
+                      onPressed: (status == 'Pending' || status == 'Request Info')
                           ? () => _showApproveDialog(context, widget.vendorId)
                           : null,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
+                        backgroundColor: (status == 'Pending' || status == 'Request Info')
+                            ? Colors.green
+                            :Colors.grey, //grey for disable button
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -205,12 +207,16 @@ class _StatusScreenState extends State<StatusScreen> {
                       ),
                       child: const Text('APPROVE', style: TextStyle(fontSize: 16, color: Colors.white)),
                     ),
+
+                    //Decline Button
                     ElevatedButton(
-                      onPressed: status == 'Pending' || status == 'Request Info'
+                      onPressed: (status == 'Pending' || status == 'Request Info')
                           ? () => _showDeclineDialog(context, widget.vendorId)
                           : null,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.grey,
+                        backgroundColor: (status == 'Pending' || status == 'Request Info')
+                            ? Colors.green
+                            : Colors.grey,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -264,7 +270,8 @@ class _StatusScreenState extends State<StatusScreen> {
 
                 const Divider(thickness: 1.5, height: 40),
 
-                // Timeline Information
+              Column(
+              children: [
                 if (timeline.isNotEmpty) ...[
                   Container(
                     width: double.infinity,
@@ -279,99 +286,161 @@ class _StatusScreenState extends State<StatusScreen> {
                     ),
                   ),
                   ...timeline.asMap().entries.map((entry) {
-                    final index = entry.key + 1; // To start from 1
+                    final index = entry.key + 1; // Start from 1
                     final timelineEntry = entry.value as Map<String, dynamic>;
                     final requestMessage = timelineEntry['message'] ?? 'N/A';
                     final requestDate = timelineEntry['timestamp']?.toDate().toString() ?? 'N/A';
-                    final uploadedFiles = timelineEntry['uploaded_files'] as List<dynamic>? ?? [];
+                    final uploadedFiles = timelineEntry['uploadedFiles'] as List<dynamic>? ?? [];
+                    final isFilesCompleted = uploadedFiles.isNotEmpty; // Check if files are uploaded
 
-                    return Column(
+                    return Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ListTile(
-                          leading: Icon(Icons.request_page, color: Colors.grey[700]),
-                          title: Text(
-                            'Request $index',
-                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Text(
-                            'Requests: $requestMessage',
-                            style: const TextStyle(fontSize: 14),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Text(
-                            'Date Requested: $requestDate',
-                            style: const TextStyle(fontSize: 14),
-                          ),
-                        ),
-                        if (uploadedFiles.isNotEmpty) ...[
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: const Text(
-                              'Uploaded Files:',
-                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          ...uploadedFiles.map((file) {
-                            return ListTile(
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                              title: Text(file['filename'] ?? 'No filename'),
-                            );
-                          }).toList(),
-                        ],
-                        const Divider(thickness: 1.5, height: 40),
-                      ],
-                    );
-                  }).toList(),
-                ] else ...[
-                  // If no timeline entries, show nothing
-                ],
-
-                // Documents Section
-                documents.isNotEmpty
-                    ? Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        // Timeline line and icons
+                        Column(
                           children: [
-                            const Text(
-                              "Documents",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.green,
+                            // First icon (always check)
+                            const Icon(
+                              Icons.check_circle,
+                              color: Colors.green,
+                            ),
+                            // Vertical line connecting the icons
+                            Container(
+                              width: 2, // Line width
+                              height: 40, // Adjust height for spacing
+                              decoration: BoxDecoration(
+                                color: Colors.grey, // Line color
+                                borderRadius: BorderRadius.circular(1),
                               ),
                             ),
-                            ...documents.map((document) {
-                              return ListTile(
-                                title: Text(document['filename']),
-                                subtitle: document['url'] != null
-                                    ? Text(document['url'])
-                                    : null,
-                              );
-                            }).toList(),
+                            // Second icon (clock or check based on file upload status)
+                            Icon(
+                              isFilesCompleted ? Icons.check_circle : Icons.access_time,
+                              color: isFilesCompleted ? Colors.green : Colors.grey,
+                            ),
+                            if (entry.key != timeline.length - 1) // Add line if not the last entry
+                              Container(
+                                width: 2, // Line width
+                                height: 40, // Adjust height for spacing between requests
+                                color: Colors.grey, // Line color
+                              ),
                           ],
                         ),
-                      )
-                    : const SizedBox.shrink(),
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
+                        const SizedBox(width: 16),
+                        
+                        // Timeline content
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Request and Date
+                              ListTile(
+                                title: Text(
+                                  'Request $index',
+                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                ),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Request Message: $requestMessage', style: const TextStyle(fontSize: 14)),
+                                    Text('Date Requested: $requestDate', style: const TextStyle(fontSize: 14)),
+                                  ],
+                                ),
+                              ),
+                              if (uploadedFiles.isNotEmpty) ...[
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 32),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: uploadedFiles.map((file) {
+                                      final fileUrl = file.toString();
+                                      final isImage = fileUrl.endsWith('.jpg') || fileUrl.endsWith('.png');
+                                      return isImage
+                                        ? Image.network(
+                                            fileUrl,
+                                            height: 100, // Adjust height as needed
+                                            width: 100, // Adjust width as needed
+                                            fit: BoxFit.cover, // Ensure image fits within the box
+                                            errorBuilder: (context, error, stackTrace) {
+                                              return const Text("Error loading image");
+                                            },
+                                          )
+                                        : Text(
+                                            fileUrl, // Display the file URL for non-image files
+                                            style: const TextStyle(fontSize: 14),
+                                          );
+                                  }).toList(),
+                                ),
+                              ),
+                            ],
+                                      const Divider(thickness: 1.5, height: 40),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            );
+                          }).toList(),
+                        ] else ...[
+                          // If no timeline entries, show nothing
+                        ],
+          
+                        // Documents Section
+                        documents.isNotEmpty
+                            ? Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.symmetric(horizontal: 16),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "Documents",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.green,
+                                      ),
+                                    ),
+                                    ...documents.map((document) {
+                                      return ListTile(
+                                        title: Text(document['filename']),
+                                        subtitle: document['url'] != null
+                                            ? Text(document['url'])
+                                            : null,
+                                      );
+                                    }).toList(),
+                                  ],
+                                ),
+                              )
+                            : const SizedBox.shrink(),
 
-
-
-
-  
+                            //Request Info Button
+                          Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                          child: ElevatedButton(
+                            onPressed: status == 'Pending' || status == 'Request Info'
+                                ? () => showRequestAdditionalInfoDialog(context, widget.vendorId) 
+                                : null,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: (status == 'Pending' || status == 'Request Info')
+                                  ? Colors.green
+                                  : Colors.grey,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+                            ),
+                            child: const Text('Request Info', style: TextStyle(fontSize: 16, color: Colors.white)),
+                            ),
+                          ),
+                        ],
+                      ),
+                      ],
+                    ),
+                  );
+                  },
+                ),
+              );
+            }
 
   Color _getStatusColor(String status) {
     switch (status) {
@@ -398,6 +467,7 @@ class _StatusScreenState extends State<StatusScreen> {
             onPressed: () {
               Navigator.of(context).pop();
               _handleApproval(vendorId);
+              setState(() {});
             },
             child: const Text('Yes'),
           ),
@@ -531,6 +601,7 @@ void _showDeclineDialog(BuildContext context, String vendorId) {
                     ? () {
                         Navigator.of(context).pop();
                         _handleDecline(vendorId, _selectedReason); // Updated call
+                        setState(() {});
                       }
                     : null, // Disable button if no reason is entered
                 child: const Text('Decline'),
@@ -622,7 +693,6 @@ Future<String?> _uploadFileToFirebaseStorage(Uint8List fileBytes, String fileNam
 Future<void> _updateVendorTimeline(
   String vendorId, 
   String message, 
-  String username, 
   Uint8List? fileBytes, 
   String? fileName,
 ) async {
@@ -645,13 +715,34 @@ Future<void> _updateVendorTimeline(
       downloadUrl = await snapshot.ref.getDownloadURL();
     }
 
-    // Prepare the timeline entry
+    // Fetch the current document to get the timeline field
+    DocumentSnapshot vendorDoc = await FirebaseFirestore.instance.collection('users').doc(vendorId).get();
+    Map<String, dynamic>? data = vendorDoc.data() as Map<String, dynamic>?;
+
+    // Initialize timeline if it does not exist
+    List<dynamic>? timeline = data?['timeline'] as List<dynamic>?;
+    if (timeline == null) {
+      timeline = [];
+    }
+
+    // Determine the next 'issubmitted' index
+    int nextIssubmittedIndex = 1;
+
+    for (var entry in timeline) {
+      if (entry is Map<String, dynamic>) {
+        // Increment the index if the current key exists
+        if (entry.containsKey('issubmitted$nextIssubmittedIndex')) {
+          nextIssubmittedIndex++;
+        }
+      }
+    }
+
+    // Prepare the timeline entry with the next 'issubmitted' index
     Map<String, dynamic> timelineEntry = {
-      'issubmitted1': false,
+      'issubmitted$nextIssubmittedIndex': false,
       'message': message,
       'status': 'Request Info',
       'timestamp': Timestamp.now(),
-      'username': username,
     };
 
     if (downloadUrl != null) {
@@ -669,6 +760,7 @@ Future<void> _updateVendorTimeline(
     print('Error updating vendor timeline: $e');
   }
 }
+
 
 
 void showRequestAdditionalInfoDialog(BuildContext context, String vendorId) {
@@ -740,10 +832,10 @@ void _handleRequestInfo() async {
     await _updateVendorTimeline(
       vendorId,             // Pass the vendor ID
       _selectedReason,      // Pass the reason for requesting additional info
-      'vendorUsername',     // Replace 'vendorUsername' with the actual username variable
       _selectedFileBytes,   // Pass the selected file bytes
       _fileName,            // Pass the selected file name
     );
+    setState(() {});
     Navigator.of(context).pop();
   }
 }
@@ -881,7 +973,6 @@ void _handleRequestInfo() async {
                         _updateVendorTimeline(
                           vendorId,
                           _selectedReason,
-                          'Vendor Username', // Replace with actual username
                           _selectedFileBytes,
                           _fileName,
                         );

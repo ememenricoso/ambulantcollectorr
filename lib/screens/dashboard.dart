@@ -1,6 +1,5 @@
 import 'package:ambulantcollector/screens/add_ambulant.dart';
 import 'package:ambulantcollector/screens/vendor.dart';
-import 'package:ambulantcollector/screens/vendors_payment.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatefulWidget {
@@ -35,7 +34,7 @@ class _DashboardState extends State<Dashboard> {
                 );
               },
             ),
-            DashboardCard(
+            /* DashboardCard(
               icon: Icons.shopping_cart,
               title: 'VENDORS PAYMENT',
               onTap: () {
@@ -43,8 +42,8 @@ class _DashboardState extends State<Dashboard> {
                   context,
                   MaterialPageRoute(builder: (context) => Vendorspayment()), // Navigate to Vendors Payment screen
                 );
-              },
-            ),
+              }, */
+           /*  ), */
             DashboardCard(
               icon: Icons.message,
               title: 'ADD AMBULANT',

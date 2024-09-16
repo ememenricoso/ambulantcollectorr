@@ -14,8 +14,8 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Dashboard"),
-        centerTitle: true,
+/*         title: const Text("Dashboard"),
+ */        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -30,7 +30,7 @@ class _DashboardState extends State<Dashboard> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Vendor()), // Navigate to Vendor screen
+                  MaterialPageRoute(builder: (context) => const Vendor()), // Navigate to Vendor screen
                 );
               },
             ),
@@ -50,7 +50,7 @@ class _DashboardState extends State<Dashboard> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => AddAmbulant()), // Navigate to Add Ambulant screen
+                  MaterialPageRoute(builder: (context) => const AddAmbulant()), // Navigate to Add Ambulant screen
                 );
               },
             ),
@@ -66,11 +66,11 @@ class DashboardCard extends StatelessWidget {
   final String title;
   final VoidCallback onTap;
 
-  const DashboardCard({
+  const DashboardCard({Key? key, 
     required this.icon,
     required this.title,
     required this.onTap,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -91,10 +91,10 @@ class DashboardCard extends StatelessWidget {
                 size: 20.0,
                 color: Theme.of(context).primaryColor,
               ),
-              SizedBox(height: 5.0),
+              const SizedBox(height: 5.0),
               Text(
                 title,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 10.0,
                   fontWeight: FontWeight.bold,
                 ),

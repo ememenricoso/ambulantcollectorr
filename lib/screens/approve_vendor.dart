@@ -14,99 +14,56 @@ class ApproveVendor extends StatefulWidget {
 class _ApproveVendorState extends State<ApproveVendor> {
   final CollectionReference usersRef = FirebaseFirestore.instance.collection('users');
   String _searchQuery = '';
+  int _selectedIndex = 2; // Default to the current screen's index
+
+  void _onItemTapped(int index) {
+    if (index != _selectedIndex) { // Avoid unnecessary navigation
+      setState(() {
+        _selectedIndex = index;
+      });
+      switch (index) {
+        case 0:
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ProfileScreen(),
+            ),
+          );
+          break;
+        case 1:
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const Vendor(),
+            ),
+          );
+          break;
+        case 2:
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ApproveVendor(),
+            ),
+          );
+          break;
+        case 3:
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const SettingsScreen(),
+            ),
+          );
+          break;
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Approved Vendors"),
+        title: const Text("Approved Vendors"),
         centerTitle: true,
-      ),
-      drawer: Drawer(
-        child: Column(
-          children: <Widget>[
-            // Drawer Header
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blueGrey[900],
-              ),
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    backgroundColor: Colors.white,
-                    radius: 40,
-                    child: Icon(Icons.person, size: 50, color: Colors.blueGrey[900]),
-                  ),
-                  SizedBox(width: 20),
-                  Text(
-                    'User Name',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            // Drawer Body
-            Expanded(
-              child: ListView(
-                padding: EdgeInsets.zero,
-                children: <Widget>[
-                  _createDrawerItem(
-                    icon: Icons.person,
-                    text: 'My Profile',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ProfileScreen(), // Navigate to ProfileScreen
-                        ),
-                      );
-                    },
-                  ),
-                  _createDrawerItem(
-                    icon: Icons.app_registration,
-                    text: 'Registration',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Vendor(),
-                        ),
-                      );
-                    },
-                  ),
-                  _createDrawerItem(
-                    icon: Icons.business,
-                    text: 'Vendors',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ApproveVendor(),
-                        ),
-                      );
-                    },
-                  ),
-                  _createDrawerItem(
-                    icon: Icons.settings,
-                    text: 'Settings',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SettingsScreen(), // Navigate to SettingsScreen
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -114,7 +71,7 @@ class _ApproveVendorState extends State<ApproveVendor> {
           children: [
             // Search TextField
             TextField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Search by last name or number',
                 border: OutlineInputBorder(),
                 prefixIcon: Icon(Icons.search),
@@ -125,13 +82,43 @@ class _ApproveVendorState extends State<ApproveVendor> {
                 });
               },
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Expanded(
               child: _buildApprovedUserList(),
             ),
           ],
         ),
       ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.green,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            _buildBottomNavItem(Icons.person, 'Profile', 0),
+            _buildBottomNavItem(Icons.app_registration, 'Registration', 1),
+            _buildBottomNavItem(Icons.business, 'Vendors', 2),
+            _buildBottomNavItem(Icons.settings, 'Settings', 3),
+          ],
+        ), // Background color of BottomAppBar
+      ),
+    );
+  }
+
+  Widget _buildBottomNavItem(IconData icon, String label, int index) {
+    bool isSelected = _selectedIndex == index;
+    return IconButton(
+      icon: Container(
+        padding: const EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: isSelected ? Colors.white : Colors.transparent, // Background color for selected item
+        ),
+        child: Icon(
+          icon,
+          color: isSelected ? Colors.white : Colors.white, // Icon color for selected item
+        ),
+      ),
+      onPressed: () => _onItemTapped(index),
     );
   }
 
@@ -140,7 +127,7 @@ class _ApproveVendorState extends State<ApproveVendor> {
       stream: usersRef.where('status', isEqualTo: 'Approved').snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
 
         if (snapshot.hasError) {
@@ -148,7 +135,7 @@ class _ApproveVendorState extends State<ApproveVendor> {
         }
 
         if (!snapshot.hasData) {
-          return Center(child: Text('No data available'));
+          return const Center(child: Text('No data available'));
         }
 
         // Get all approved users from the snapshot
@@ -162,7 +149,7 @@ class _ApproveVendorState extends State<ApproveVendor> {
         }).toList();
 
         if (filteredUsers.isEmpty) {
-          return Center(child: Text('No matching results'));
+          return const Center(child: Text('No matching results'));
         }
 
         return ListView.builder(
@@ -176,7 +163,7 @@ class _ApproveVendorState extends State<ApproveVendor> {
 
             return Card(
               elevation: 0,
-              margin: EdgeInsets.symmetric(vertical: 10),
+              margin: const EdgeInsets.symmetric(vertical: 10),
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Row(
@@ -185,17 +172,17 @@ class _ApproveVendorState extends State<ApproveVendor> {
                     Container(
                       width: 80,
                       height: 80,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.green, // Color background only for the profile icon
                       ),
-                      child: Icon(
+                      child: const Icon(
                         Icons.person,
                         size: 60,
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(width: 15),
+                    const SizedBox(width: 15),
                     // Details
                     Expanded(
                       child: Column(
@@ -203,20 +190,20 @@ class _ApproveVendorState extends State<ApproveVendor> {
                         children: [
                           Text(
                             "$last, ${first[0]}.",
-                            style: TextStyle(
-                              color: Colors.blue,
+                            style: const TextStyle(
+                              color: Color.fromARGB(255, 21, 21, 21),
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Text(
+                          const Text(
                             'Status: Approved',
                             style: TextStyle(
                               color: Colors.green,
                               fontSize: 14,
                             ),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                         ],
                       ),
                     ),
@@ -225,7 +212,7 @@ class _ApproveVendorState extends State<ApproveVendor> {
                       alignment: Alignment.topRight,
                       child: Text(
                         number,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -250,7 +237,7 @@ class _ApproveVendorState extends State<ApproveVendor> {
 
   Widget _createDrawerItem({required IconData icon, required String text, required VoidCallback onTap}) {
     return ListTile(
-      leading: Icon(icon, color: Colors.blueGrey[900]),
+      leading: Icon(icon, color: const Color.fromARGB(255, 14, 14, 14)),
       title: Text(text),
       onTap: onTap,
     );

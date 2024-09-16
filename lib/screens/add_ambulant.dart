@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 class AddAmbulant extends StatefulWidget {
   const AddAmbulant({Key? key}) : super(key: key);
@@ -15,7 +15,7 @@ class _AddAmbulantState extends State<AddAmbulant> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Vendor Table"),
+        title: const Text("Vendor Table"),
         centerTitle: true,
       ),
       body: Padding(
@@ -24,14 +24,14 @@ class _AddAmbulantState extends State<AddAmbulant> {
           stream: usersRef.snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
 
             final users = snapshot.data!.docs;
             return SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: DataTable(
-                columns: [
+                columns: const [
                   DataColumn(label: Text('DATE')),
                   DataColumn(label: Text('NUMBER')),
                   DataColumn(label: Text('EMAIL')),
@@ -73,7 +73,7 @@ class _AddAmbulantState extends State<AddAmbulant> {
 }
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: AddAmbulant(),
   ));
 }

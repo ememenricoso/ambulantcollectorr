@@ -1,7 +1,6 @@
 import 'package:ambulantcollector/reusable_widgets/reusable_widgets.dart';
 import 'package:ambulantcollector/screens/dashboard.dart';
 import 'package:ambulantcollector/screens/reser_password.dart';
-import 'package:ambulantcollector/utils/color_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -14,30 +13,33 @@ class LogInScreen extends StatefulWidget {
 }
 
 class _LogInScreenState extends State<LogInScreen> {
-  TextEditingController _emailTextController = TextEditingController();
-  TextEditingController _passwordTextController = TextEditingController();
+  final TextEditingController _emailTextController = TextEditingController();
+  final TextEditingController _passwordTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [
-          hexStringToColor("CB2B93"),
-          hexStringToColor("9546C4"),
-          hexStringToColor("5E61F4")
-        ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+        decoration: const BoxDecoration(
+          color: Color.fromARGB(255, 226, 232, 227), // Set the background color of the container to green
+    ),
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(
                 20, MediaQuery.of(context).size.height * 0.2, 20, 0),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center, // Center content vertically if needed
+              crossAxisAlignment: CrossAxisAlignment.center, // Center content horizontally if needed
               children: <Widget>[
-                logoWidget("lib/assets/images/logo1.png"),
-                const SizedBox(
-                  height: 30,
+                const Text(
+                  "WELCOME TO \n CARBONRENT \n \n ", // Replace with your desired text
+                  style: TextStyle(
+                    fontSize: 35, // Adjust the font size as needed
+                    color: Color.fromARGB(255, 10, 151, 10), // Change text color if necessary
+                    fontWeight: FontWeight.bold, // Make text bold if needed
+                  ),
                 ),
                 reusableTextField("Enter Email", Icons.person_outline, false,
                     _emailTextController),
@@ -75,7 +77,7 @@ class _LogInScreenState extends State<LogInScreen> {
         'loginTimestamp': FieldValue.serverTimestamp(),
       }).then((_) {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => Dashboard()));
+            MaterialPageRoute(builder: (context) => const Dashboard()));
       }).catchError((error) {
         print("Failed to add user: $error");
       });
@@ -100,12 +102,12 @@ class _LogInScreenState extends State<LogInScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Login Error"),
+        title: const Text("Login Error"),
         content: Text(message),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: Text("OK"),
+            child: const Text("OK"),
           ),
         ],
       ),
@@ -120,11 +122,11 @@ class _LogInScreenState extends State<LogInScreen> {
       child: TextButton(
         child: const Text(
           "Forgot Password?",
-          style: TextStyle(color: Colors.white70),
+          style: TextStyle(color: Color.fromARGB(179, 0, 0, 0)),
           textAlign: TextAlign.right,
         ),
         onPressed: () => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ResetPassword())),
+            context, MaterialPageRoute(builder: (context) => const ResetPassword())),
       ),
     );
   }

@@ -4,6 +4,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 class AddVendorScreen extends StatefulWidget {
+  const AddVendorScreen({Key? key}) : super(key: key);
+
   @override
   _AddVendorScreenState createState() => _AddVendorScreenState();
 }
@@ -23,7 +25,7 @@ class _AddVendorScreenState extends State<AddVendorScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Vendor"),
+        title: const Text("Add Vendor"),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -61,14 +63,14 @@ class _AddVendorScreenState extends State<AddVendorScreen> {
                   icon: Icons.email,
                 ),
                 _buildStatusDropdown(),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 _buildFileUploadSection(),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: _selectedFiles.isNotEmpty && _formKey.currentState!.validate()
                       ? _submitForm
                       : null,
-                  child: Text('Add Vendor'),
+                  child: const Text('Add Vendor'),
                 ),
               ],
             ),
@@ -88,15 +90,15 @@ class _AddVendorScreenState extends State<AddVendorScreen> {
       controller: controller,
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: TextStyle(fontSize: 14, color: Colors.grey),
+        labelStyle: const TextStyle(fontSize: 14, color: Colors.grey),
         prefixIcon: Icon(icon, color: Colors.grey),
-        border: UnderlineInputBorder(),
-        focusedBorder: UnderlineInputBorder(
+        border: const UnderlineInputBorder(),
+        focusedBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.blue),
         ),
         suffixIcon: controller.text.isNotEmpty
             ? IconButton(
-                icon: Icon(Icons.clear, color: Colors.grey),
+                icon: const Icon(Icons.clear, color: Colors.grey),
                 onPressed: () {
                   setState(() {
                     controller.clear();
@@ -123,14 +125,14 @@ class _AddVendorScreenState extends State<AddVendorScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'Select a Status',
           style: TextStyle(color: Colors.grey, fontSize: 14),
         ),
         DropdownButtonFormField<String>(
           value: _status.isEmpty ? null : _status,
-          hint: Text('Select a Status'),
-          decoration: InputDecoration(
+          hint: const Text('Select a Status'),
+          decoration: const InputDecoration(
             border: UnderlineInputBorder(),
             focusedBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.blue),
@@ -161,7 +163,7 @@ class _AddVendorScreenState extends State<AddVendorScreen> {
             padding: const EdgeInsets.only(top: 8.0),
             child: Text(
               'Selected Status: $_status',
-              style: TextStyle(color: Colors.grey, fontSize: 14),
+              style: const TextStyle(color: Colors.grey, fontSize: 14),
             ),
           ),
       ],
@@ -172,14 +174,14 @@ class _AddVendorScreenState extends State<AddVendorScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'To verify your identity, please upload supporting documents for reference:',
+        const Text(
+          'Upload vendor Valid ID',
           style: TextStyle(fontSize: 16, color: Colors.black),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         GestureDetector(
           onTap: _selectFiles,
-          child: Text(
+          child: const Text(
             'Upload Files',
             style: TextStyle(
               color: Colors.blue,
@@ -188,7 +190,7 @@ class _AddVendorScreenState extends State<AddVendorScreen> {
             ),
           ),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         if (_selectedFiles.isNotEmpty)
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -201,11 +203,11 @@ class _AddVendorScreenState extends State<AddVendorScreen> {
                       child: Text(
                         _fileNames[index],
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontSize: 14),
+                        style: const TextStyle(fontSize: 14),
                       ),
                     ),
                     IconButton(
-                      icon: Icon(Icons.cancel, color: Colors.red),
+                      icon: const Icon(Icons.cancel, color: Colors.red),
                       onPressed: () {
                         setState(() {
                           _selectedFiles.removeAt(index);
@@ -219,7 +221,7 @@ class _AddVendorScreenState extends State<AddVendorScreen> {
             }),
           )
         else
-          Text(
+          const Text(
             'No files selected',
             style: TextStyle(color: Colors.grey, fontSize: 14),
           ),
@@ -282,7 +284,7 @@ class _AddVendorScreenState extends State<AddVendorScreen> {
         // Upload files to Firebase Storage and get their URLs
         List<String> fileUrls = [];
         for (final file in _selectedFiles) {
-          final fileName = DateTime.now().millisecondsSinceEpoch.toString() + '_' + file.name;
+          final fileName = '${DateTime.now().millisecondsSinceEpoch}_${file.name}';
           final storageRef = storage.ref().child('uploads/$newId/$fileName');
           final uploadTask = storageRef.putData(file.bytes!); // Use putData instead of putFile
           final snapshot = await uploadTask.whenComplete(() {});
@@ -307,7 +309,7 @@ class _AddVendorScreenState extends State<AddVendorScreen> {
       } catch (e) {
         print("Error adding vendor: $e");
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to add vendor.')),
+          const SnackBar(content: Text('Failed to add vendor.')),
         );
       }
     }

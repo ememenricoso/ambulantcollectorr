@@ -177,7 +177,7 @@ class _StatusScreenState extends State<StatusScreen> {
                         ),
                         Text(
                           "Status: $status",
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -379,7 +379,7 @@ class _StatusScreenState extends State<StatusScreen> {
                                 ),
                               ],
                             );
-                          }).toList(),
+                          }),
                         ] else ...[
                           // If no timeline entries, show nothing
                         ],
@@ -407,7 +407,7 @@ class _StatusScreenState extends State<StatusScreen> {
                                             ? Text(document['url'])
                                             : null,
                                       );
-                                    }).toList(),
+                                    }),
                                   ],
                                 ),
                               )
@@ -484,11 +484,10 @@ class _StatusScreenState extends State<StatusScreen> {
 }
 
 void _showDeclineDialog(BuildContext context, String vendorId) {
-  final TextEditingController _reasonController = TextEditingController();
-  String _selectedReason = '';
-  List<String> _suggestedReasons = [
+  final TextEditingController reasonController = TextEditingController();
+  String selectedReason = '';
+  List<String> suggestedReasons = [
     'Document requested not uploaded',
-    'Uploaded fake ID',
     'Incomplete application',
     'Incorrect information provided',
     'Application does not meet criteria',
@@ -500,28 +499,28 @@ void _showDeclineDialog(BuildContext context, String vendorId) {
       return StatefulBuilder(
         builder: (context, setState) {
           // Method to set the reason
-          void _setReason(String reason) {
+          void setReason(String reason) {
             setState(() {
-              _reasonController.text = reason;
-              _selectedReason = reason;
+              reasonController.text = reason;
+              selectedReason = reason;
             });
           }
 
           // Method to clear the reason
-          void _clearReason() {
+          void clearReason() {
             setState(() {
-              _reasonController.clear();
-              _selectedReason = '';
+              reasonController.clear();
+              selectedReason = '';
             });
           }
 
           // Method to remove a suggested reason
-          void _removeSuggestedReason(String reason) {
+          void removeSuggestedReason(String reason) {
             setState(() {
-              _suggestedReasons.remove(reason);
+              suggestedReasons.remove(reason);
               // Clear the selected reason if it matches the removed one
-              if (_selectedReason == reason) {
-                _clearReason();
+              if (selectedReason == reason) {
+                clearReason();
               }
             });
           }
@@ -557,30 +556,30 @@ void _showDeclineDialog(BuildContext context, String vendorId) {
                   // Column with rectangular boxes for reasons
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: _suggestedReasons.map((reason) {
+                    children: suggestedReasons.map((reason) {
                       return _buildReasonButton(
                         reason,
-                        _setReason,
-                        () => _removeSuggestedReason(reason), // Pass the specific reason to remove
+                        setReason,
+                        () => removeSuggestedReason(reason), // Pass the specific reason to remove
                       );
                     }).toList(),
                   ),
                   const SizedBox(height: 10),
                   // Text field with max length of 50 characters
                   TextField(
-                    controller: _reasonController,
+                    controller: reasonController,
                     decoration: InputDecoration(
                       hintText: 'Enter a reason for declining',
-                      suffixIcon: _selectedReason.isNotEmpty
+                      suffixIcon: selectedReason.isNotEmpty
                           ? IconButton(
                               icon: const Icon(Icons.close),
-                              onPressed: _clearReason,
+                              onPressed: clearReason,
                             )
                           : null,
                     ),
                     onChanged: (text) {
                       setState(() {
-                        _selectedReason = text;
+                        selectedReason = text;
                       });
                     },
                     maxLines: null, // Allow multiple lines
@@ -597,10 +596,10 @@ void _showDeclineDialog(BuildContext context, String vendorId) {
                 child: const Text('Cancel'),
               ),
               TextButton(
-                onPressed: _selectedReason.isNotEmpty
+                onPressed: selectedReason.isNotEmpty
                     ? () {
                         Navigator.of(context).pop();
-                        _handleDecline(vendorId, _selectedReason); // Updated call
+                        _handleDecline(vendorId, selectedReason); // Updated call
                         setState(() {});
                       }
                     : null, // Disable button if no reason is entered
@@ -721,9 +720,7 @@ Future<void> _updateVendorTimeline(
 
     // Initialize timeline if it does not exist
     List<dynamic>? timeline = data?['timeline'] as List<dynamic>?;
-    if (timeline == null) {
-      timeline = [];
-    }
+    timeline ??= [];
 
     // Determine the next 'issubmitted' index
     int nextIssubmittedIndex = 1;
@@ -764,52 +761,50 @@ Future<void> _updateVendorTimeline(
 
 
 void showRequestAdditionalInfoDialog(BuildContext context, String vendorId) {
-  final TextEditingController _reasonController = TextEditingController();
-  String _selectedReason = '';
-  List<String> _suggestedReasons = [
+  final TextEditingController reasonController = TextEditingController();
+  String selectedReason = '';
+  List<String> suggestedReasons = [
     'Upload your valid ID',
     'Upload ID for verification',
-    'Provide your QR code',
-    'Provide a proof',
-    'Send Money hah',
+
   ];
-  Uint8List? _selectedFileBytes;
-  String? _fileName;
-  String? _fileExtension;
+  Uint8List? selectedFileBytes;
+  String? fileName;
+  String? fileExtension;
 
   // Method to set the reason
-  void _setReason(String reason) {
-    _reasonController.text = reason;
-    _selectedReason = reason;
+  void setReason(String reason) {
+    reasonController.text = reason;
+    selectedReason = reason;
   }
 
   // Method to clear the reason
-  void _clearReason() {
-    _reasonController.clear();
-    _selectedReason = '';
+  void clearReason() {
+    reasonController.clear();
+    selectedReason = '';
   }
 
   // Method to remove a suggested reason
-  void _removeSuggestedReason(String reason) {
+  void removeSuggestedReason(String reason) {
     setState(() {
-      _suggestedReasons.remove(reason);
-      if (_selectedReason == reason) {
-        _clearReason();
+      suggestedReasons.remove(reason);
+      if (selectedReason == reason) {
+        clearReason();
       }
     });
   }
 
   // Method to remove the selected file
-  void _removeSelectedFile() {
+  void removeSelectedFile() {
     setState(() {
-      _fileName = null;
-      _fileExtension = null;
-      _selectedFileBytes = null;
+      fileName = null;
+      fileExtension = null;
+      selectedFileBytes = null;
     });
   }
 
   // Method to pick a file
-  Future<void> _pickFile() async {
+  Future<void> pickFile() async {
     final result = await FilePicker.platform.pickFiles(
       type: FileType.any, // Allow any type of file
       allowMultiple: false,
@@ -817,23 +812,23 @@ void showRequestAdditionalInfoDialog(BuildContext context, String vendorId) {
 
     if (result != null && result.files.isNotEmpty) {
       setState(() {
-        _fileName = result.files.single.name;
-        _fileExtension = result.files.single.extension;
-        _selectedFileBytes = result.files.single.bytes;
+        fileName = result.files.single.name;
+        fileExtension = result.files.single.extension;
+        selectedFileBytes = result.files.single.bytes;
       });
     }
   }
 
   // Method to handle request for additional info
-void _handleRequestInfo() async {
-  if (_selectedReason.isNotEmpty || _fileName != null) {
+void handleRequestInfo() async {
+  if (selectedReason.isNotEmpty || fileName != null) {
     print('Request Info button clicked');
     // Call Firestore update function
     await _updateVendorTimeline(
       vendorId,             // Pass the vendor ID
-      _selectedReason,      // Pass the reason for requesting additional info
-      _selectedFileBytes,   // Pass the selected file bytes
-      _fileName,            // Pass the selected file name
+      selectedReason,      // Pass the reason for requesting additional info
+      selectedFileBytes,   // Pass the selected file bytes
+      fileName,            // Pass the selected file name
     );
     setState(() {});
     Navigator.of(context).pop();
@@ -874,17 +869,17 @@ void _handleRequestInfo() async {
                   const SizedBox(height: 10),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: _suggestedReasons.map((reason) {
+                    children: suggestedReasons.map((reason) {
                       return _buildReasonButton(
                         reason,
                         (reason) {
                           setState(() {
-                            _setReason(reason);
+                            setReason(reason);
                           });
                         },
                         () {
                           setState(() {
-                            _removeSuggestedReason(reason);
+                            removeSuggestedReason(reason);
                           });
                         },
                       );
@@ -892,19 +887,19 @@ void _handleRequestInfo() async {
                   ),
                   const SizedBox(height: 10),
                   TextField(
-                    controller: _reasonController,
+                    controller: reasonController,
                     decoration: InputDecoration(
                       hintText: 'Enter a reason for requesting additional info',
-                      suffixIcon: _selectedReason.isNotEmpty
+                      suffixIcon: selectedReason.isNotEmpty
                           ? IconButton(
                               icon: const Icon(Icons.close),
-                              onPressed: _clearReason,
+                              onPressed: clearReason,
                             )
                           : null,
                     ),
                     onChanged: (text) {
                       setState(() {
-                        _selectedReason = text;
+                        selectedReason = text;
                       });
                     },
                     maxLines: null,
@@ -914,10 +909,10 @@ void _handleRequestInfo() async {
                   // Select file link
                   GestureDetector(
                     onTap: () async {
-                      await _pickFile();
+                      await pickFile();
                       setState(() {});
                     },
-                    child: Text(
+                    child: const Text(
                       'Select a sample file',
                       style: TextStyle(
                         color: Colors.blue,
@@ -928,26 +923,26 @@ void _handleRequestInfo() async {
                   ),
                   // File preview
                   const SizedBox(height: 10),
-                  if (_fileName != null) ...[
+                  if (fileName != null) ...[
                     Stack(
                       children: [
-                        _fileExtension == 'jpg' || _fileExtension == 'png' || _fileExtension == 'jpeg'
-                            ? _selectedFileBytes != null
+                        fileExtension == 'jpg' || fileExtension == 'png' || fileExtension == 'jpeg'
+                            ? selectedFileBytes != null
                                 ? Image.memory(
-                                    _selectedFileBytes!,
+                                    selectedFileBytes!,
                                     width: 100,
                                     height: 100,
                                     fit: BoxFit.cover,
                                   )
                                 : const Text('Preview not available', style: TextStyle(fontSize: 14))
-                            : Text('Preview not available for $_fileExtension files', style: const TextStyle(fontSize: 14)),
+                            : Text('Preview not available for $fileExtension files', style: const TextStyle(fontSize: 14)),
                         Positioned(
                           right: 0,
                           top: 0,
                           child: IconButton(
                             icon: const Icon(Icons.cancel, color: Colors.red),
                             onPressed: () {
-                              _removeSelectedFile();
+                              removeSelectedFile();
                               setState(() {}); // Refresh the UI
                             },
                           ),
@@ -967,14 +962,14 @@ void _handleRequestInfo() async {
               child: const Text('Cancel'),
             ),
               TextButton(
-                onPressed: _selectedReason.isNotEmpty || _fileName != null
+                onPressed: selectedReason.isNotEmpty || fileName != null
                     ? () {
                         Navigator.of(context).pop();
                         _updateVendorTimeline(
                           vendorId,
-                          _selectedReason,
-                          _selectedFileBytes,
-                          _fileName,
+                          selectedReason,
+                          selectedFileBytes,
+                          fileName,
                         );
                       }
                     : null,
@@ -992,7 +987,7 @@ Widget _buildReasonButtonRequest(String reason, void Function(String) onTap, voi
   return Container(
     margin: const EdgeInsets.only(bottom: 5),
     child: SizedBox(
-      width: 150,
+      width: 200,
       height: 30,
       child: ElevatedButton(
         onPressed: () => onTap(reason),

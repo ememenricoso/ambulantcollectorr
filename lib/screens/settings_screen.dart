@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Settings"),
+        title: const Text("Settings"),
         centerTitle: true,
       ),
       body: Padding(
@@ -14,27 +16,27 @@ class SettingsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             ListTile(
-              leading: Icon(Icons.notifications),
-              title: Text("Notifications"),
-              subtitle: Text("Manage notification settings"),
+              leading: const Icon(Icons.notifications),
+              title: const Text("Notifications"),
+              subtitle: const Text("Manage notification settings"),
               onTap: () {
                 // Navigate to notifications settings
               },
             ),
-            Divider(),
+            const Divider(),
             ListTile(
-              leading: Icon(Icons.security),
-              title: Text("Security"),
-              subtitle: Text("Change password and security settings"),
+              leading: const Icon(Icons.security),
+              title: const Text("Security"),
+              subtitle: const Text("Change password and security settings"),
               onTap: () {
                 // Navigate to security settings
               },
             ),
-            Divider(),
+            const Divider(),
             ListTile(
-              leading: Icon(Icons.language),
-              title: Text("Language"),
-              subtitle: Text("Change language settings"),
+              leading: const Icon(Icons.language),
+              title: const Text("Language"),
+              subtitle: const Text("Change language settings"),
               onTap: () {
                 // Navigate to language settings
               },

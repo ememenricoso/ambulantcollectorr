@@ -4,17 +4,19 @@ import 'package:flutter/material.dart';
 class UnderReviewPage extends StatelessWidget {
   final CollectionReference usersRef = FirebaseFirestore.instance.collection('users');
 
+   UnderReviewPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Under Review Users"),
+        title: const Text("Under Review Users"),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: usersRef.where('status', isEqualTo: 'Under Review').snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
 
           if (snapshot.hasError) {
@@ -22,7 +24,7 @@ class UnderReviewPage extends StatelessWidget {
           }
 
           if (!snapshot.hasData) {
-            return Center(child: Text('No data available'));
+            return const Center(child: Text('No data available'));
           }
 
           final users = snapshot.data!.docs;
@@ -30,7 +32,7 @@ class UnderReviewPage extends StatelessWidget {
           return SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: DataTable(
-              columns: [
+              columns: const [
                 DataColumn(label: Text('DATE')),
                 DataColumn(label: Text('VENDORS')),
               ],

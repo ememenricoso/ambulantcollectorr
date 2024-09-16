@@ -22,8 +22,8 @@ class _VendorState extends State<Vendor> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Vendor List"),
-        centerTitle: true,
+/*         title: const Text("Vendor List"),
+ */        centerTitle: true,
       ),
       drawer: Drawer(
         child: Column(
@@ -137,8 +137,8 @@ class _VendorState extends State<Vendor> {
             // Search TextField
             TextField(
               decoration: const InputDecoration(
-                labelText: 'Search by last name or number',
-                border: OutlineInputBorder(),
+/*                 labelText: 'Search by last name or number',
+ */                border: OutlineInputBorder(),
                 prefixIcon: Icon(Icons.search),
               ),
               onChanged: (value) {
@@ -159,11 +159,11 @@ class _VendorState extends State<Vendor> {
         message: 'Add Vendor',
         child: FloatingActionButton(
           onPressed: _navigateToAddVendorScreen,
+          backgroundColor: const Color.fromARGB(255, 53, 176, 39),
           child: const Icon(
             Icons.add,
             color: Colors.white, // Set the icon color to white
-          ),
-          backgroundColor: const Color.fromARGB(255, 53, 176, 39), // Set the button background color
+          ), // Set the button background color
         ),
       ),
     );
@@ -387,9 +387,9 @@ void _showApproveDialog(BuildContext context, String vendorId) {
 }
 
 void _showDeclineDialog(BuildContext context, String vendorId) {
-  final TextEditingController _reasonController = TextEditingController();
-  String _selectedReason = '';
-  List<String> _suggestedReasons = [
+  final TextEditingController reasonController = TextEditingController();
+  String selectedReason = '';
+  List<String> suggestedReasons = [
     'Document requested not uploaded',
     'Uploaded fake ID',
     'Incomplete application',
@@ -403,28 +403,28 @@ void _showDeclineDialog(BuildContext context, String vendorId) {
       return StatefulBuilder(
         builder: (context, setState) {
           // Method to set the reason
-          void _setReason(String reason) {
+          void setReason(String reason) {
             setState(() {
-              _reasonController.text = reason;
-              _selectedReason = reason;
+              reasonController.text = reason;
+              selectedReason = reason;
             });
           }
 
           // Method to clear the reason
-          void _clearReason() {
+          void clearReason() {
             setState(() {
-              _reasonController.clear();
-              _selectedReason = '';
+              reasonController.clear();
+              selectedReason = '';
             });
           }
 
           // Method to remove a suggested reason
-          void _removeSuggestedReason(String reason) {
+          void removeSuggestedReason(String reason) {
             setState(() {
-              _suggestedReasons.remove(reason);
+              suggestedReasons.remove(reason);
               // Clear the selected reason if it matches the removed one
-              if (_selectedReason == reason) {
-                _clearReason();
+              if (selectedReason == reason) {
+                clearReason();
               }
             });
           }
@@ -460,30 +460,30 @@ void _showDeclineDialog(BuildContext context, String vendorId) {
                   // Column with rectangular boxes for reasons
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: _suggestedReasons.map((reason) {
+                    children: suggestedReasons.map((reason) {
                       return _buildReasonButton(
                         reason,
-                        _setReason,
-                        () => _removeSuggestedReason(reason), // Pass the specific reason to remove
+                        setReason,
+                        () => removeSuggestedReason(reason), // Pass the specific reason to remove
                       );
                     }).toList(),
                   ),
                   const SizedBox(height: 10),
                   // Text field with max length of 50 characters
                   TextField(
-                    controller: _reasonController,
+                    controller: reasonController,
                     decoration: InputDecoration(
                       hintText: 'Enter a reason for declining',
-                      suffixIcon: _selectedReason.isNotEmpty
+                      suffixIcon: selectedReason.isNotEmpty
                           ? IconButton(
                               icon: const Icon(Icons.close),
-                              onPressed: _clearReason,
+                              onPressed: clearReason,
                             )
                           : null,
                     ),
                     onChanged: (text) {
                       setState(() {
-                        _selectedReason = text;
+                        selectedReason = text;
                       });
                     },
                     maxLines: null, // Allow multiple lines
@@ -500,10 +500,10 @@ void _showDeclineDialog(BuildContext context, String vendorId) {
                 child: const Text('Cancel'),
               ),
               TextButton(
-                onPressed: _selectedReason.isNotEmpty
+                onPressed: selectedReason.isNotEmpty
                     ? () {
                         Navigator.of(context).pop();
-                        _handleDecline(vendorId, _selectedReason); // Updated call
+                        _handleDecline(vendorId, selectedReason); // Updated call
                       }
                     : null, // Disable button if no reason is entered
                 child: const Text('Decline'),

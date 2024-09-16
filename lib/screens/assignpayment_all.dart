@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; // For formatting the date
 
 class AssignPaymentAllScreen extends StatefulWidget {
+  const AssignPaymentAllScreen({Key? key}) : super(key: key);
+
   @override
   _AssignPaymentScreenState createState() => _AssignPaymentScreenState();
 }
@@ -105,7 +107,7 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Assign Payment"),
-        backgroundColor: Color.fromARGB(255, 51, 206, 30),
+        backgroundColor: const Color.fromARGB(255, 51, 206, 30),
         titleTextStyle: const TextStyle(color: Colors.white, fontSize: 24),
 
       ),
@@ -310,7 +312,7 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
                   onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => SelectVendorsScreen()),
+                        MaterialPageRoute(builder: (context) => const SelectVendorsScreen()),
                       );
                     // Your payment submission logic
                   },

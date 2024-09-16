@@ -25,15 +25,15 @@ class _DeclineMessageScreenState extends State<DeclineMessageScreen> {
           'decline_message': message,
           'status': 'Declined'
         });
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Decline message sent')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Decline message sent')));
         widget.onMessageSent(); // Notify Vendor screen to refresh state
         Navigator.pop(context, true); // Return to the previous screen with success result
       } catch (e) {
         print('Error sending decline message: $e');
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error sending decline message')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Error sending decline message')));
       }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Please enter a message')));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter a message')));
     }
   }
 
@@ -41,7 +41,7 @@ class _DeclineMessageScreenState extends State<DeclineMessageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Send Decline Message"),
+        title: const Text("Send Decline Message"),
         centerTitle: true,
       ),
       body: Padding(
@@ -51,16 +51,16 @@ class _DeclineMessageScreenState extends State<DeclineMessageScreen> {
             TextField(
               controller: _messageController,
               maxLines: 5,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: "Decline Message",
                 hintText: "Enter the reason for declining the vendor application",
                 border: OutlineInputBorder(),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: sendDeclineMessage,
-              child: Text("Send Message"),
+              child: const Text("Send Message"),
             ),
           ],
         ),

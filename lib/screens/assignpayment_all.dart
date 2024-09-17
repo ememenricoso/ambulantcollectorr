@@ -106,46 +106,59 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
   }
 
   // Function to show dialog to add new fee
-  void _showAddFeeDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Select a Fee'),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          content: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: feeLabels.entries.map((entry) {
-                // Enable or disable the fee based on whether it is already in the form
-                bool isDisabled = ['Ticket Rate', 'Garbage Fee', 'Electricity'].contains(entry.key) &&
-                                  feeControllers.containsKey(entry.key);
+ // Function to show dialog to add new fee
+// Function to show dialog to add new fee
+// Function to show dialog to add new fee
+void _showAddFeeDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Select a Fee'),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        content: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: feeLabels.entries.map((entry) {
+              // Check if the fee is already in the form
+              bool isDisabled = feeControllers.containsKey(entry.key);
 
-                return ListTile(
-                  title: Text(entry.value),
-                  subtitle: Text(feeControllers[entry.key]?.text ?? ''),
-                  onTap: isDisabled ? null : () {
-                    _addSelectedFee(entry.key, entry.value);
-                    Navigator.of(context).pop(); // Close the dialog after selection
-                  },
-                );
-              }).toList(),
-            ),
+              return ListTile(
+                title: Text(
+                  entry.value,
+                  style: TextStyle(
+                    color: isDisabled ? Colors.grey : Colors.black,
+                  ),
+                ),
+                subtitle: Text(
+                  isDisabled ? feeControllers[entry.key]?.text ?? '' : '₱ ${entry.value}',
+                  style: TextStyle(
+                    color: isDisabled ? Colors.grey : Colors.black,
+                  ),
+                ),
+                onTap: isDisabled ? null : () {
+                  _addSelectedFee(entry.key, entry.value);
+                  Navigator.of(context).pop(); // Close the dialog after selection
+                },
+              );
+            }).toList(),
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Cancel'),
-            ),
-          ],
-        );
-      },
-    );
-  }
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Cancel'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 
   // Function to add selected fee
   void _addSelectedFee(String feeName, String feeLabel) {
@@ -163,19 +176,21 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
   }
 
   // Function to remove fee
-  void _removeFee(String feeName) {
-    setState(() {
-      if (feeControllers.containsKey(feeName)) {
-        feeControllers[feeName]?.dispose(); // Dispose the controller to prevent memory leaks
-        feeControllers.remove(feeName); // Remove fee controller
-      }
+// Function to remove fee
+void _removeFee(String feeName) {
+  setState(() {
+    if (feeControllers.containsKey(feeName)) {
+      feeControllers[feeName]?.dispose(); // Dispose the controller to prevent memory leaks
+      feeControllers.remove(feeName); // Remove fee controller
+    }
 
-      // If removing "Ticket Rate", reset ticket-related controls
-      if (feeName == 'Ticket Rate') {
-        isTicketRateAdded = false; // Hide ticket controls
-      }
-    });
-  }
+    // If removing "Ticket Rate", reset ticket-related controls
+    if (feeName == 'Ticket Rate') {
+      isTicketRateAdded = false; // Hide ticket controls
+    }
+  });
+}
+
 
   @override
   Widget build(BuildContext context) {

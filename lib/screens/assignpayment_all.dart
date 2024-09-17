@@ -11,14 +11,14 @@ class AssignPaymentAllScreen extends StatefulWidget {
 
 class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
   TextEditingController payorController = TextEditingController();
-  TextEditingController ticketRateController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   TextEditingController ticketController = TextEditingController(); // Ticket controller
   TextEditingController totalAmountController = TextEditingController(); // Total amount controller
 
-  int ticketCount = 0; // Initialize ticket count
   Map<String, TextEditingController> feeControllers = {}; // To manage dynamic fee controllers
+  Map<String, String> feeLabels = {}; // To store fee labels
 
+  int ticketCount = 0; // Initialize ticket count
   bool isTicketRateAdded = false; // Check if Ticket Rate is added
 
   @override
@@ -27,6 +27,7 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
     _loadPayorData();
     _initializeDate(); // Set the current date
     ticketController.text = ticketCount.toString(); // Initialize ticket controller text
+    _loadFees(); // Load fees from Firestore
   }
 
   // Function to load payor's data
@@ -54,7 +55,7 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
 
   // Function to update total amount
   void _updateTotalAmount() {
-    double ticketRate = double.tryParse(ticketRateController.text) ?? 0;
+    double ticketRate = double.tryParse(feeControllers['Ticket Rate']?.text.replaceAll('₱ ', '').replaceAll(',', '') ?? '0') ?? 0;
     int tickets = int.tryParse(ticketController.text) ?? 0;
 
     double totalAmount = (ticketRate * tickets); // Calculate total amount
@@ -82,10 +83,32 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
     }
   }
 
-  void _showAddFeeDialog(BuildContext context) async {
-    final QuerySnapshot rateSnapshot = await FirebaseFirestore.instance.collection('rate').get();
-    List<QueryDocumentSnapshot> rateDocuments = rateSnapshot.docs;
+  // Function to load fees from Firestore
+// Function to load fees from Firestore
+Future<void> _loadFees() async {
+  QuerySnapshot rateSnapshot = await FirebaseFirestore.instance.collection('rate').get();
+  List<QueryDocumentSnapshot> rateDocuments = rateSnapshot.docs;
 
+  setState(() {
+    for (var doc in rateDocuments) {
+      String feeName = doc.get('name');
+      String feeRate = doc.get('rate');
+
+      // Add fee controllers dynamically based on the retrieved data
+      feeControllers[feeName] = TextEditingController(text: '₱ $feeRate');
+      feeLabels[feeName] = feeName;
+
+      // Flag to show ticket controls if the fee is "Ticket Rate"
+      if (feeName == 'Ticket Rate') {
+        isTicketRateAdded = true;
+      }
+    }
+  });
+}
+
+
+  // Function to show dialog to add new fee
+  void _showAddFeeDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -97,15 +120,12 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
           content: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: rateDocuments.map((doc) {
-                String feeName = doc['name'];
-                String feeRate = doc['rate'];
-
+              children: feeLabels.entries.map((entry) {
                 return ListTile(
-                  title: Text(feeName),
-                  subtitle: Text('₱ $feeRate'),
+                  title: Text(entry.value),
+                  subtitle: Text(feeControllers[entry.key]?.text ?? ''),
                   onTap: () {
-                    _addSelectedFee(feeName, feeRate);
+                    _addSelectedFee(entry.key, entry.value);
                     Navigator.of(context).pop(); // Close the dialog after selection
                   },
                 );
@@ -125,21 +145,22 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
     );
   }
 
-  void _addSelectedFee(String feeName, String feeRate) {
+  // Function to add selected fee
+  void _addSelectedFee(String feeName, String feeLabel) {
     setState(() {
       // Only add the fee if it's not already present
-      if (!feeControllers.containsKey(feeName) && feeName != "Ticket Rate") {
-        feeControllers[feeName] = TextEditingController(text: feeRate);
+      if (!feeControllers.containsKey(feeName)) {
+        feeControllers[feeName] = feeControllers[feeLabel]!; // Use existing controller
       }
 
       // If the added fee is "Ticket Rate", update ticket rate controller and flag
-      if (feeName == "Ticket Rate") {
-        ticketRateController.text = feeRate;
+      if (feeName == 'Ticket Rate') {
         isTicketRateAdded = true; // Flag to show ticket controls
       }
     });
   }
 
+  // Function to remove fee
   void _removeFee(String feeName) {
     setState(() {
       if (feeControllers.containsKey(feeName)) {
@@ -148,8 +169,7 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
       }
 
       // If removing "Ticket Rate", reset ticket-related controls
-      if (feeName == "Ticket Rate") {
-        ticketRateController.clear();
+      if (feeName == 'Ticket Rate') {
         isTicketRateAdded = false; // Hide ticket controls
       }
     });
@@ -173,7 +193,8 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
               padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                color: Colors.white, // Background color similar to fees container
+                color: Colors.white,
+                boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 4, spreadRadius: 2)],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -195,7 +216,7 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
                       prefixIcon: Icon(Icons.person),
                       border: OutlineInputBorder(),
                     ),
-                    readOnly: true, // Payor is not editable
+                    readOnly: true,
                   ),
                   const SizedBox(height: 16),
 
@@ -227,135 +248,118 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
                   ),
                 ),
                 ElevatedButton.icon(
-                  onPressed: () => _showAddFeeDialog(context), // Pass context via lambda
-                  icon: const Icon(Icons.add), // Plus icon
+                  onPressed: () => _showAddFeeDialog(context),
+                  icon: const Icon(Icons.add),
                   label: const Text('New Fees'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 51, 206, 30), // Button color
-                    foregroundColor: Colors.white, // Text color
+                    backgroundColor: const Color.fromARGB(255, 51, 206, 30),
+                    foregroundColor: Colors.white,
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 16),
 
-            // Display container for dynamic Fee TextFields only if there are selected fees
-            if (feeControllers.isNotEmpty || isTicketRateAdded)
-              Container(
-                padding: const EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Colors.white, // Background color same as the payor container
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Add dynamic fee fields
-                    ...feeControllers.entries.map((entry) {
-                      String feeName = entry.key;
-                      TextEditingController controller = entry.value;
+            // Display container for Garbage Fee, Ticket Rate, and amounts
+          Container(
+            padding: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.white,
+              boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 4, spreadRadius: 2)],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Display Garbage Fee, Ticket Rate, and other fees
+                // Inside the Row for displaying fees
+                ...feeControllers.entries.map((entry) {
+                  String feeName = entry.key;
+                  TextEditingController? controller = entry.value;
 
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: TextField(
-                                controller: controller,
-                                decoration: InputDecoration(
-                                  labelText: feeName, // Use fee name as the label
-                                  prefixText: '₱ ',
-                                  border: const OutlineInputBorder(),
-                                ),
-                                readOnly: true, // Fee amount is not editable
-                              ),
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Row(
+                      children: [
+                        // Fee Input Field
+                        Flexible(
+                          flex: 3, // Adjust the flex value to balance the layout
+                          child: TextField(
+                            controller: controller,
+                            decoration: InputDecoration(
+                              labelText: feeLabels[feeName],
+                              border: const OutlineInputBorder(),
                             ),
-                            IconButton(
-                              icon: const Icon(Icons.delete, color: Colors.red),
-                              onPressed: () => _removeFee(feeName), // Delete the fee
-                            ),
-                          ],
+                            readOnly: true,
+                          ),
                         ),
-                      );
-                    }).toList(),
 
-                    // Display Ticket Rate and Number of Tickets if added
-                    if (isTicketRateAdded)
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 8.0),
+                        // If it's the Ticket Rate, show ticket controls
+                        if (feeName == 'Ticket Rate' && isTicketRateAdded) ...[
+                          const SizedBox(width: 10),
+                          // Adjust size of the ticket controls
+                          Flexible(
+                            flex: 2, // Allocate a smaller flex to the ticket controls
+                            child: Row(
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.remove),
+                                  onPressed: _decrementTickets,
+                                ),
+                                Expanded(
                                   child: TextField(
-                                    controller: ticketRateController,
+                                    controller: ticketController,
                                     decoration: const InputDecoration(
-                                      labelText: 'Ticket Rate',
-                                      prefixText: '₱ ',
+                                      labelText: 'Tickets',
                                       border: OutlineInputBorder(),
                                     ),
-                                    readOnly: true, // Ticket rate is not editable
+                                    textAlign: TextAlign.center,
+                                    readOnly: true,
                                   ),
                                 ),
-                              ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Row(
-                                  children: [
-                                    IconButton(
-                                      icon: const Icon(Icons.remove),
-                                      onPressed: _decrementTickets,
-                                    ),
-                                    Expanded(
-                                      child: TextField(
-                                        controller: ticketController,
-                                        keyboardType: TextInputType.number,
-                                        decoration: const InputDecoration(
-                                          labelText: 'No. of Tickets',
-                                          border: OutlineInputBorder(),
-                                        ),
-                                        readOnly: true, // Ticket count is controlled by buttons
-                                      ),
-                                    ),
-                                    IconButton(
-                                      icon: const Icon(Icons.add),
-                                      onPressed: _incrementTickets,
-                                    ),
-                                  ],
+                                IconButton(
+                                  icon: const Icon(Icons.add),
+                                  onPressed: _incrementTickets,
                                 ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 8),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: TextField(
-                                  controller: totalAmountController,
-                                  decoration: const InputDecoration(
-                                    labelText: 'Total Amount',
-                                    prefixText: '₱ ',
-                                    border: OutlineInputBorder(),
-                                  ),
-                                  readOnly: true, // Total amount is calculated, not editable
-                                ),
-                              ),
-                              IconButton(
-                                icon: const Icon(Icons.delete, color: Colors.red),
-                                onPressed: () => _removeFee('Ticket Rate'), // Delete Ticket Rate
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ],
-                      ),
-                  ],
+
+                        const SizedBox(width: 8), // Add some space between ticket controls and the delete button
+
+                        // Delete Button (moved after the ticket controls)
+                        IconButton(
+                          icon: const Icon(Icons.delete, color: Colors.red),
+                          onPressed: () {
+                            _removeFee(feeName); // Remove the fee when pressed
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                }).toList(),
+
+                const SizedBox(height: 16),
+
+                // Display Total Amount
+                TextField(
+                  controller: totalAmountController,
+                  decoration: const InputDecoration(
+                    labelText: 'Total Amount',
+                    border: OutlineInputBorder(),
+                    prefixText: '₱',
+                  ),
+                  readOnly: true,
                 ),
-              ),
-          ],
-        ),
+
+                
+              ],
+            ),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
 }

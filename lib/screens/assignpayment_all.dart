@@ -58,6 +58,12 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
 
     double totalAmount = (ticketRate * tickets);
 
+    feeControllers.forEach((key, controller) {
+      if (key != 'Ticket Rate') {
+        totalAmount += double.tryParse(controller.text.replaceAll('₱ ', '').replaceAll(',', '') ?? '0') ?? 0;
+      }
+    });
+
     totalAmountController.text = totalAmount.toStringAsFixed(2);
   }
 
@@ -97,8 +103,8 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
         // Store rates in a separate map
         feeRates[feeName] = feeRate;
 
-        // Add fee controllers dynamically based on the retrieved data
-        if (!feeControllers.containsKey(feeName)) {
+        // Add default fee controllers for "Ticket Rate" and "Garbage Fee"
+        if (!feeControllers.containsKey(feeName) && (feeName == 'Ticket Rate' || feeName == 'Garbage Fee')) {
           feeControllers[feeName] = TextEditingController(text: '₱ $feeRate');
           feeLabels[feeName] = feeName;
         }
@@ -125,24 +131,12 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
           content: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: feeLabels.entries.map((entry) {
-                bool isDisabled = feeControllers.containsKey(entry.key);
-
+              children: feeRates.entries.where((entry) => !feeControllers.containsKey(entry.key)).map((entry) {
                 return ListTile(
-                  title: Text(
-                    entry.value,
-                    style: TextStyle(
-                      color: isDisabled ? Colors.grey : Colors.black,
-                    ),
-                  ),
-                  subtitle: Text(
-                    isDisabled ? '₱ ${feeRates[entry.key]}' : '₱ ${feeRates[entry.key]}',
-                    style: TextStyle(
-                      color: isDisabled ? Colors.grey : Colors.black,
-                    ),
-                  ),
-                  onTap: isDisabled ? null : () {
-                    _addSelectedFee(entry.key, entry.value);
+                  title: Text(entry.key),
+                  subtitle: Text('₱ ${entry.value}'),
+                  onTap: () {
+                    _addSelectedFee(entry.key, entry.key);
                     Navigator.of(context).pop();
                   },
                 );
@@ -172,6 +166,8 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
       if (feeName == 'Ticket Rate') {
         isTicketRateAdded = true;
       }
+
+      _updateTotalAmount(); // Update total amount after adding a fee
     });
   }
 
@@ -184,6 +180,8 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
         if (feeName == 'Ticket Rate') {
           isTicketRateAdded = false;
         }
+
+        _updateTotalAmount(); // Update total amount after removing a fee
       }
     });
   }
@@ -274,25 +272,34 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
                 boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 4, spreadRadius: 2)],
               ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: feeControllers.entries.map((entry) {
+                  String feeName = entry.key;
+                  TextEditingController controller = entry.value;
+
                   return Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
                           child: Text(
-                            entry.key,
+                            feeLabels[feeName] ?? feeName,
                             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                         ),
-                        Text(
-                          entry.value.text,
-                          style: const TextStyle(fontSize: 16, color: Colors.black),
-                        ),
                         IconButton(
-                          icon: const Icon(Icons.remove_circle, color: Colors.red),
-                          onPressed: () => _removeFee(entry.key),
+                          icon: const Icon(Icons.remove_circle_outline, color: Colors.red),
+                          onPressed: () => _removeFee(feeName),
+                        ),
+                        SizedBox(
+                          width: 100,
+                          child: TextField(
+                            controller: controller,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                            ),
+                            readOnly: true,
+                          ),
                         ),
                       ],
                     ),

@@ -13,23 +13,24 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
   TextEditingController payorController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   TextEditingController ticketController = TextEditingController();
+  TextEditingController numberOfTicketsController = TextEditingController();
   TextEditingController totalAmountController = TextEditingController();
-
   Map<String, TextEditingController> feeControllers = {};
   Map<String, String> feeLabels = {};
   Map<String, String> feeRates = {}; // Map to store fee rates from Firestore
 
-  int ticketCount = 0;
-  bool isTicketRateAdded = false;
+  double ticketRate = 5.0; // Set ticket rate to 5 (as per your example)
+  int numberOfTickets = 4; // Default number of tickets
 
   @override
   void initState() {
     super.initState();
     _loadPayorData();
     _initializeDate();
-    ticketController.text = ticketCount.toString();
-    _loadFees(); // Load fees from Firestore
-  }
+    ticketController.text = ticketRate.toStringAsFixed(2);
+    numberOfTicketsController.text = numberOfTickets.toString();
+    _calculateTotalAmount(); // Calculate the total amount when initializing
+    _loadFees();  }
 
   Future<void> _loadPayorData() async {
     DocumentSnapshot payorSnapshot = await FirebaseFirestore.instance
@@ -52,72 +53,68 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
     });
   }
 
-  void _updateTotalAmount() {
-    double ticketRate = double.tryParse(feeControllers['Ticket Rate']?.text.replaceAll('₱ ', '').replaceAll(',', '') ?? '0') ?? 0;
-    int tickets = int.tryParse(ticketController.text) ?? 0;
-
-    double totalAmount = (ticketRate * tickets);
-
-    feeControllers.forEach((key, controller) {
-      if (key != 'Ticket Rate') {
-        totalAmount += double.tryParse(controller.text.replaceAll('₱ ', '').replaceAll(',', '') ?? '0') ?? 0;
-      }
-    });
-
-    totalAmountController.text = totalAmount.toStringAsFixed(2);
-  }
-
-  void _incrementTickets() {
+  void _onNumberOfTicketsChanged(String value) {
     setState(() {
-      ticketCount++;
-      ticketController.text = ticketCount.toString();
-      _updateTotalAmount();
+      numberOfTickets = int.tryParse(value) ?? 0; // If input is invalid, default to 0
+      _calculateTotalAmount(); // Ensure the total amount is recalculated whenever tickets are changed
     });
   }
 
-  void _decrementTickets() {
-    if (ticketCount > 0) {
+  void _incrementNumberOfTickets() {
+    setState(() {
+      numberOfTickets += 1;
+      numberOfTicketsController.text = numberOfTickets.toString();
+      _calculateTotalAmount();
+    });
+  }
+
+  void _decrementNumberOfTickets() {
+    if (numberOfTickets > 0) {
       setState(() {
-        ticketCount--;
-        ticketController.text = ticketCount.toString();
-        _updateTotalAmount();
+        numberOfTickets -= 1;
+        numberOfTicketsController.text = numberOfTickets.toString();
+        _calculateTotalAmount();
       });
     }
   }
 
-  Future<void> _loadFees() async {
-    QuerySnapshot rateSnapshot = await FirebaseFirestore.instance.collection('rate').get();
-    List<QueryDocumentSnapshot> rateDocuments = rateSnapshot.docs;
-
-    // Temporary map to hold fee data
-    Map<String, String> tempFees = {};
-
+  // Function to calculate the total amount
+  void _calculateTotalAmount() {
     setState(() {
-      for (var doc in rateDocuments) {
-        String feeName = doc.get('name');
-        String feeRate = doc.get('rate');
-
-        // Store fee data in a temporary map
-        tempFees[feeName] = feeRate;
-
-        // Store rates in a separate map
-        feeRates[feeName] = feeRate;
-
-        // Add default fee controllers for "Ticket Rate" and "Garbage Fee"
-        if (!feeControllers.containsKey(feeName) && (feeName == 'Ticket Rate' || feeName == 'Garbage Fee')) {
-          feeControllers[feeName] = TextEditingController(text: '₱ $feeRate');
-          feeLabels[feeName] = feeName;
-        }
-      }
-    });
-
-    // Ensure that rates in the feeControllers are updated to reflect the Firestore data
-    feeLabels.forEach((feeName, _) {
-      if (feeRates.containsKey(feeName)) {
-        feeControllers[feeName]?.text = '₱ ${feeRates[feeName]}';
-      }
+      double totalAmount = ticketRate * numberOfTickets; // Ensure ticket rate * number of tickets is calculated correctly
+      totalAmountController.text = '₱ ${totalAmount.toStringAsFixed(2)}'; // Display the result
     });
   }
+
+ Future<void> _loadFees() async {
+  QuerySnapshot rateSnapshot = await FirebaseFirestore.instance.collection('rate').get();
+  List<QueryDocumentSnapshot> rateDocuments = rateSnapshot.docs;
+
+  Map<String, String> tempFees = {};
+
+  setState(() {
+    for (var doc in rateDocuments) {
+      String feeName = doc.get('name');
+      String feeRate = doc.get('rate');
+
+      tempFees[feeName] = feeRate;
+
+      if (feeName == 'Ticket Rate') {
+        ticketRate = double.tryParse(feeRate) ?? 5.0; // Update ticket rate
+        ticketController.text = '₱ ${ticketRate.toStringAsFixed(2)}';
+      }
+
+      if (!feeControllers.containsKey(feeName) && (feeName == 'Ticket Rate' || feeName == 'Garbage Fee')) {
+        feeControllers[feeName] = TextEditingController(text: '₱ $feeRate');
+        feeLabels[feeName] = feeName;
+      }
+
+      feeRates[feeName] = feeRate;
+    }
+  });
+
+  _calculateTotalAmount(); // Recalculate total amount after loading fees
+}
 
   void _showAddFeeDialog(BuildContext context) {
     showDialog(
@@ -159,15 +156,9 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
   void _addSelectedFee(String feeName, String feeLabel) {
     setState(() {
       if (!feeControllers.containsKey(feeName)) {
-        feeControllers[feeName] = TextEditingController(text: '₱ ${feeRates[feeName]}'); // Use the rate from feeRates
+        feeControllers[feeName] = TextEditingController(text: '₱ ${feeRates[feeName]}');
         feeLabels[feeName] = feeLabel;
       }
-
-      if (feeName == 'Ticket Rate') {
-        isTicketRateAdded = true;
-      }
-
-      _updateTotalAmount(); // Update total amount after adding a fee
     });
   }
 
@@ -178,169 +169,182 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
         feeControllers.remove(feeName);
 
         if (feeName == 'Ticket Rate') {
-          isTicketRateAdded = false;
+          ticketRate = 5.0; // Reset to default value of 5
+          ticketController.text = ticketRate.toStringAsFixed(2);
         }
-
-        _updateTotalAmount(); // Update total amount after removing a fee
       }
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Assign Payment"),
-        backgroundColor: const Color.fromARGB(255, 51, 206, 30),
-        titleTextStyle: const TextStyle(color: Colors.white, fontSize: 24),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Colors.white,
-                boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 4, spreadRadius: 2)],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Payor Information',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 52, 180, 35),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  TextField(
-                    controller: payorController,
-                    decoration: const InputDecoration(
-                      labelText: 'Payor',
-                      prefixIcon: Icon(Icons.person),
-                      border: OutlineInputBorder(),
-                    ),
-                    readOnly: true,
-                  ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    controller: dateController,
-                    decoration: const InputDecoration(
-                      labelText: 'Payment Date',
-                      prefixIcon: Icon(Icons.calendar_today),
-                      border: OutlineInputBorder(),
-                    ),
-                    readOnly: true,
-                  ),
-                ],
-              ),
+ @override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: const Text("Assign Payment"),
+      backgroundColor: const Color.fromARGB(255, 51, 206, 30),
+      titleTextStyle: const TextStyle(color: Colors.white, fontSize: 24),
+    ),
+    body: SingleChildScrollView(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.white,
+              boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 4, spreadRadius: 2)],
             ),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Fee Information',
+                  'Payor Information',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Color.fromARGB(255, 52, 180, 35),
                   ),
                 ),
-                ElevatedButton.icon(
-                  onPressed: () => _showAddFeeDialog(context),
-                  icon: const Icon(Icons.add),
-                  label: const Text('New Fees'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 51, 206, 30),
-                    foregroundColor: Colors.white,
+                const SizedBox(height: 8),
+                TextField(
+                  controller: payorController,
+                  decoration: const InputDecoration(
+                    labelText: 'Payor',
+                    prefixIcon: Icon(Icons.person),
+                    border: OutlineInputBorder(),
                   ),
+                  readOnly: true,
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: dateController,
+                  decoration: const InputDecoration(
+                    labelText: 'Payment Date',
+                    prefixIcon: Icon(Icons.calendar_today),
+                    border: OutlineInputBorder(),
+                  ),
+                  readOnly: true,
                 ),
               ],
             ),
-            const SizedBox(height: 16),
-            Container(
-              padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Colors.white,
-                boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 4, spreadRadius: 2)],
-              ),
-              child: Column(
-                children: feeControllers.entries.map((entry) {
-                  String feeName = entry.key;
-                  TextEditingController controller = entry.value;
-
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            feeLabels[feeName] ?? feeName,
-                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.remove_circle_outline, color: Colors.red),
-                          onPressed: () => _removeFee(feeName),
-                        ),
-                        SizedBox(
-                          width: 100,
-                          child: TextField(
-                            controller: controller,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                            ),
-                            readOnly: true,
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }).toList(),
-              ),
+          ),
+          const SizedBox(height: 16),
+          Container(
+            padding: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.white,
+              boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 4, spreadRadius: 2)],
             ),
-            const SizedBox(height: 16),
-            Row(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Number of Tickets:',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Fee Information',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 52, 180, 35),
+                      ),
+                    ),
+                    TextButton.icon(
+                      onPressed: () {
+                        _showAddFeeDialog(context);
+                      },
+                      icon: const Icon(Icons.add, color: Color.fromARGB(255, 218, 224, 218)),
+                      label: const Text('Add Fee'),
+                      style: TextButton.styleFrom(
+                        textStyle: const TextStyle(fontSize: 16, color: Colors.white),
+                        backgroundColor: const Color.fromARGB(255, 50, 189, 55),
+                      ),
+                    )
+                  ],
                 ),
-                IconButton(
-                  icon: const Icon(Icons.remove),
-                  onPressed: _decrementTickets,
-                ),
-                Text(
-                  ticketController.text,
-                  style: const TextStyle(fontSize: 16),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.add),
-                  onPressed: _incrementTickets,
+                const SizedBox(height: 8),
+                Column(
+                  children: feeControllers.entries.map((entry) {
+                    String feeName = entry.key;
+                    TextEditingController feeController = entry.value;
+
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 16),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: TextField(
+                              controller: feeController,
+                              decoration: InputDecoration(
+                                labelText: feeLabels[feeName],
+                                border: const OutlineInputBorder(),
+                              ),
+                              readOnly: true,
+                            ),
+                          ),
+                          if (feeName == 'Ticket Rate') ...[
+                            const SizedBox(width: 10),
+                            Expanded(
+                              flex: 3, // Adjust flex to make the field bigger
+                              child: Row(
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.remove),
+                                    onPressed: _decrementNumberOfTickets,
+                                  ),
+                                  Expanded(
+                                    child: TextField(
+                                      controller: numberOfTicketsController,
+                                      keyboardType: TextInputType.number,
+                                      onChanged: _onNumberOfTicketsChanged,
+                                      decoration: const InputDecoration(
+                                        labelText: 'Number of Tickets',
+                                        border: OutlineInputBorder(),
+                                      ),
+                                    ),
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.add, color: Color.fromARGB(255, 18, 167, 28)),
+                                    onPressed: _incrementNumberOfTickets,
+                                    
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              flex: 3, // Adjust flex to make the field bigger
+                              child: TextField(
+                                controller: totalAmountController,
+                                decoration: const InputDecoration(
+                                  labelText: 'Total Amount',
+                                  border: OutlineInputBorder(),
+                                ),
+                                readOnly: true,
+                              ),
+                            ),
+                          ],
+                          IconButton(
+                            icon: const Icon(Icons.delete, color: Colors.red),
+                            onPressed: () {
+                              _removeFee(feeName);
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
                 ),
               ],
             ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: totalAmountController,
-              decoration: const InputDecoration(
-                labelText: 'Total Amount',
-                prefixIcon: Icon(Icons.monetization_on),
-                border: OutlineInputBorder(),
-              ),
-              readOnly: true,
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
 }

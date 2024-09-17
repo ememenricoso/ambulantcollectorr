@@ -84,28 +84,26 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
   }
 
   // Function to load fees from Firestore
-// Function to load fees from Firestore
-Future<void> _loadFees() async {
-  QuerySnapshot rateSnapshot = await FirebaseFirestore.instance.collection('rate').get();
-  List<QueryDocumentSnapshot> rateDocuments = rateSnapshot.docs;
+  Future<void> _loadFees() async {
+    QuerySnapshot rateSnapshot = await FirebaseFirestore.instance.collection('rate').get();
+    List<QueryDocumentSnapshot> rateDocuments = rateSnapshot.docs;
 
-  setState(() {
-    for (var doc in rateDocuments) {
-      String feeName = doc.get('name');
-      String feeRate = doc.get('rate');
+    setState(() {
+      for (var doc in rateDocuments) {
+        String feeName = doc.get('name');
+        String feeRate = doc.get('rate');
 
-      // Add fee controllers dynamically based on the retrieved data
-      feeControllers[feeName] = TextEditingController(text: '₱ $feeRate');
-      feeLabels[feeName] = feeName;
+        // Add fee controllers dynamically based on the retrieved data
+        feeControllers[feeName] = TextEditingController(text: '₱ $feeRate');
+        feeLabels[feeName] = feeName;
 
-      // Flag to show ticket controls if the fee is "Ticket Rate"
-      if (feeName == 'Ticket Rate') {
-        isTicketRateAdded = true;
+        // Flag to show ticket controls if the fee is "Ticket Rate"
+        if (feeName == 'Ticket Rate') {
+          isTicketRateAdded = true;
+        }
       }
-    }
-  });
-}
-
+    });
+  }
 
   // Function to show dialog to add new fee
   void _showAddFeeDialog(BuildContext context) {
@@ -121,10 +119,14 @@ Future<void> _loadFees() async {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: feeLabels.entries.map((entry) {
+                // Enable or disable the fee based on whether it is already in the form
+                bool isDisabled = ['Ticket Rate', 'Garbage Fee', 'Electricity'].contains(entry.key) &&
+                                  feeControllers.containsKey(entry.key);
+
                 return ListTile(
                   title: Text(entry.value),
                   subtitle: Text(feeControllers[entry.key]?.text ?? ''),
-                  onTap: () {
+                  onTap: isDisabled ? null : () {
                     _addSelectedFee(entry.key, entry.value);
                     Navigator.of(context).pop(); // Close the dialog after selection
                   },
@@ -261,105 +263,91 @@ Future<void> _loadFees() async {
             const SizedBox(height: 16),
 
             // Display container for Garbage Fee, Ticket Rate, and amounts
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: Colors.white,
-              boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 4, spreadRadius: 2)],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Display Garbage Fee, Ticket Rate, and other fees
-                // Inside the Row for displaying fees
-                ...feeControllers.entries.map((entry) {
-                  String feeName = entry.key;
-                  TextEditingController? controller = entry.value;
+            Container(
+              padding: const EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: Colors.white,
+                boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 4, spreadRadius: 2)],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ...feeControllers.entries.map((entry) {
+                    String feeName = entry.key;
+                    TextEditingController? controller = entry.value;
 
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Row(
-                      children: [
-                        // Fee Input Field
-                        Flexible(
-                          flex: 3, // Adjust the flex value to balance the layout
-                          child: TextField(
-                            controller: controller,
-                            decoration: InputDecoration(
-                              labelText: feeLabels[feeName],
-                              border: const OutlineInputBorder(),
-                            ),
-                            readOnly: true,
-                          ),
-                        ),
-
-                        // If it's the Ticket Rate, show ticket controls
-                        if (feeName == 'Ticket Rate' && isTicketRateAdded) ...[
-                          const SizedBox(width: 10),
-                          // Adjust size of the ticket controls
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Row(
+                        children: [
                           Flexible(
-                            flex: 2, // Allocate a smaller flex to the ticket controls
-                            child: Row(
-                              children: [
-                                IconButton(
-                                  icon: const Icon(Icons.remove),
-                                  onPressed: _decrementTickets,
-                                ),
-                                Expanded(
-                                  child: TextField(
-                                    controller: ticketController,
-                                    decoration: const InputDecoration(
-                                      labelText: 'Tickets',
-                                      border: OutlineInputBorder(),
-                                    ),
-                                    textAlign: TextAlign.center,
-                                    readOnly: true,
-                                  ),
-                                ),
-                                IconButton(
-                                  icon: const Icon(Icons.add),
-                                  onPressed: _incrementTickets,
-                                ),
-                              ],
+                            flex: 3,
+                            child: TextField(
+                              controller: controller,
+                              decoration: InputDecoration(
+                                labelText: feeLabels[feeName],
+                                border: const OutlineInputBorder(),
+                              ),
+                              readOnly: true,
                             ),
+                          ),
+                          if (feeName == 'Ticket Rate' && isTicketRateAdded) ...[
+                            const SizedBox(width: 10),
+                            Flexible(
+                              flex: 2,
+                              child: Row(
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.remove),
+                                    onPressed: _decrementTickets,
+                                  ),
+                                  Expanded(
+                                    child: TextField(
+                                      controller: ticketController,
+                                      decoration: const InputDecoration(
+                                        labelText: 'Tickets',
+                                        border: OutlineInputBorder(),
+                                      ),
+                                      textAlign: TextAlign.center,
+                                      readOnly: true,
+                                    ),
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.add),
+                                    onPressed: _incrementTickets,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                          const SizedBox(width: 8),
+                          IconButton(
+                            icon: const Icon(Icons.delete, color: Colors.red),
+                            onPressed: () {
+                              _removeFee(feeName);
+                            },
                           ),
                         ],
-
-                        const SizedBox(width: 8), // Add some space between ticket controls and the delete button
-
-                        // Delete Button (moved after the ticket controls)
-                        IconButton(
-                          icon: const Icon(Icons.delete, color: Colors.red),
-                          onPressed: () {
-                            _removeFee(feeName); // Remove the fee when pressed
-                          },
-                        ),
-                      ],
+                      ),
+                    );
+                  }).toList(),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: totalAmountController,
+                    decoration: const InputDecoration(
+                      labelText: 'Total Amount',
+                      border: OutlineInputBorder(),
+                      prefixText: '₱',
                     ),
-                  );
-                }).toList(),
-
-                const SizedBox(height: 16),
-
-                // Display Total Amount
-                TextField(
-                  controller: totalAmountController,
-                  decoration: const InputDecoration(
-                    labelText: 'Total Amount',
-                    border: OutlineInputBorder(),
-                    prefixText: '₱',
+                    readOnly: true,
                   ),
-                  readOnly: true,
-                ),
-
-                
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 }

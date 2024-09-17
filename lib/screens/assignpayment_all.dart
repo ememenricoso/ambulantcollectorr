@@ -12,25 +12,25 @@ class AssignPaymentAllScreen extends StatefulWidget {
 class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
   TextEditingController payorController = TextEditingController();
   TextEditingController dateController = TextEditingController();
-  TextEditingController ticketController = TextEditingController(); // Ticket controller
-  TextEditingController totalAmountController = TextEditingController(); // Total amount controller
+  TextEditingController ticketController = TextEditingController();
+  TextEditingController totalAmountController = TextEditingController();
 
-  Map<String, TextEditingController> feeControllers = {}; // To manage dynamic fee controllers
-  Map<String, String> feeLabels = {}; // To store fee labels
+  Map<String, TextEditingController> feeControllers = {};
+  Map<String, String> feeLabels = {};
+  Map<String, String> feeRates = {}; // Map to store fee rates from Firestore
 
-  int ticketCount = 0; // Initialize ticket count
-  bool isTicketRateAdded = false; // Check if Ticket Rate is added
+  int ticketCount = 0;
+  bool isTicketRateAdded = false;
 
   @override
   void initState() {
     super.initState();
     _loadPayorData();
-    _initializeDate(); // Set the current date
-    ticketController.text = ticketCount.toString(); // Initialize ticket controller text
+    _initializeDate();
+    ticketController.text = ticketCount.toString();
     _loadFees(); // Load fees from Firestore
   }
 
-  // Function to load payor's data
   Future<void> _loadPayorData() async {
     DocumentSnapshot payorSnapshot = await FirebaseFirestore.instance
         .collection('user_ambulant')
@@ -46,24 +46,21 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
     }
   }
 
-  // Function to initialize the current date
   void _initializeDate() {
     setState(() {
       dateController.text = DateFormat('MM/dd/yyyy').format(DateTime.now());
     });
   }
 
-  // Function to update total amount
   void _updateTotalAmount() {
     double ticketRate = double.tryParse(feeControllers['Ticket Rate']?.text.replaceAll('₱ ', '').replaceAll(',', '') ?? '0') ?? 0;
     int tickets = int.tryParse(ticketController.text) ?? 0;
 
-    double totalAmount = (ticketRate * tickets); // Calculate total amount
+    double totalAmount = (ticketRate * tickets);
 
-    totalAmountController.text = totalAmount.toStringAsFixed(2); // Format to 2 decimal places
+    totalAmountController.text = totalAmount.toStringAsFixed(2);
   }
 
-  // Increment ticket count
   void _incrementTickets() {
     setState(() {
       ticketCount++;
@@ -72,7 +69,6 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
     });
   }
 
-  // Decrement ticket count
   void _decrementTickets() {
     if (ticketCount > 0) {
       setState(() {
@@ -83,114 +79,114 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
     }
   }
 
-  // Function to load fees from Firestore
   Future<void> _loadFees() async {
     QuerySnapshot rateSnapshot = await FirebaseFirestore.instance.collection('rate').get();
     List<QueryDocumentSnapshot> rateDocuments = rateSnapshot.docs;
+
+    // Temporary map to hold fee data
+    Map<String, String> tempFees = {};
 
     setState(() {
       for (var doc in rateDocuments) {
         String feeName = doc.get('name');
         String feeRate = doc.get('rate');
 
-        // Add fee controllers dynamically based on the retrieved data
-        feeControllers[feeName] = TextEditingController(text: '₱ $feeRate');
-        feeLabels[feeName] = feeName;
+        // Store fee data in a temporary map
+        tempFees[feeName] = feeRate;
 
-        // Flag to show ticket controls if the fee is "Ticket Rate"
+        // Store rates in a separate map
+        feeRates[feeName] = feeRate;
+
+        // Add fee controllers dynamically based on the retrieved data
+        if (!feeControllers.containsKey(feeName)) {
+          feeControllers[feeName] = TextEditingController(text: '₱ $feeRate');
+          feeLabels[feeName] = feeName;
+        }
+      }
+    });
+
+    // Ensure that rates in the feeControllers are updated to reflect the Firestore data
+    feeLabels.forEach((feeName, _) {
+      if (feeRates.containsKey(feeName)) {
+        feeControllers[feeName]?.text = '₱ ${feeRates[feeName]}';
+      }
+    });
+  }
+
+  void _showAddFeeDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Select a Fee'),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          content: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: feeLabels.entries.map((entry) {
+                bool isDisabled = feeControllers.containsKey(entry.key);
+
+                return ListTile(
+                  title: Text(
+                    entry.value,
+                    style: TextStyle(
+                      color: isDisabled ? Colors.grey : Colors.black,
+                    ),
+                  ),
+                  subtitle: Text(
+                    isDisabled ? '₱ ${feeRates[entry.key]}' : '₱ ${feeRates[entry.key]}',
+                    style: TextStyle(
+                      color: isDisabled ? Colors.grey : Colors.black,
+                    ),
+                  ),
+                  onTap: isDisabled ? null : () {
+                    _addSelectedFee(entry.key, entry.value);
+                    Navigator.of(context).pop();
+                  },
+                );
+              }).toList(),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _addSelectedFee(String feeName, String feeLabel) {
+    setState(() {
+      if (!feeControllers.containsKey(feeName)) {
+        feeControllers[feeName] = TextEditingController(text: '₱ ${feeRates[feeName]}'); // Use the rate from feeRates
+        feeLabels[feeName] = feeLabel;
+      }
+
+      if (feeName == 'Ticket Rate') {
+        isTicketRateAdded = true;
+      }
+    });
+  }
+
+  void _removeFee(String feeName) {
+    setState(() {
+      if (feeControllers.containsKey(feeName)) {
+        feeControllers[feeName]?.dispose();
+        feeControllers.remove(feeName);
+
         if (feeName == 'Ticket Rate') {
-          isTicketRateAdded = true;
+          isTicketRateAdded = false;
         }
       }
     });
   }
-
-  // Function to show dialog to add new fee
- // Function to show dialog to add new fee
-// Function to show dialog to add new fee
-// Function to show dialog to add new fee
-void _showAddFeeDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: const Text('Select a Fee'),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        content: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: feeLabels.entries.map((entry) {
-              // Check if the fee is already in the form
-              bool isDisabled = feeControllers.containsKey(entry.key);
-
-              return ListTile(
-                title: Text(
-                  entry.value,
-                  style: TextStyle(
-                    color: isDisabled ? Colors.grey : Colors.black,
-                  ),
-                ),
-                subtitle: Text(
-                  isDisabled ? feeControllers[entry.key]?.text ?? '' : '₱ ${entry.value}',
-                  style: TextStyle(
-                    color: isDisabled ? Colors.grey : Colors.black,
-                  ),
-                ),
-                onTap: isDisabled ? null : () {
-                  _addSelectedFee(entry.key, entry.value);
-                  Navigator.of(context).pop(); // Close the dialog after selection
-                },
-              );
-            }).toList(),
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: const Text('Cancel'),
-          ),
-        ],
-      );
-    },
-  );
-}
-
-
-  // Function to add selected fee
-  void _addSelectedFee(String feeName, String feeLabel) {
-    setState(() {
-      // Only add the fee if it's not already present
-      if (!feeControllers.containsKey(feeName)) {
-        feeControllers[feeName] = feeControllers[feeLabel]!; // Use existing controller
-      }
-
-      // If the added fee is "Ticket Rate", update ticket rate controller and flag
-      if (feeName == 'Ticket Rate') {
-        isTicketRateAdded = true; // Flag to show ticket controls
-      }
-    });
-  }
-
-  // Function to remove fee
-// Function to remove fee
-void _removeFee(String feeName) {
-  setState(() {
-    if (feeControllers.containsKey(feeName)) {
-      feeControllers[feeName]?.dispose(); // Dispose the controller to prevent memory leaks
-      feeControllers.remove(feeName); // Remove fee controller
-    }
-
-    // If removing "Ticket Rate", reset ticket-related controls
-    if (feeName == 'Ticket Rate') {
-      isTicketRateAdded = false; // Hide ticket controls
-    }
-  });
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -205,7 +201,6 @@ void _removeFee(String feeName) {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Container for Payor and Payment Date
             Container(
               padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
@@ -216,7 +211,6 @@ void _removeFee(String feeName) {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Payor Information
                   const Text(
                     'Payor Information',
                     style: TextStyle(
@@ -236,8 +230,6 @@ void _removeFee(String feeName) {
                     readOnly: true,
                   ),
                   const SizedBox(height: 16),
-
-                  // Payment Date
                   TextField(
                     controller: dateController,
                     decoration: const InputDecoration(
@@ -251,8 +243,6 @@ void _removeFee(String feeName) {
               ),
             ),
             const SizedBox(height: 16),
-
-            // Fee Information Header and New Fees Button
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -276,8 +266,6 @@ void _removeFee(String feeName) {
               ],
             ),
             const SizedBox(height: 16),
-
-            // Display container for Garbage Fee, Ticket Rate, and amounts
             Container(
               padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
@@ -287,78 +275,61 @@ void _removeFee(String feeName) {
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ...feeControllers.entries.map((entry) {
-                    String feeName = entry.key;
-                    TextEditingController? controller = entry.value;
-
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Row(
-                        children: [
-                          Flexible(
-                            flex: 3,
-                            child: TextField(
-                              controller: controller,
-                              decoration: InputDecoration(
-                                labelText: feeLabels[feeName],
-                                border: const OutlineInputBorder(),
-                              ),
-                              readOnly: true,
-                            ),
+                children: feeControllers.entries.map((entry) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            entry.key,
+                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                           ),
-                          if (feeName == 'Ticket Rate' && isTicketRateAdded) ...[
-                            const SizedBox(width: 10),
-                            Flexible(
-                              flex: 2,
-                              child: Row(
-                                children: [
-                                  IconButton(
-                                    icon: const Icon(Icons.remove),
-                                    onPressed: _decrementTickets,
-                                  ),
-                                  Expanded(
-                                    child: TextField(
-                                      controller: ticketController,
-                                      decoration: const InputDecoration(
-                                        labelText: 'Tickets',
-                                        border: OutlineInputBorder(),
-                                      ),
-                                      textAlign: TextAlign.center,
-                                      readOnly: true,
-                                    ),
-                                  ),
-                                  IconButton(
-                                    icon: const Icon(Icons.add),
-                                    onPressed: _incrementTickets,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                          const SizedBox(width: 8),
-                          IconButton(
-                            icon: const Icon(Icons.delete, color: Colors.red),
-                            onPressed: () {
-                              _removeFee(feeName);
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                  }).toList(),
-                  const SizedBox(height: 16),
-                  TextField(
-                    controller: totalAmountController,
-                    decoration: const InputDecoration(
-                      labelText: 'Total Amount',
-                      border: OutlineInputBorder(),
-                      prefixText: '₱',
+                        ),
+                        Text(
+                          entry.value.text,
+                          style: const TextStyle(fontSize: 16, color: Colors.black),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.remove_circle, color: Colors.red),
+                          onPressed: () => _removeFee(entry.key),
+                        ),
+                      ],
                     ),
-                    readOnly: true,
-                  ),
-                ],
+                  );
+                }).toList(),
               ),
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                const Text(
+                  'Number of Tickets:',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.remove),
+                  onPressed: _decrementTickets,
+                ),
+                Text(
+                  ticketController.text,
+                  style: const TextStyle(fontSize: 16),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.add),
+                  onPressed: _incrementTickets,
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: totalAmountController,
+              decoration: const InputDecoration(
+                labelText: 'Total Amount',
+                prefixIcon: Icon(Icons.monetization_on),
+                border: OutlineInputBorder(),
+              ),
+              readOnly: true,
             ),
           ],
         ),

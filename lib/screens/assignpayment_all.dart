@@ -116,42 +116,87 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
   _calculateTotalAmount(); // Recalculate total amount after loading fees
 }
 
-  void _showAddFeeDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Select a Fee'),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+ void _showAddFeeDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        titlePadding: EdgeInsets.zero, // Remove default padding around the title
+        title: Container(
+          width: double.infinity, // Make the container full-width
+          decoration: const BoxDecoration(
+            color: Color.fromARGB(255, 38, 203, 44), // Header background color
+            borderRadius: BorderRadius.vertical(top: Radius.circular(12)), // Rounded top corners
           ),
-          content: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: feeRates.entries.where((entry) => !feeControllers.containsKey(entry.key)).map((entry) {
-                return ListTile(
-                  title: Text(entry.key),
-                  subtitle: Text('₱ ${entry.value}'),
+          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+          child: const Text(
+            'Select a Fee',
+            style: TextStyle(
+              fontSize: 20,
+              color: Colors.white, // Header text color
+            ),
+          ),
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12), // Rounds the dialog itself
+        ),
+        contentPadding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0), // Adjust content padding
+        content: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: feeRates.entries
+                .where((entry) => !feeControllers.containsKey(entry.key))
+                .map((entry) {
+              return Container(
+                margin: const EdgeInsets.only(bottom: 8.0),
+                child: ListTile(
+                  tileColor: Colors.grey[200], // Light grey background for each item
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  title: Text(
+                    entry.key,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                    ),
+                  ),
+                  subtitle: Text(
+                    '₱ ${entry.value}',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.black54,
+                    ),
+                  ),
                   onTap: () {
                     _addSelectedFee(entry.key, entry.key);
                     Navigator.of(context).pop();
                   },
-                );
-              }).toList(),
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+        actionsPadding: const EdgeInsets.all(8.0), // Padding for the actions
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text(
+              'Cancel',
+              style: TextStyle(
+                fontSize: 17,
+                color: Color.fromARGB(255, 67, 216, 26),
+              ),
             ),
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Cancel'),
-            ),
-          ],
-        );
-      },
-    );
-  }
+        ],
+      );
+    },
+  );
+}
 
   void _addSelectedFee(String feeName, String feeLabel) {
     setState(() {
@@ -203,7 +248,7 @@ Widget build(BuildContext context) {
                   'Payor Information',
                   style: TextStyle(
                     fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Roboto',
                     color: Color.fromARGB(255, 52, 180, 35),
                   ),
                 ),
@@ -248,7 +293,7 @@ Widget build(BuildContext context) {
                       'Fee Information',
                       style: TextStyle(
                         fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Roboto',
                         color: Color.fromARGB(255, 52, 180, 35),
                       ),
                     ),
@@ -259,13 +304,13 @@ Widget build(BuildContext context) {
                       icon: const Icon(Icons.add, color: Color.fromARGB(255, 218, 224, 218)),
                       label: const Text('Add Fee'),
                       style: TextButton.styleFrom(
-                        textStyle: const TextStyle(fontSize: 16, color: Colors.white),
-                        backgroundColor: const Color.fromARGB(255, 50, 189, 55),
+                        textStyle: const TextStyle(fontSize: 16, fontFamily: 'Roboto', color: Colors.white),
+                        backgroundColor: const Color.fromARGB(255, 34, 216, 40),
                       ),
                     )
                   ],
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 12),
                 Column(
                   children: feeControllers.entries.map((entry) {
                     String feeName = entry.key;
@@ -287,47 +332,69 @@ Widget build(BuildContext context) {
                             ),
                           ),
                           if (feeName == 'Ticket Rate') ...[
-                            const SizedBox(width: 10),
-                            Expanded(
-                              flex: 3, // Adjust flex to make the field bigger
-                              child: Row(
-                                children: [
-                                  IconButton(
-                                    icon: const Icon(Icons.remove),
-                                    onPressed: _decrementNumberOfTickets,
+                          const SizedBox(width: 10),
+                          Expanded(
+                            flex: 3, // Adjust flex to make the field bigger
+                            child: Stack(
+                              children: [
+                                TextField(
+                                  controller: numberOfTicketsController,
+                                  keyboardType: TextInputType.number,
+                                  onChanged: _onNumberOfTicketsChanged,
+                                  decoration: const InputDecoration(
+                                    labelText: 'Number of Tickets',
+                                    border: OutlineInputBorder(),
+                                    contentPadding: EdgeInsets.symmetric(horizontal: 40.0), // Ensure there is enough padding on each side
                                   ),
-                                  Expanded(
-                                    child: TextField(
-                                      controller: numberOfTicketsController,
-                                      keyboardType: TextInputType.number,
-                                      onChanged: _onNumberOfTicketsChanged,
-                                      decoration: const InputDecoration(
-                                        labelText: 'Number of Tickets',
-                                        border: OutlineInputBorder(),
+                                  textAlign: TextAlign.center, // Center the text in the field
+                                ),
+                                Positioned(
+                                  left: 0,
+                                  top: 0,
+                                  bottom: 0,
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Container(
+                                      width: 40, // Adjust width to fit the button
+                                      child: IconButton(
+                                        icon: const Icon(Icons.remove),
+                                        onPressed: _decrementNumberOfTickets,
                                       ),
                                     ),
                                   ),
-                                  IconButton(
-                                    icon: const Icon(Icons.add, color: Color.fromARGB(255, 18, 167, 28)),
-                                    onPressed: _incrementNumberOfTickets,
-                                    
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              flex: 3, // Adjust flex to make the field bigger
-                              child: TextField(
-                                controller: totalAmountController,
-                                decoration: const InputDecoration(
-                                  labelText: 'Total Amount',
-                                  border: OutlineInputBorder(),
                                 ),
-                                readOnly: true,
-                              ),
+                                Positioned(
+                                  right: 0,
+                                  top: 0,
+                                  bottom: 0,
+                                  child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Container(
+                                      width: 40, // Adjust width to fit the button
+                                      child: IconButton(
+                                        icon: const Icon(Icons.add, color: Color.fromARGB(255, 18, 167, 28)),
+                                        onPressed: _incrementNumberOfTickets,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            flex: 3, // Adjust flex to make the field bigger
+                            child: TextField(
+                              controller: totalAmountController,
+                              decoration: const InputDecoration(
+                                labelText: 'Total Amount',
+                                border: OutlineInputBorder(),
+                              ),
+                              readOnly: true,
+                            ),
+                          ),
+                        ],
+
                           IconButton(
                             icon: const Icon(Icons.delete, color: Colors.red),
                             onPressed: () {
@@ -342,6 +409,104 @@ Widget build(BuildContext context) {
               ],
             ),
           ),
+// Summary of Payment Section (Added Outside Existing Containers)
+          const SizedBox(height: 24), // Space before the summary
+          Text(
+            'Summary of Payment',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Color.fromARGB(255, 52, 180, 35),
+            ),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Ticket Rate:',
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+              Text(
+                '₱ ${ticketRate.toStringAsFixed(2)}',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Number of Tickets:',
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+              Text(
+                numberOfTickets.toString(),
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Total Amount:',
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+              Text(
+                totalAmountController.text,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'Fees Included:',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          ...feeControllers.entries.map((entry) {
+            String feeName = entry.key;
+            TextEditingController feeController = entry.value;
+
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  feeLabels[feeName]!,
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+                Text(
+                  feeController.text,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            );
+          }).toList(),
         ],
       ),
     ),

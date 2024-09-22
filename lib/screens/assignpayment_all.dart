@@ -1,3 +1,4 @@
+import 'package:ambulantcollector/screens/vendor_payment.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; // For formatting the date
@@ -78,13 +79,45 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
     }
   }
 
-  // Function to calculate the total amount
-  void _calculateTotalAmount() {
-    setState(() {
-      double totalAmount = ticketRate * numberOfTickets; // Ensure ticket rate * number of tickets is calculated correctly
-      totalAmountController.text = '₱ ${totalAmount.toStringAsFixed(2)}'; // Display the result
-    });
-  }
+// Function to calculate the total amount
+void _calculateTotalAmount() {
+  setState(() {
+    // Parse the current values from the controllers
+    double ticketRate = double.tryParse(feeControllers['Ticket Rate']?.text.replaceAll('₱ ', '').replaceAll(',', '') ?? '0') ?? 0.0;
+    int numberOfTickets = int.tryParse(numberOfTicketsController.text) ?? 0;
+
+    // Calculate total amount
+    double totalAmount = ticketRate * numberOfTickets; 
+    totalAmountController.text = '₱ ${totalAmount.toStringAsFixed(2)}'; // Display the result
+  });
+}
+
+
+String _calculateTotalFees() {
+double totalFees = 0.0;
+
+  // Calculate fees excluding the ticket rate
+  feeControllers.forEach((key, controller) {
+    if (key != 'Ticket Rate') {
+      String value = controller.text.replaceAll('₱ ', '').replaceAll(',', '');
+      totalFees += double.tryParse(value) ?? 0.0;
+    }
+  });
+
+  // Include the total amount in the fees
+  double totalAmountValue = double.tryParse(totalAmountController.text.replaceAll('₱ ', '').replaceAll(',', '')) ?? 0.0;
+  totalFees += totalAmountValue; // Include total amount in fees
+
+  // Format the total fees with peso sign and two decimal places
+  final _calculateTotalFees = NumberFormat.currency(
+    locale: 'en_PH', // Locale for Philippines (if needed)
+    symbol: '₱',    // Peso sign
+    decimalDigits: 2, // Number of decimal places
+  ).format(totalFees);
+
+  return _calculateTotalFees;
+}
+
 
  Future<void> _loadFees() async {
   QuerySnapshot rateSnapshot = await FirebaseFirestore.instance.collection('rate').get();
@@ -93,25 +126,27 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
   Map<String, String> tempFees = {};
 
   setState(() {
-    for (var doc in rateDocuments) {
-      String feeName = doc.get('name');
-      String feeRate = doc.get('rate');
+  for (var doc in rateDocuments) {
+    String feeName = doc.get('name');
+    String feeRate = doc.get('rate');
 
-      tempFees[feeName] = feeRate;
+    // Directly use the feeRate from Firestore without parsing multiple times
+    tempFees[feeName] = feeRate;
 
-      if (feeName == 'Ticket Rate') {
-        ticketRate = double.tryParse(feeRate) ?? 5.0; // Update ticket rate
-        ticketController.text = '₱ ${ticketRate.toStringAsFixed(2)}';
-      }
-
-      if (!feeControllers.containsKey(feeName) && (feeName == 'Ticket Rate' || feeName == 'Garbage Fee')) {
-        feeControllers[feeName] = TextEditingController(text: '₱ $feeRate');
-        feeLabels[feeName] = feeName;
-      }
-
-      feeRates[feeName] = feeRate;
+    if (feeName == 'Ticket Rate') {
+      ticketRate = double.tryParse(feeRate.replaceAll('₱ ', '').replaceAll(',', '')) ?? 0.0; 
+      ticketController.text = '₱ ${ticketRate.toStringAsFixed(2)}'; // Set the ticket controller text
     }
-  });
+
+    // Only create a new controller if it doesn't exist
+    if (!feeControllers.containsKey(feeName) && (feeName == 'Ticket Rate' || feeName == 'Garbage Fee')) {
+      feeControllers[feeName] = TextEditingController(text: '₱ $feeRate');
+      feeLabels[feeName] = feeName;
+    }
+
+    feeRates[feeName] = feeRate; // Store the fee rate
+  }
+});
 
   _calculateTotalAmount(); // Recalculate total amount after loading fees
 }
@@ -204,6 +239,8 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
         feeControllers[feeName] = TextEditingController(text: '₱ ${feeRates[feeName]}');
         feeLabels[feeName] = feeLabel;
       }
+      _calculateTotalAmount();
+
     });
   }
 
@@ -214,10 +251,15 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
         feeControllers.remove(feeName);
 
         if (feeName == 'Ticket Rate') {
-          ticketRate = 5.0; // Reset to default value of 5
-          ticketController.text = ticketRate.toStringAsFixed(2);
+/*           ticketRate = 5.0; // Reset to default value of 5
+ */          ticketController.text = ticketRate.toStringAsFixed(2);
+
+        numberOfTickets = 4;
+        numberOfTicketsController.text = numberOfTickets.toString();
         }
       }
+      _calculateTotalAmount();
+
     });
   }
 
@@ -247,7 +289,7 @@ Widget build(BuildContext context) {
                 const Text(
                   'Payor Information',
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 15,
                     fontFamily: 'Roboto',
                     color: Color.fromARGB(255, 52, 180, 35),
                   ),
@@ -292,7 +334,7 @@ Widget build(BuildContext context) {
                     const Text(
                       'Fee Information',
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 15,
                         fontFamily: 'Roboto',
                         color: Color.fromARGB(255, 52, 180, 35),
                       ),
@@ -301,12 +343,13 @@ Widget build(BuildContext context) {
                       onPressed: () {
                         _showAddFeeDialog(context);
                       },
-                      icon: const Icon(Icons.add, color: Color.fromARGB(255, 218, 224, 218)),
+                      icon: const Icon(Icons.add_box_outlined, color: Colors.white),
                       label: const Text('Add Fee'),
                       style: TextButton.styleFrom(
-                        textStyle: const TextStyle(fontSize: 16, fontFamily: 'Roboto', color: Colors.white),
-                        backgroundColor: const Color.fromARGB(255, 34, 216, 40),
-                      ),
+                      foregroundColor: Colors.white, // Set the text color to white
+                      textStyle: const TextStyle(fontSize: 16, fontFamily: 'Roboto'),
+                      backgroundColor: const Color.fromARGB(255, 34, 216, 40), // Button background color
+                       ),
                     )
                   ],
                 ),
@@ -393,6 +436,7 @@ Widget build(BuildContext context) {
                               readOnly: true,
                             ),
                           ),
+                          const SizedBox(height: 10,),
                         ],
 
                           IconButton(
@@ -409,107 +453,101 @@ Widget build(BuildContext context) {
               ],
             ),
           ),
-// Summary of Payment Section (Added Outside Existing Containers)
-          const SizedBox(height: 24), // Space before the summary
-          Text(
-            'Summary of Payment',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Color.fromARGB(255, 52, 180, 35),
-            ),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Ticket Rate:',
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-              Text(
-                '₱ ${ticketRate.toStringAsFixed(2)}',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Number of Tickets:',
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-              Text(
-                numberOfTickets.toString(),
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Total Amount:',
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-              Text(
-                totalAmountController.text,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Text(
-            'Fees Included:',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          ...feeControllers.entries.map((entry) {
-            String feeName = entry.key;
-            TextEditingController feeController = entry.value;
+          const SizedBox(height: 16), // Adjust the height as needed
 
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  feeLabels[feeName]!,
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
+          // Summary of Payment
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Summary of Payment',
+                style: TextStyle(
+                  fontSize: 15,
+                  fontFamily: 'Roboto',
+                  color: Color.fromARGB(255, 52, 180, 35),
                 ),
-                Text(
-                  feeController.text,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+              ),
+              const SizedBox(height: 14), // Space below the Summary of Payment text
+              ...feeControllers.entries.map((entry) {
+                String feeName = entry.key;
+                String feeValue = entry.value.text;
+                if (feeName == 'Ticket Rate') {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text('Ticket Rate:'),
+                          Text(feeValue, style: const TextStyle(fontWeight: FontWeight.w500)),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text('Number of Tickets:'),
+                          Text(numberOfTicketsController.text, style: const TextStyle(fontWeight: FontWeight.w500)),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text('Total Amount:'/* , style: TextStyle(fontWeight: FontWeight.w600) */),
+                          Text(totalAmountController.text, style: const TextStyle(fontWeight: FontWeight.w500)),
+                        ],
+                      ),
+                      const SizedBox(height: 8), // Add spacing between this block and next fee
+                    ],
+                  );
+                }
+
+                return Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(feeLabels[feeName] ?? feeName),
+                        Text(feeValue, style: const TextStyle(fontWeight: FontWeight.w500)),
+                      ],
+                    ),
+                    const SizedBox(height: 8), // Add spacing between each dynamically added fee row
+                  ],
+                );
+              }).toList(), // Convert map entries to a list
+              const Divider(color: Colors.grey),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Total Fees:', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15)),
+                  Text(_calculateTotalFees().toString(), style: const TextStyle(fontWeight: FontWeight.bold)),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 30),
+          // Assign Payment Button
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SelectVendorsScreen()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 34, 216, 40), // Button background color
+                  foregroundColor: Colors.white, // Button text color
+                  padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 10),
+                  textStyle: const TextStyle(fontSize: 15),
                 ),
-              ],
-            );
-          }).toList(),
-        ],
+                child: const Text('ASSIGN PAYMENT'),
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 }

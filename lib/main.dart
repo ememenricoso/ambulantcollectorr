@@ -1,5 +1,6 @@
-import 'package:ambulantcollector/screens/assignpayment_all.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:ambulantcollector/screens/login_screen.dart';
+/* import 'package:ambulantcollector/screens/login_screen.dart';
+ */import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'firebase_options.dart';
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const AssignPaymentAllScreen(),
+      home: const LogInScreen(),
     );
   }
 }

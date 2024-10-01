@@ -34,20 +34,21 @@ TextField reusableTextField(
       fillColor: Colors.transparent, // Transparent background
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(30.0),
-        borderSide: BorderSide(
-        color: const Color.fromARGB(255, 10, 10, 10), // Green border color
+        borderSide: const BorderSide(
+        color: Color.fromARGB(255, 10, 10, 10), // Green border color
         ),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(30.0),
-        borderSide: BorderSide(
-          color: const Color.fromARGB(255, 4, 4, 4), // Green border color when focused
+        borderSide: const BorderSide(
+          width: 2,
+          color: Color.fromARGB(255, 77, 212, 19), // Green border color when focused
         ),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(30.0),
-        borderSide: BorderSide(
-          color: const Color.fromARGB(255, 9, 9, 9).withOpacity(0.5), // Lighter green border color when not focused
+        borderSide: const BorderSide(
+          color: Colors.black, // Lighter green border color when not focused
         ),
       ),
     ),
@@ -63,7 +64,7 @@ Container firebaseUIButton(BuildContext context, String title, Function onTap) {
     width: MediaQuery.of(context).size.width,
     height: 50,
     margin: const EdgeInsets.fromLTRB(0, 10, 0, 20),
-    decoration: BoxDecoration(borderRadius: BorderRadius.circular(90)),
+    decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
     child: ElevatedButton(
       onPressed: () {
         onTap();
@@ -71,12 +72,12 @@ Container firebaseUIButton(BuildContext context, String title, Function onTap) {
       style: ButtonStyle(
           backgroundColor: WidgetStateProperty.resolveWith((states) {
             if (states.contains(WidgetState.pressed)) {
-              return const Color.fromARGB(66, 250, 246, 246);
+              return Colors.white;
             }
-            return const Color.fromARGB(255, 40, 174, 10);
+            return const Color.fromARGB(255, 54, 206, 20);
           }),
           shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)))),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
       child: Text(
         title,
         style: const TextStyle(

@@ -190,7 +190,7 @@
 }
 
 # End of content from C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\69e628b70da89946d196a4d7869d6805\transformed\jetified-firebase-auth-23.0.0\proguard.txt
-# The proguard configuration file for the following section is C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\3b0de67e61ae90c4ef46fadefe89a552\transformed\jetified-firebase-firestore-25.0.0\proguard.txt
+# The proguard configuration file for the following section is C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\b630cce113763ce6a95ddea1c25c9145\transformed\jetified-firebase-firestore-25.1.0\proguard.txt
 # Needed for DNS resolution.  Present in OpenJDK, but not Android
 -dontwarn javax.naming.**
 
@@ -210,7 +210,7 @@
 -dontwarn okio.**
 -dontwarn com.google.j2objc.annotations.**
 
-# End of content from C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\3b0de67e61ae90c4ef46fadefe89a552\transformed\jetified-firebase-firestore-25.0.0\proguard.txt
+# End of content from C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\b630cce113763ce6a95ddea1c25c9145\transformed\jetified-firebase-firestore-25.1.0\proguard.txt
 # The proguard configuration file for the following section is C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\db82560c842d2c7855db1582a48a2a59\transformed\jetified-credentials-play-services-auth-1.2.0-rc01\proguard.txt
 -if class androidx.credentials.CredentialManager
 -keep class androidx.credentials.playservices.** {
@@ -573,6 +573,11 @@
 }
 
 # End of content from C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\7c8ff0358f095694260d50b46a4df6a3\transformed\rules\lib\META-INF\com.android.tools\r8-from-1.6.0\coroutines.pro
+# The proguard configuration file for the following section is C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\bcd8f010b277c60e3f3800f917bbf1e4\transformed\rules\lib\META-INF\proguard\okio.pro
+# Animal Sniffer compileOnly dependency to ensure APIs are compatible with older versions of Java.
+-dontwarn org.codehaus.mojo.animal_sniffer.*
+
+# End of content from C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\bcd8f010b277c60e3f3800f917bbf1e4\transformed\rules\lib\META-INF\proguard\okio.pro
 # The proguard configuration file for the following section is C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\55cc46865ec6cf4c26b59ac1a70ea151\transformed\jetified-startup-runtime-1.1.1\proguard.txt
 # It's important that we preserve initializer names, given they are used in the AndroidManifest.xml.
 -keepnames class * extends androidx.startup.Initializer
@@ -680,15 +685,6 @@
 }
 
 # End of content from C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\36d3a47e59052106a23009ef6ecb72bb\transformed\jetified-protolite-well-known-types-18.0.0\proguard.txt
-# The proguard configuration file for the following section is C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\a1403e62592e82603440d6bbe0142b07\transformed\jetified-grpc-android-1.57.2\proguard.txt
--keepclassmembers class io.grpc.okhttp.OkHttpChannelBuilder {
-  io.grpc.okhttp.OkHttpChannelBuilder forTarget(java.lang.String);
-  io.grpc.okhttp.OkHttpChannelBuilder scheduledExecutorService(java.util.concurrent.ScheduledExecutorService);
-  io.grpc.okhttp.OkHttpChannelBuilder sslSocketFactory(javax.net.ssl.SSLSocketFactory);
-  io.grpc.okhttp.OkHttpChannelBuilder transportExecutor(java.util.concurrent.Executor);
-}
-
-# End of content from C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\a1403e62592e82603440d6bbe0142b07\transformed\jetified-grpc-android-1.57.2\proguard.txt
 # The proguard configuration file for the following section is <unknown>
 -ignorewarnings
 # End of content from <unknown>

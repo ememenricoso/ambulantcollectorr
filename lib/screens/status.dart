@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
@@ -25,10 +26,34 @@ class _StatusScreenState extends State<StatusScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Application Detail"),
-        centerTitle: true,
-      ),
+       appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.white), // Back icon with white color
+            onPressed: () {
+              Navigator.of(context).pop(); // Navigate back to the previous screen
+            },
+          ),
+          title: const Text(""), // Empty title to avoid spacing issues
+          flexibleSpace: const Center( // Center the content
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center, // Center the text and icon
+              mainAxisSize: MainAxisSize.min, // Minimize the space taken by the Row
+              children: [
+                Icon(Icons.approval_sharp, color: Colors.white), // Icon next to the text
+                SizedBox(width: 8), // Space between icon and text
+                Text(
+                  "Application Detail",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20, // Set text color to white
+                  ),
+                ),
+              ],
+            ),
+          ),
+          backgroundColor: const Color.fromARGB(255, 31, 232, 37), // Set background color to green
+          elevation: 1.0,
+        ),
       drawer: Drawer(
         child: Column(
           children: <Widget>[
@@ -68,7 +93,7 @@ class _StatusScreenState extends State<StatusScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ProfileScreen(),
+                          builder: (context) => const ProfileScreen(),
                         ),
                       );
                     },
@@ -142,8 +167,8 @@ class _StatusScreenState extends State<StatusScreen> {
           final status = applicationData['status'] ?? 'N/A';
           final username = applicationData['username'] ?? 'N/A';
           final documents = applicationData.containsKey('documents') ? applicationData['documents'] as List<dynamic> : [];
-          final adminMessage = applicationData['admin_message'] ?? '';
-          final timeline = applicationData.containsKey('timeline') ? applicationData['timeline'] as List<dynamic> : [];
+/*           final adminMessage = applicationData['admin_message'] ?? '';
+ */       final timeline = applicationData.containsKey('timeline') ? applicationData['timeline'] as List<dynamic> : [];
 
           return SingleChildScrollView(
             child: Column(
@@ -651,12 +676,54 @@ Widget _buildReasonButton(String reason, void Function(String) onTap, void Funct
   );
 }
 
+// Method for handling approval
+void _handleApproval(String vendorId) async {
+  // Debugging: Check the current user
+  User? currentUser = FirebaseAuth.instance.currentUser;
+  print('Current user: $currentUser');
 
-
-  // Method for handling approval
-  void _handleApproval(String vendorId) {
-    usersRef.doc(vendorId).update({'status': 'Approved'});
+  // Proceed only if user is logged in
+  if (currentUser == null) {
+    print('No logged-in user found.');
+    return;
   }
+
+  DocumentReference usersDocRef = usersRef.doc(vendorId);
+  
+  try {
+    String approverEmail = currentUser.email ?? 'Unknown';
+    DateTime approvalTime = DateTime.now(); // Capture the current time
+
+    // Update the vendor's status and add approval metadata
+    await usersDocRef.update({
+      'status': 'Approved',
+      'approved_by': approverEmail,
+      'approved_at': approvalTime,
+    });
+
+    DocumentSnapshot vendorSnapshot = await usersDocRef.get();
+
+    if (vendorSnapshot.exists) {
+      Map<String, dynamic> vendorData = vendorSnapshot.data() as Map<String, dynamic>;
+
+      if (vendorData['status'] == 'Approved') {
+        await FirebaseFirestore.instance
+            .collection('approved_vendors')
+            .doc(vendorId)
+            .set(vendorData);
+      } else {
+        print('Vendor status is not approved.');
+      }
+    } else {
+      print('Vendor not found.');
+    }
+  } catch (e) {
+    print('Error approving vendor: $e');
+  }
+}
+
+
+
 
   // Method for handling decline
   void _handleDecline(String vendorId, String reason) {
@@ -694,6 +761,8 @@ Future<void> _updateVendorTimeline(
   String message, 
   Uint8List? fileBytes, 
   String? fileName,
+  String requestedBy, // Add this parameter
+  DateTime dateRequested, // Add this parameter
 ) async {
   try {
     String? downloadUrl;
@@ -740,6 +809,8 @@ Future<void> _updateVendorTimeline(
       'message': message,
       'status': 'Request Info',
       'timestamp': Timestamp.now(),
+      'requested_by': requestedBy, // Include the requester
+      'date_requested': dateRequested.toIso8601String(), // Include the date
     };
 
     if (downloadUrl != null) {
@@ -823,12 +894,19 @@ void showRequestAdditionalInfoDialog(BuildContext context, String vendorId) {
 void handleRequestInfo() async {
   if (selectedReason.isNotEmpty || fileName != null) {
     print('Request Info button clicked');
+
+    // Get the current user's ID (assuming you have a way to get the logged-in user's ID)
+    String requestedBy = FirebaseAuth.instance.currentUser?.uid ?? 'Unknown'; // Example way to get user ID
+    DateTime dateRequested = DateTime.now(); // Current date
+    
     // Call Firestore update function
     await _updateVendorTimeline(
       vendorId,             // Pass the vendor ID
       selectedReason,      // Pass the reason for requesting additional info
       selectedFileBytes,   // Pass the selected file bytes
       fileName,            // Pass the selected file name
+      requestedBy, // Pass the requester
+      dateRequested, // Pass the date requested
     );
     setState(() {});
     Navigator.of(context).pop();
@@ -838,6 +916,9 @@ void handleRequestInfo() async {
   showDialog(
     context: context,
     builder: (BuildContext context) {
+       String requestedBy = FirebaseAuth.instance.currentUser?.email ?? 'Unknown'; // Example way to get user ID
+       DateTime dateRequested = DateTime.now(); // Current date
+
       return StatefulBuilder(
         builder: (context, setState) {
           return AlertDialog(
@@ -970,6 +1051,8 @@ void handleRequestInfo() async {
                           selectedReason,
                           selectedFileBytes,
                           fileName,
+                          requestedBy, // Pass the requester
+                          dateRequested,
                         );
                       }
                     : null,

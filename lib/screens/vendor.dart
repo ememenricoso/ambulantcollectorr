@@ -1,9 +1,11 @@
 import 'package:ambulantcollector/screens/add_vendor.dart';
 import 'package:ambulantcollector/screens/approve_vendor.dart';
 import 'package:ambulantcollector/screens/assignpayment_all.dart';
+import 'package:ambulantcollector/screens/dashboard.dart';
 import 'package:ambulantcollector/screens/settings_screen.dart'; // Import SettingsScreen
 import 'package:ambulantcollector/screens/status.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Vendor extends StatefulWidget {
@@ -18,13 +20,40 @@ class _VendorState extends State<Vendor> {
   String _selectedStatus = 'All';
   String _searchQuery = '';
 
-  @override
+   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-/*         title: const Text("Vendor List"),
- */        centerTitle: true,
-      ),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.white), // Back icon with white color
+            onPressed: () {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => Dashboard()), // Navigate to Dashboard
+              );
+            },
+          ),
+          title: const Text(""), // Empty title to avoid spacing issues
+          flexibleSpace: const Center( // Center the content
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center, // Center the text and icon
+              mainAxisSize: MainAxisSize.min, // Minimize the space taken by the Row
+              children: [
+                Icon(Icons.people, color: Colors.white), // Icon next to the text
+                SizedBox(width: 8), // Space between icon and text
+                Text(
+                  "Vendors",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20, // Set text color to white
+                  ),
+                ),
+              ],
+            ),
+          ),
+          backgroundColor: const Color.fromARGB(255, 31, 232, 37), // Set background color to green
+          elevation: 1.0,
+        ),
       drawer: Drawer(
         child: Column(
           children: <Widget>[
@@ -166,6 +195,7 @@ class _VendorState extends State<Vendor> {
           ), // Set the button background color
         ),
       ),
+      )
     );
   }
 
@@ -239,8 +269,8 @@ Widget _buildUserList() {
         itemCount: filteredUsers.length,
         itemBuilder: (context, index) {
           final user = filteredUsers[index];
-          final number = getNumberFromDocumentId(user.id);
-          final first = user['first_name'];
+/*           final number = getNumberFromDocumentId(user.id);
+ */       final first = user['first_name'];
           final last = user['last_name'];
           final String vendorId = user.id; // Get the vendor document ID
           final String status = user['status'] ?? 'Pending'; // Get the status field from Firestore
@@ -304,7 +334,7 @@ Widget _buildUserList() {
                             children: [
                               ElevatedButton(
                                 onPressed: () {
-                                                                    _showApproveDialog(context, vendorId);
+                               _showApproveDialog(context, vendorId);
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.green, // Background color
@@ -335,18 +365,6 @@ Widget _buildUserList() {
                           ),
                         ],
                       ],
-                    ),
-                  ),
-                  // Number at the top right
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: Text(
-                      number,
-                      style: const TextStyle(
-                        color: Colors.grey,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
                     ),
                   ),
                 ],
@@ -556,10 +574,51 @@ Widget _buildReasonButton(String reason, void Function(String) onTap, void Funct
 
 
 
-  // Method for handling approval
-  void _handleApproval(String vendorId) {
-    usersRef.doc(vendorId).update({'status': 'Approved'});
+// Method for handling approval
+void _handleApproval(String vendorId) async {
+  // Debugging: Check the current user
+  User? currentUser = FirebaseAuth.instance.currentUser;
+  print('Current user: $currentUser');
+
+  // Proceed only if user is logged in
+  if (currentUser == null) {
+    print('No logged-in user found.');
+    return;
   }
+
+  DocumentReference usersDocRef = usersRef.doc(vendorId);
+  
+  try {
+    String approverEmail = currentUser.email ?? 'Unknown';
+    DateTime approvalTime = DateTime.now(); // Capture the current time
+
+    // Update the vendor's status and add approval metadata
+    await usersDocRef.update({
+      'status': 'Approved',
+      'approved_by': approverEmail,
+      'approved_at': approvalTime,
+    });
+
+    DocumentSnapshot vendorSnapshot = await usersDocRef.get();
+
+    if (vendorSnapshot.exists) {
+      Map<String, dynamic> vendorData = vendorSnapshot.data() as Map<String, dynamic>;
+
+      if (vendorData['status'] == 'Approved') {
+        await FirebaseFirestore.instance
+            .collection('approved_vendors')
+            .doc(vendorId)
+            .set(vendorData);
+      } else {
+        print('Vendor status is not approved.');
+      }
+    } else {
+      print('Vendor not found.');
+    }
+  } catch (e) {
+    print('Error approving vendor: $e');
+  }
+}
 
   // Method for handling decline
   void _handleDecline(String vendorId, String reason) {

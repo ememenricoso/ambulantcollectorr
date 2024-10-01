@@ -43,6 +43,19 @@
       externalAnnotations="annotations.zip"
       proguardRules="proguard.txt"/>
   <library
+      name="C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android@@:firebase_dynamic_links::release"
+      jars="C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_dynamic_links-6.0.8\android\build\.transforms\c94a099ec34e42f1b0a53f348037eab5\transformed\out\jars\classes.jar;C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_dynamic_links-6.0.8\android\build\.transforms\c94a099ec34e42f1b0a53f348037eab5\transformed\out\jars\libs\R.jar"
+      resolved="io.flutter.plugins.firebase.dynamiclinks:firebase_dynamic_links:unspecified"
+      folder="C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_dynamic_links-6.0.8\android\build\.transforms\c94a099ec34e42f1b0a53f348037eab5\transformed\out"
+      manifest="AndroidManifest.xml"
+      resFolder="res"
+      assetsFolder="assets"
+      lintJar="lint.jar"
+      publicResources="public.txt"
+      symbolFile="R.txt"
+      externalAnnotations="annotations.zip"
+      proguardRules="proguard.txt"/>
+  <library
       name="C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android@@:firebase_storage::release"
       jars="C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_storage-12.3.0\android\build\.transforms\618689bfb448e7d4d57efc55caebe145\transformed\out\jars\classes.jar;C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_storage-12.3.0\android\build\.transforms\618689bfb448e7d4d57efc55caebe145\transformed\out\jars\libs\R.jar"
       resolved="io.flutter.plugins.firebase.storage:firebase_storage:unspecified"
@@ -57,9 +70,9 @@
       proguardRules="proguard.txt"/>
   <library
       name="C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android@@:firebase_core::release"
-      jars="C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-3.4.1\android\build\.transforms\f7b33b8977a797e11f589afd9bf975cf\transformed\out\jars\classes.jar;C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-3.4.1\android\build\.transforms\f7b33b8977a797e11f589afd9bf975cf\transformed\out\jars\libs\R.jar"
+      jars="C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-3.6.0\android\build\.transforms\7e09e114a3089cabe79a95458fcdc430\transformed\out\jars\classes.jar;C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-3.6.0\android\build\.transforms\7e09e114a3089cabe79a95458fcdc430\transformed\out\jars\libs\R.jar"
       resolved="io.flutter.plugins.firebase.core:firebase_core:unspecified"
-      folder="C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-3.4.1\android\build\.transforms\f7b33b8977a797e11f589afd9bf975cf\transformed\out"
+      folder="C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-3.6.0\android\build\.transforms\7e09e114a3089cabe79a95458fcdc430\transformed\out"
       manifest="AndroidManifest.xml"
       resFolder="res"
       assetsFolder="assets"
@@ -458,10 +471,23 @@
       externalAnnotations="annotations.zip"
       proguardRules="proguard.txt"/>
   <library
-      name="com.google.firebase:firebase-firestore:25.0.0@aar"
-      jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\3b0de67e61ae90c4ef46fadefe89a552\transformed\jetified-firebase-firestore-25.0.0\jars\classes.jar"
-      resolved="com.google.firebase:firebase-firestore:25.0.0"
-      folder="C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\3b0de67e61ae90c4ef46fadefe89a552\transformed\jetified-firebase-firestore-25.0.0"
+      name="com.google.firebase:firebase-firestore:25.1.0@aar"
+      jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\b630cce113763ce6a95ddea1c25c9145\transformed\jetified-firebase-firestore-25.1.0\jars\classes.jar"
+      resolved="com.google.firebase:firebase-firestore:25.1.0"
+      folder="C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\b630cce113763ce6a95ddea1c25c9145\transformed\jetified-firebase-firestore-25.1.0"
+      manifest="AndroidManifest.xml"
+      resFolder="res"
+      assetsFolder="assets"
+      lintJar="lint.jar"
+      publicResources="public.txt"
+      symbolFile="R.txt"
+      externalAnnotations="annotations.zip"
+      proguardRules="proguard.txt"/>
+  <library
+      name="com.google.firebase:firebase-dynamic-links:22.1.0@aar"
+      jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\d2574b9c733e28f4515653243cac87ad\transformed\jetified-firebase-dynamic-links-22.1.0\jars\classes.jar"
+      resolved="com.google.firebase:firebase-dynamic-links:22.1.0"
+      folder="C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\d2574b9c733e28f4515653243cac87ad\transformed\jetified-firebase-dynamic-links-22.1.0"
       manifest="AndroidManifest.xml"
       resFolder="res"
       assetsFolder="assets"
@@ -709,6 +735,19 @@
       externalAnnotations="annotations.zip"
       proguardRules="proguard.txt"/>
   <library
+      name="com.google.firebase:firebase-measurement-connector:19.0.0@aar"
+      jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\205130675f0d6af1dfe2817d7abbf322\transformed\jetified-firebase-measurement-connector-19.0.0\jars\classes.jar"
+      resolved="com.google.firebase:firebase-measurement-connector:19.0.0"
+      folder="C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\205130675f0d6af1dfe2817d7abbf322\transformed\jetified-firebase-measurement-connector-19.0.0"
+      manifest="AndroidManifest.xml"
+      resFolder="res"
+      assetsFolder="assets"
+      lintJar="lint.jar"
+      publicResources="public.txt"
+      symbolFile="R.txt"
+      externalAnnotations="annotations.zip"
+      proguardRules="proguard.txt"/>
+  <library
       name="com.google.android.gms:play-services-basement:18.3.0@aar"
       jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\967b49b1f932b640b7166ccbd5f12cb7\transformed\jetified-play-services-basement-18.3.0\jars\classes.jar"
       resolved="com.google.android.gms:play-services-basement:18.3.0"
@@ -734,6 +773,14 @@
       symbolFile="R.txt"
       externalAnnotations="annotations.zip"
       proguardRules="proguard.txt"/>
+  <library
+      name="io.grpc:grpc-okhttp:1.62.2@jar"
+      jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\modules-2\files-2.1\io.grpc\grpc-okhttp\1.62.2\2d8b802e7fe17c1577527195fd53a2e7355b3541\grpc-okhttp-1.62.2.jar"
+      resolved="io.grpc:grpc-okhttp:1.62.2"/>
+  <library
+      name="com.squareup.okio:okio-jvm:3.4.0@jar"
+      jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio-jvm\3.4.0\4e8bd78a52ab935ce383d0092646922154295e54\okio-jvm-3.4.0.jar"
+      resolved="com.squareup.okio:okio-jvm:3.4.0"/>
   <library
       name="androidx.exifinterface:exifinterface:1.3.7@aar"
       jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\f1c94046af1abf78647b16b82962369f\transformed\exifinterface-1.3.7\jars\classes.jar"
@@ -834,10 +881,10 @@
       externalAnnotations="annotations.zip"
       proguardRules="proguard.txt"/>
   <library
-      name="io.grpc:grpc-android:1.57.2@aar"
-      jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\a1403e62592e82603440d6bbe0142b07\transformed\jetified-grpc-android-1.57.2\jars\classes.jar"
-      resolved="io.grpc:grpc-android:1.57.2"
-      folder="C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\a1403e62592e82603440d6bbe0142b07\transformed\jetified-grpc-android-1.57.2"
+      name="io.grpc:grpc-android:1.62.2@aar"
+      jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\fa21b09cec07b486b6b2cb4804a4b669\transformed\jetified-grpc-android-1.62.2\jars\classes.jar"
+      resolved="io.grpc:grpc-android:1.62.2"
+      folder="C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\fa21b09cec07b486b6b2cb4804a4b669\transformed\jetified-grpc-android-1.62.2"
       manifest="AndroidManifest.xml"
       resFolder="res"
       assetsFolder="assets"
@@ -847,33 +894,33 @@
       externalAnnotations="annotations.zip"
       proguardRules="proguard.txt"/>
   <library
-      name="io.grpc:grpc-okhttp:1.57.2@jar"
-      jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\modules-2\files-2.1\io.grpc\grpc-okhttp\1.57.2\6dbccffc5531af73b739205f8a24d7e77a0e51fc\grpc-okhttp-1.57.2.jar"
-      resolved="io.grpc:grpc-okhttp:1.57.2"/>
+      name="io.grpc:grpc-protobuf-lite:1.62.2@jar"
+      jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\modules-2\files-2.1\io.grpc\grpc-protobuf-lite\1.62.2\9d807d2a0e34bd7284a5336186f57cf241090920\grpc-protobuf-lite-1.62.2.jar"
+      resolved="io.grpc:grpc-protobuf-lite:1.62.2"/>
   <library
-      name="io.grpc:grpc-protobuf-lite:1.57.2@jar"
-      jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\modules-2\files-2.1\io.grpc\grpc-protobuf-lite\1.57.2\14d8e0cab40bf2f661e07b8d0dcc4192d4e9e85a\grpc-protobuf-lite-1.57.2.jar"
-      resolved="io.grpc:grpc-protobuf-lite:1.57.2"/>
+      name="io.grpc:grpc-stub:1.62.2@jar"
+      jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\modules-2\files-2.1\io.grpc\grpc-stub\1.62.2\fc1e85697502d96d6c912e8dd2a56f46f1aba050\grpc-stub-1.62.2.jar"
+      resolved="io.grpc:grpc-stub:1.62.2"/>
   <library
-      name="io.grpc:grpc-stub:1.57.2@jar"
-      jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\modules-2\files-2.1\io.grpc\grpc-stub\1.57.2\df47b4eb69fb36940689649400c8e9cbf7c3dc2c\grpc-stub-1.57.2.jar"
-      resolved="io.grpc:grpc-stub:1.57.2"/>
+      name="io.grpc:grpc-util:1.62.2@jar"
+      jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\modules-2\files-2.1\io.grpc\grpc-util\1.62.2\98c4138f09fb57c3ad6cbeffb31ed73e302038f7\grpc-util-1.62.2.jar"
+      resolved="io.grpc:grpc-util:1.62.2"/>
   <library
-      name="io.grpc:grpc-core:1.57.2@jar"
-      jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\modules-2\files-2.1\io.grpc\grpc-core\1.57.2\2e04aac0fe659243f4ed5dbe4c2839e88408dffc\grpc-core-1.57.2.jar"
-      resolved="io.grpc:grpc-core:1.57.2"/>
+      name="io.grpc:grpc-core:1.62.2@jar"
+      jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\modules-2\files-2.1\io.grpc\grpc-core\1.62.2\5808049a5e33eba6f248a68d58e75399a68f2784\grpc-core-1.62.2.jar"
+      resolved="io.grpc:grpc-core:1.62.2"/>
   <library
-      name="io.grpc:grpc-context:1.57.2@jar"
-      jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\modules-2\files-2.1\io.grpc\grpc-context\1.57.2\d2aa34eebfec2ce045873f410a7dd76437465509\grpc-context-1.57.2.jar"
-      resolved="io.grpc:grpc-context:1.57.2"/>
+      name="io.grpc:grpc-context:1.62.2@jar"
+      jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\modules-2\files-2.1\io.grpc\grpc-context\1.62.2\69e86c35140b3b1718d65635bb54ccecc4c12f14\grpc-context-1.62.2.jar"
+      resolved="io.grpc:grpc-context:1.62.2"/>
   <library
-      name="io.grpc:grpc-api:1.57.2@jar"
-      jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\modules-2\files-2.1\io.grpc\grpc-api\1.57.2\c71a006b81ddae7bc4b7cb1d2da78c1b173761f4\grpc-api-1.57.2.jar"
-      resolved="io.grpc:grpc-api:1.57.2"/>
+      name="io.grpc:grpc-api:1.62.2@jar"
+      jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\modules-2\files-2.1\io.grpc\grpc-api\1.62.2\a93b6ee3761d48edd9a9279f20a58be1a245ad01\grpc-api-1.62.2.jar"
+      resolved="io.grpc:grpc-api:1.62.2"/>
   <library
-      name="com.google.guava:guava:32.0.1-android@jar"
-      jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\modules-2\files-2.1\com.google.guava\guava\32.0.1-android\d3fe54a75aeaca33fc562a2a9c1dc181e54cc5e9\guava-32.0.1-android.jar"
-      resolved="com.google.guava:guava:32.0.1-android"/>
+      name="com.google.guava:guava:32.1.3-android@jar"
+      jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\modules-2\files-2.1\com.google.guava\guava\32.1.3-android\ea090dd85ca2fa12d42d054369df888665230dd7\guava-32.1.3-android.jar"
+      resolved="com.google.guava:guava:32.1.3-android"/>
   <library
       name="com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava@jar"
       jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\modules-2\files-2.1\com.google.guava\listenablefuture\9999.0-empty-to-avoid-conflict-with-guava\b421526c5f297295adef1c886e5246c39d4ac629\listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar"
@@ -887,13 +934,9 @@
       jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\modules-2\files-2.1\com.google.errorprone\error_prone_annotations\2.26.0\c513866fd91bb46587500440a80fa943e95d12d9\error_prone_annotations-2.26.0.jar"
       resolved="com.google.errorprone:error_prone_annotations:2.26.0"/>
   <library
-      name="com.google.protobuf:protobuf-javalite:3.22.3@jar"
-      jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\modules-2\files-2.1\com.google.protobuf\protobuf-javalite\3.22.3\7df7200bce0ff77dc66dd063df79ff74c6114bfc\protobuf-javalite-3.22.3.jar"
-      resolved="com.google.protobuf:protobuf-javalite:3.22.3"/>
-  <library
-      name="com.squareup.okio:okio:1.17.5@jar"
-      jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.17.5\34336f82f14dde1c0752fd5f0546dbf3c3225aba\okio-1.17.5.jar"
-      resolved="com.squareup.okio:okio:1.17.5"/>
+      name="com.google.protobuf:protobuf-javalite:3.25.1@jar"
+      jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\modules-2\files-2.1\com.google.protobuf\protobuf-javalite\3.25.1\3dee29d9cbdb25f9363847054ed68d34b9f9c8b0\protobuf-javalite-3.25.1.jar"
+      resolved="com.google.protobuf:protobuf-javalite:3.25.1"/>
   <library
       name="io.perfmark:perfmark-api:0.26.0@jar"
       jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\modules-2\files-2.1\io.perfmark\perfmark-api\0.26.0\ef65452adaf20bf7d12ef55913aba24037b82738\perfmark-api-0.26.0.jar"
@@ -919,11 +962,7 @@
       jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\modules-2\files-2.1\com.google.guava\failureaccess\1.0.1\1dcf1de382a0bf95a3d8b0849546c88bac1292c9\failureaccess-1.0.1.jar"
       resolved="com.google.guava:failureaccess:1.0.1"/>
   <library
-      name="org.checkerframework:checker-qual:3.33.0@jar"
-      jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\modules-2\files-2.1\org.checkerframework\checker-qual\3.33.0\de2b60b62da487644fc11f734e73c8b0b431238f\checker-qual-3.33.0.jar"
-      resolved="org.checkerframework:checker-qual:3.33.0"/>
-  <library
-      name="com.google.j2objc:j2objc-annotations:2.8@jar"
-      jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\modules-2\files-2.1\com.google.j2objc\j2objc-annotations\2.8\c85270e307e7b822f1086b93689124b89768e273\j2objc-annotations-2.8.jar"
-      resolved="com.google.j2objc:j2objc-annotations:2.8"/>
+      name="org.checkerframework:checker-qual:3.37.0@jar"
+      jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\modules-2\files-2.1\org.checkerframework\checker-qual\3.37.0\ba74746d38026581c12166e164bb3c15e90cc4ea\checker-qual-3.37.0.jar"
+      resolved="org.checkerframework:checker-qual:3.37.0"/>
 </libraries>

@@ -1,9 +1,12 @@
+import 'package:ambulantcollector/screens/dashboard.dart';
 import 'package:ambulantcollector/screens/vendor_payment.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; // For formatting the date
 
+
 class AssignPaymentAllScreen extends StatefulWidget {
+
   const AssignPaymentAllScreen({Key? key}) : super(key: key);
 
   @override
@@ -19,10 +22,13 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
   Map<String, TextEditingController> feeControllers = {};
   Map<String, String> feeLabels = {};
   Map<String, String> feeRates = {}; // Map to store fee rates from Firestore
+  Map<String, String> feeSummary = {};
 
+  
   double ticketRate = 5.0; // Set ticket rate to 5 (as per your example)
   int numberOfTickets = 4; // Default number of tickets
 
+  
   @override
   void initState() {
     super.initState();
@@ -233,6 +239,7 @@ double totalFees = 0.0;
   );
 }
 
+
   void _addSelectedFee(String feeName, String feeLabel) {
     setState(() {
       if (!feeControllers.containsKey(feeName)) {
@@ -251,8 +258,7 @@ double totalFees = 0.0;
         feeControllers.remove(feeName);
 
         if (feeName == 'Ticket Rate') {
-/*           ticketRate = 5.0; // Reset to default value of 5
- */          ticketController.text = ticketRate.toStringAsFixed(2);
+        ticketController.text = ticketRate.toStringAsFixed(2);
 
         numberOfTickets = 4;
         numberOfTicketsController.text = numberOfTickets.toString();
@@ -263,19 +269,45 @@ double totalFees = 0.0;
     });
   }
 
- @override
-Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(
-      title: const Text("Assign Payment"),
-      backgroundColor: const Color.fromARGB(255, 51, 206, 30),
-      titleTextStyle: const TextStyle(color: Colors.white, fontSize: 24),
-    ),
-    body: SingleChildScrollView(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+
+@override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.white), // Back icon with white color
+            onPressed: () {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) =>const  Dashboard()), // Navigate to Dashboard
+              );
+            },
+          ),
+          title: const Text(""), // Empty title to avoid spacing issues
+          flexibleSpace: const Center( // Center the content
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center, // Center the text and icon
+              mainAxisSize: MainAxisSize.min, // Minimize the space taken by the Row
+              children: [
+                Icon(Icons.payment_outlined, color: Colors.white), // Icon next to the text
+                SizedBox(width: 8), // Space between icon and text
+                Text(
+                  "Payment Form",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20, // Set text color to white
+                  ),
+                ),
+              ],
+            ),
+          ),
+          backgroundColor: const Color.fromARGB(255, 31, 232, 37), // Set background color to green
+          elevation: 1.0,
+        ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
           Container(
             padding: const EdgeInsets.all(16.0),
             decoration: BoxDecoration(
@@ -287,7 +319,7 @@ Widget build(BuildContext context) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Payor Information',
+                  'Collector Information',
                   style: TextStyle(
                     fontSize: 15,
                     fontFamily: 'Roboto',
@@ -298,7 +330,7 @@ Widget build(BuildContext context) {
                 TextField(
                   controller: payorController,
                   decoration: const InputDecoration(
-                    labelText: 'Payor',
+                    labelText: 'Collector',
                     prefixIcon: Icon(Icons.person),
                     border: OutlineInputBorder(),
                   ),
@@ -308,7 +340,7 @@ Widget build(BuildContext context) {
                 TextField(
                   controller: dateController,
                   decoration: const InputDecoration(
-                    labelText: 'Payment Date',
+                    labelText: 'Date Issued',
                     prefixIcon: Icon(Icons.calendar_today),
                     border: OutlineInputBorder(),
                   ),
@@ -430,7 +462,7 @@ Widget build(BuildContext context) {
                             child: TextField(
                               controller: totalAmountController,
                               decoration: const InputDecoration(
-                                labelText: 'Total Amount',
+                                labelText: 'Total Ticket Amount',
                                 border: OutlineInputBorder(),
                               ),
                               readOnly: true,
@@ -438,7 +470,6 @@ Widget build(BuildContext context) {
                           ),
                           const SizedBox(height: 10,),
                         ],
-
                           IconButton(
                             icon: const Icon(Icons.delete, color: Colors.red),
                             onPressed: () {
@@ -453,7 +484,7 @@ Widget build(BuildContext context) {
               ],
             ),
           ),
-          const SizedBox(height: 16), // Adjust the height as needed
+          const SizedBox(height: 16),
 
           // Summary of Payment
           Column(
@@ -494,7 +525,7 @@ Widget build(BuildContext context) {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('Total Amount:'/* , style: TextStyle(fontWeight: FontWeight.w600) */),
+                          const Text('Total Ticket Amount:'/* , style: TextStyle(fontWeight: FontWeight.w600) */),
                           Text(totalAmountController.text, style: const TextStyle(fontWeight: FontWeight.w500)),
                         ],
                       ),
@@ -502,7 +533,6 @@ Widget build(BuildContext context) {
                     ],
                   );
                 }
-
                 return Column(
                   children: [
                     Row(
@@ -515,39 +545,55 @@ Widget build(BuildContext context) {
                     const SizedBox(height: 8), // Add spacing between each dynamically added fee row
                   ],
                 );
-              }).toList(), // Convert map entries to a list
-              const Divider(color: Colors.grey),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Total Fees:', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15)),
-                  Text(_calculateTotalFees().toString(), style: const TextStyle(fontWeight: FontWeight.bold)),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 30),
-          // Assign Payment Button
+              }), 
+                const Divider(color: Colors.grey),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Total Fees:', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15)),
+                    Text(_calculateTotalFees().toString(), style: const TextStyle(fontWeight: FontWeight.bold)),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 30),
+
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SelectVendorsScreen()),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 34, 216, 40), // Button background color
-                  foregroundColor: Colors.white, // Button text color
-                  padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 10),
-                  textStyle: const TextStyle(fontSize: 15),
+                String payor = payorController.text;
+                String paymentDate = dateController.text;
+                String totalFees = _calculateTotalFees();
+                Map<String, String> feeSummary = feeControllers.map((key, controller) => MapEntry(key, controller.text)); // Pass the dynamic fee summary
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SelectVendorsScreen(
+                      payor: payor,
+                      paymentDate: paymentDate,
+                      totalFees: totalFees, 
+                      feeSummary: feeSummary,
+                      numberOfTickets: numberOfTickets, // Pass number of tickets
+                      totalAmount: totalAmountController.text, // Pass total amount
+                    ),
+                  ),
+                );
+              },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 34, 216, 40),
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 10),
+                    textStyle: const TextStyle(fontSize: 16),
+                  ),
+                  child: const Text('Assign Payment'),
                 ),
-                child: const Text('ASSIGN PAYMENT'),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
+
     );
   }
 }
+

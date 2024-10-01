@@ -7050,7 +7050,6 @@ com.google.common.base.Platform$JdkPatternCompiler:
     public com.google.common.base.CommonPattern compile(java.lang.String)
     public boolean isPcreLike()
 com.google.common.base.Platform:
-    static void checkGwtRpcEnabled()
     static com.google.common.base.CommonPattern compilePattern(java.lang.String)
     static java.lang.String emptyToNull(java.lang.String)
     static com.google.common.base.Optional getEnumIfPresent(java.lang.Class,java.lang.String)
@@ -7163,10 +7162,10 @@ com.google.common.base.Splitter:
     public static com.google.common.base.Splitter fixedLength(int)
     public com.google.common.base.Splitter limit(int)
     public com.google.common.base.Splitter omitEmptyStrings()
-    private static com.google.common.base.Splitter on(com.google.common.base.CommonPattern)
     public static com.google.common.base.Splitter on(java.lang.String)
     public static com.google.common.base.Splitter on(java.util.regex.Pattern)
     public static com.google.common.base.Splitter onPattern(java.lang.String)
+    static com.google.common.base.Splitter onPatternInternal(com.google.common.base.CommonPattern)
     public java.lang.Iterable split(java.lang.CharSequence)
     public java.util.List splitToList(java.lang.CharSequence)
     private java.util.Iterator splittingIterator(java.lang.CharSequence)
@@ -7262,6 +7261,8 @@ com.google.common.cache.AbstractLoadingCache
 com.google.common.cache.Cache
 com.google.common.cache.CacheBuilder$1
 com.google.common.cache.CacheBuilder$2
+com.google.common.cache.CacheBuilder$3
+com.google.common.cache.CacheBuilder$LoggerHolder
 com.google.common.cache.CacheBuilder$NullListener
 com.google.common.cache.CacheBuilder$OneWeigher
 com.google.common.cache.CacheBuilder
@@ -7644,6 +7645,7 @@ com.google.common.collect.Hashing:
     private void <init>()
     static int closedTableSize(int,double)
     static boolean needsResizing(int,int,double)
+com.google.common.collect.IgnoreJRERequirement
 com.google.common.collect.ImmutableAsList$SerializedForm
 com.google.common.collect.ImmutableAsList
 com.google.common.collect.ImmutableBiMap$Builder
@@ -7655,18 +7657,13 @@ com.google.common.collect.ImmutableClassToInstanceMap
 com.google.common.collect.ImmutableCollection$ArrayBasedBuilder:
     public synthetic bridge com.google.common.collect.ImmutableCollection$Builder add(java.lang.Object)
     public varargs com.google.common.collect.ImmutableCollection$Builder add(java.lang.Object[])
-    public com.google.common.collect.ImmutableCollection$Builder addAll(java.lang.Iterable)
     final void addAll(java.lang.Object[],int)
 com.google.common.collect.ImmutableCollection$Builder:
     static final int DEFAULT_INITIAL_CAPACITY
-    public abstract com.google.common.collect.ImmutableCollection$Builder add(java.lang.Object)
     public varargs com.google.common.collect.ImmutableCollection$Builder add(java.lang.Object[])
-    public com.google.common.collect.ImmutableCollection$Builder addAll(java.lang.Iterable)
     public com.google.common.collect.ImmutableCollection$Builder addAll(java.util.Iterator)
     public abstract com.google.common.collect.ImmutableCollection build()
 com.google.common.collect.ImmutableCollection:
-    public com.google.common.collect.ImmutableList asList()
-    public synthetic bridge java.util.Iterator iterator()
     private void readObject(java.io.ObjectInputStream)
     java.lang.Object writeReplace()
 com.google.common.collect.ImmutableEntry
@@ -7678,28 +7675,20 @@ com.google.common.collect.ImmutableEnumSet$EnumSerializedForm
 com.google.common.collect.ImmutableEnumSet
 com.google.common.collect.ImmutableList$Builder:
     public synthetic bridge com.google.common.collect.ImmutableCollection$ArrayBasedBuilder add(java.lang.Object)
-    public synthetic bridge com.google.common.collect.ImmutableCollection$Builder add(java.lang.Object)
     public synthetic bridge com.google.common.collect.ImmutableCollection$Builder add(java.lang.Object[])
     public varargs com.google.common.collect.ImmutableList$Builder add(java.lang.Object[])
     public synthetic bridge com.google.common.collect.ImmutableCollection$Builder addAll(java.lang.Iterable)
     public synthetic bridge com.google.common.collect.ImmutableCollection$Builder addAll(java.util.Iterator)
-    public com.google.common.collect.ImmutableList$Builder addAll(java.lang.Iterable)
     public com.google.common.collect.ImmutableList$Builder addAll(java.util.Iterator)
     public synthetic bridge com.google.common.collect.ImmutableCollection build()
     com.google.common.collect.ImmutableList$Builder combine(com.google.common.collect.ImmutableList$Builder)
 com.google.common.collect.ImmutableList$ReverseImmutableList
 com.google.common.collect.ImmutableList$SerializedForm
-com.google.common.collect.ImmutableList$SubList:
-    boolean isPartialView()
 com.google.common.collect.ImmutableList:
-    public final com.google.common.collect.ImmutableList asList()
     public static com.google.common.collect.ImmutableList$Builder builderWithExpectedSize(int)
-    private static varargs com.google.common.collect.ImmutableList construct(java.lang.Object[])
     public static com.google.common.collect.ImmutableList copyOf(java.lang.Iterable)
-    public static com.google.common.collect.ImmutableList copyOf(java.util.Collection)
     public static com.google.common.collect.ImmutableList copyOf(java.util.Iterator)
     public static com.google.common.collect.ImmutableList copyOf(java.lang.Object[])
-    public static com.google.common.collect.ImmutableList of(java.lang.Object)
     public static com.google.common.collect.ImmutableList of(java.lang.Object,java.lang.Object)
     public static com.google.common.collect.ImmutableList of(java.lang.Object,java.lang.Object,java.lang.Object)
     public static com.google.common.collect.ImmutableList of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)
@@ -7974,13 +7963,11 @@ com.google.common.collect.Lists:
     static java.util.List cast(java.lang.Iterable)
     public static com.google.common.collect.ImmutableList charactersOf(java.lang.String)
     public static java.util.List charactersOf(java.lang.CharSequence)
-    static int computeArrayListCapacity(int)
     static int hashCodeImpl(java.util.List)
     static java.util.ListIterator listIteratorImpl(java.util.List,int)
     public static java.util.ArrayList newArrayList()
     public static java.util.ArrayList newArrayList(java.lang.Iterable)
     public static java.util.ArrayList newArrayList(java.util.Iterator)
-    public static varargs java.util.ArrayList newArrayList(java.lang.Object[])
     public static java.util.ArrayList newArrayListWithCapacity(int)
     public static java.util.ArrayList newArrayListWithExpectedSize(int)
     public static java.util.concurrent.CopyOnWriteArrayList newCopyOnWriteArrayList()
@@ -8279,8 +8266,6 @@ com.google.common.collect.NullsFirstOrdering
 com.google.common.collect.NullsLastOrdering
 com.google.common.collect.ObjectArrays:
     private void <init>()
-    static varargs java.lang.Object[] checkElementsNotNull(java.lang.Object[])
-    static java.lang.Object[] checkElementsNotNull(java.lang.Object[],int)
     public static java.lang.Object[] concat(java.lang.Object,java.lang.Object[])
     public static java.lang.Object[] concat(java.lang.Object[],java.lang.Object)
     public static java.lang.Object[] concat(java.lang.Object[],java.lang.Object[],java.lang.Class)
@@ -8335,7 +8320,6 @@ com.google.common.collect.ParametricNullness
 com.google.common.collect.PeekingIterator
 com.google.common.collect.Platform:
     private void <init>()
-    static void checkGwtRpcEnabled()
     static java.lang.Class getDeclaringClassOrObjectForJ2cl(java.lang.Enum)
     static java.util.Map newHashMapWithExpectedSize(int)
     static java.util.Set newHashSetWithExpectedSize(int)
@@ -8362,12 +8346,6 @@ com.google.common.collect.RegularContiguousSet$SerializedForm
 com.google.common.collect.RegularContiguousSet
 com.google.common.collect.RegularImmutableAsList
 com.google.common.collect.RegularImmutableBiMap
-com.google.common.collect.RegularImmutableList:
-    boolean isPartialView()
-com.google.common.collect.RegularImmutableMap$EntrySet$1:
-    public boolean isPartialView()
-com.google.common.collect.RegularImmutableMap$KeysOrValuesAsList:
-    boolean isPartialView()
 com.google.common.collect.RegularImmutableMap:
     private static final byte ABSENT
     private static final int BYTE_MASK
@@ -8460,8 +8438,6 @@ com.google.common.collect.Sets:
     public static java.util.NavigableSet synchronizedNavigableSet(java.util.NavigableSet)
     public static com.google.common.collect.Sets$SetView union(java.util.Set,java.util.Set)
     public static java.util.NavigableSet unmodifiableNavigableSet(java.util.NavigableSet)
-com.google.common.collect.SingletonImmutableSet:
-    public com.google.common.collect.ImmutableList asList()
 com.google.common.collect.SingletonImmutableTable
 com.google.common.collect.SortedIterable
 com.google.common.collect.SortedIterables
@@ -8542,6 +8518,10 @@ com.google.common.collect.Synchronized$SynchronizedTable
 com.google.common.collect.Synchronized
 com.google.common.collect.Table$Cell
 com.google.common.collect.Table
+com.google.common.collect.TableCollectors$1
+com.google.common.collect.TableCollectors$ImmutableTableCollectorState
+com.google.common.collect.TableCollectors$MutableCell
+com.google.common.collect.TableCollectors
 com.google.common.collect.Tables$1
 com.google.common.collect.Tables$AbstractCell
 com.google.common.collect.Tables$ImmutableCell
@@ -8827,6 +8807,7 @@ com.google.common.hash.Hashing$Sha512Holder
 com.google.common.hash.Hashing
 com.google.common.hash.HashingInputStream
 com.google.common.hash.HashingOutputStream
+com.google.common.hash.IgnoreJRERequirement
 com.google.common.hash.ImmutableSupplier
 com.google.common.hash.Java8Compatibility
 com.google.common.hash.LittleEndianByteArray$1
@@ -9204,7 +9185,6 @@ com.google.common.primitives.Longs$LongConverter
 com.google.common.primitives.Longs
 com.google.common.primitives.ParametricNullness
 com.google.common.primitives.ParseRequest
-com.google.common.primitives.Platform
 com.google.common.primitives.Primitives
 com.google.common.primitives.Shorts$LexicographicalComparator
 com.google.common.primitives.Shorts$ShortArrayAsList
@@ -9743,6 +9723,18 @@ com.google.firebase.Timestamp:
     public void <init>(java.time.Instant)
     public final java.util.Date toDate()
     public final java.time.Instant toInstant()
+com.google.firebase.analytics.connector.AnalyticsConnector$AnalyticsConnectorHandle
+com.google.firebase.analytics.connector.AnalyticsConnector$AnalyticsConnectorListener
+com.google.firebase.analytics.connector.AnalyticsConnector$ConditionalUserProperty
+com.google.firebase.analytics.connector.AnalyticsConnector:
+    public abstract void clearConditionalUserProperty(java.lang.String,java.lang.String,android.os.Bundle)
+    public abstract java.util.List getConditionalUserProperties(java.lang.String,java.lang.String)
+    public abstract int getMaxUserProperties(java.lang.String)
+    public abstract java.util.Map getUserProperties(boolean)
+    public abstract com.google.firebase.analytics.connector.AnalyticsConnector$AnalyticsConnectorHandle registerAnalyticsConnectorListener(java.lang.String,com.google.firebase.analytics.connector.AnalyticsConnector$AnalyticsConnectorListener)
+    public abstract void setConditionalUserProperty(com.google.firebase.analytics.connector.AnalyticsConnector$ConditionalUserProperty)
+    public abstract void setUserProperty(java.lang.String,java.lang.String,java.lang.Object)
+com.google.firebase.analytics.connector.R
 com.google.firebase.annotations.DeferredApi
 com.google.firebase.annotations.PreviewApi
 com.google.firebase.annotations.PublicApi
@@ -10091,6 +10083,150 @@ com.google.firebase.database.collection.RBTreeSortedMap:
     public java.util.Iterator reverseIteratorFrom(java.lang.Object)
 com.google.firebase.database.collection.StandardComparator
 com.google.firebase.database.collection.package-info
+com.google.firebase.dynamiclinks.BuildConfig
+com.google.firebase.dynamiclinks.DynamicLink$AndroidParameters$Builder:
+    public void <init>()
+    public android.net.Uri getFallbackUrl()
+    public int getMinimumVersion()
+com.google.firebase.dynamiclinks.DynamicLink$AndroidParameters:
+    public static final java.lang.String KEY_ANDROID_FALLBACK_LINK
+    public static final java.lang.String KEY_ANDROID_MIN_VERSION_CODE
+    public static final java.lang.String KEY_ANDROID_PACKAGE_NAME
+com.google.firebase.dynamiclinks.DynamicLink$Builder:
+    private static final java.lang.String APP_GOO_GL_PATTERN
+    public static final java.lang.String KEY_API_KEY
+    public static final java.lang.String KEY_DOMAIN
+    public static final java.lang.String KEY_DOMAIN_URI_PREFIX
+    public static final java.lang.String KEY_DYNAMIC_LINK
+    public static final java.lang.String KEY_DYNAMIC_LINK_PARAMETERS
+    public static final java.lang.String KEY_LINK
+    public static final java.lang.String KEY_SUFFIX
+    private static final java.lang.String PAGE_LINK_PATTERN
+    private static final java.lang.String SCHEME_PREFIX
+    public com.google.android.gms.tasks.Task buildShortDynamicLink()
+    public java.lang.String getDomainUriPrefix()
+    public android.net.Uri getLink()
+    public android.net.Uri getLongLink()
+    public com.google.firebase.dynamiclinks.DynamicLink$Builder setDynamicLinkDomain(java.lang.String)
+com.google.firebase.dynamiclinks.DynamicLink$GoogleAnalyticsParameters$Builder:
+    public void <init>(java.lang.String,java.lang.String,java.lang.String)
+    public java.lang.String getCampaign()
+    public java.lang.String getContent()
+    public java.lang.String getMedium()
+    public java.lang.String getSource()
+    public java.lang.String getTerm()
+com.google.firebase.dynamiclinks.DynamicLink$GoogleAnalyticsParameters:
+    public static final java.lang.String KEY_UTM_CAMPAIGN
+    public static final java.lang.String KEY_UTM_CONTENT
+    public static final java.lang.String KEY_UTM_MEDIUM
+    public static final java.lang.String KEY_UTM_SOURCE
+    public static final java.lang.String KEY_UTM_TERM
+com.google.firebase.dynamiclinks.DynamicLink$IosParameters$Builder:
+    public java.lang.String getAppStoreId()
+    public java.lang.String getCustomScheme()
+    public java.lang.String getIpadBundleId()
+    public android.net.Uri getIpadFallbackUrl()
+    public java.lang.String getMinimumVersion()
+com.google.firebase.dynamiclinks.DynamicLink$IosParameters:
+    public static final java.lang.String KEY_IOS_APP_STORE_ID
+    public static final java.lang.String KEY_IOS_BUNDLE_ID
+    public static final java.lang.String KEY_IOS_CUSTOM_SCHEME
+    public static final java.lang.String KEY_IOS_FALLBACK_LINK
+    public static final java.lang.String KEY_IOS_MINIMUM_VERSION
+    public static final java.lang.String KEY_IPAD_BUNDLE_ID
+    public static final java.lang.String KEY_IPAD_FALLBACK_LINK
+com.google.firebase.dynamiclinks.DynamicLink$ItunesConnectAnalyticsParameters$Builder:
+    public java.lang.String getAffiliateToken()
+    public java.lang.String getCampaignToken()
+    public java.lang.String getProviderToken()
+com.google.firebase.dynamiclinks.DynamicLink$ItunesConnectAnalyticsParameters:
+    public static final java.lang.String KEY_ITUNES_CONNECT_AT
+    public static final java.lang.String KEY_ITUNES_CONNECT_CT
+    public static final java.lang.String KEY_ITUNES_CONNECT_PT
+com.google.firebase.dynamiclinks.DynamicLink$NavigationInfoParameters$Builder:
+    public boolean getForcedRedirectEnabled()
+com.google.firebase.dynamiclinks.DynamicLink$NavigationInfoParameters:
+    public static final java.lang.String KEY_FORCED_REDIRECT
+com.google.firebase.dynamiclinks.DynamicLink$SocialMetaTagParameters$Builder:
+    public java.lang.String getDescription()
+    public android.net.Uri getImageUrl()
+    public java.lang.String getTitle()
+com.google.firebase.dynamiclinks.DynamicLink$SocialMetaTagParameters:
+    public static final java.lang.String KEY_SOCIAL_DESCRIPTION
+    public static final java.lang.String KEY_SOCIAL_IMAGE_LINK
+    public static final java.lang.String KEY_SOCIAL_TITLE
+com.google.firebase.dynamiclinks.FirebaseDynamicLinksKt
+com.google.firebase.dynamiclinks.PendingDynamicLinkData:
+    protected void <init>(java.lang.String,int,long,android.net.Uri)
+    public android.os.Bundle getExtensions()
+    public android.net.Uri getRedirectUrl()
+    public android.content.Intent getUpdateAppIntent(android.content.Context)
+com.google.firebase.dynamiclinks.R
+com.google.firebase.dynamiclinks.ShortDynamicLink$Suffix
+com.google.firebase.dynamiclinks.ShortDynamicLink$Warning:
+    public abstract java.lang.String getCode()
+com.google.firebase.dynamiclinks.internal.DynamicLinkData:
+    public void setDeepLink(java.lang.String)
+    public void setDynamicLink(java.lang.String)
+    public void setExtensionData(android.os.Bundle)
+    public void setMinVersion(int)
+    public void setRedirectUrl(android.net.Uri)
+com.google.firebase.dynamiclinks.internal.DynamicLinkDataCreator:
+    public static final int CONTENT_DESCRIPTION
+com.google.firebase.dynamiclinks.internal.DynamicLinkUTMParams:
+    public static final java.lang.String KEY_CAMPAIGN
+    public static final java.lang.String KEY_CAMPAIGN_BUNDLE
+    public static final java.lang.String KEY_MEDIUM
+    public static final java.lang.String KEY_SCION_DATA_BUNDLE
+    public static final java.lang.String KEY_SOURCE
+    public static final java.lang.String KEY_UTM_CAMPAIGN
+    public static final java.lang.String KEY_UTM_MEDIUM
+    public static final java.lang.String KEY_UTM_SOURCE
+com.google.firebase.dynamiclinks.internal.DynamicLinksClient:
+    public static final java.lang.String ACTION_START_SERVICE
+    private static final int DYNAMIC_LINKS_API_VALUE
+    public static final java.lang.String SERVICE_DESCRIPTOR
+    private static final int V17
+com.google.firebase.dynamiclinks.internal.FirebaseDynamicLinksImpl:
+    private static final java.lang.String ANALYTICS_FDL_ORIGIN
+    public static final java.lang.String EXTRA_DYNAMIC_LINK_DATA
+    public static final java.lang.String KEY_SCION_DATA
+    private static final java.lang.String TAG
+com.google.firebase.dynamiclinks.internal.FirebaseDynamicLinksImplConstants
+com.google.firebase.dynamiclinks.internal.IDynamicLinksCallbacks$Default
+com.google.firebase.dynamiclinks.internal.IDynamicLinksCallbacks$Stub$Proxy
+com.google.firebase.dynamiclinks.internal.IDynamicLinksCallbacks$Stub:
+    static final int TRANSACTION_onCreateShortDynamicLink
+    static final int TRANSACTION_onGetDynamicLink
+    public static com.google.firebase.dynamiclinks.internal.IDynamicLinksCallbacks asInterface(android.os.IBinder)
+com.google.firebase.dynamiclinks.internal.IDynamicLinksCallbacks$_Parcel:
+    public void <init>()
+    static synthetic void access$100(android.os.Parcel,android.os.Parcelable,int)
+    private static void writeTypedObject(android.os.Parcel,android.os.Parcelable,int)
+com.google.firebase.dynamiclinks.internal.IDynamicLinksCallbacks:
+    public static final java.lang.String DESCRIPTOR
+com.google.firebase.dynamiclinks.internal.IDynamicLinksService$Default
+com.google.firebase.dynamiclinks.internal.IDynamicLinksService$Stub$Proxy:
+    public java.lang.String getInterfaceDescriptor()
+com.google.firebase.dynamiclinks.internal.IDynamicLinksService$Stub:
+    static final int TRANSACTION_createShortDynamicLink
+    static final int TRANSACTION_getDynamicLink
+    public void <init>()
+    public android.os.IBinder asBinder()
+    public boolean onTransact(int,android.os.Parcel,android.os.Parcel,int)
+com.google.firebase.dynamiclinks.internal.IDynamicLinksService$_Parcel:
+    public void <init>()
+    static synthetic java.lang.Object access$000(android.os.Parcel,android.os.Parcelable$Creator)
+    private static java.lang.Object readTypedObject(android.os.Parcel,android.os.Parcelable$Creator)
+com.google.firebase.dynamiclinks.internal.IDynamicLinksService:
+    public static final java.lang.String DESCRIPTOR
+com.google.firebase.dynamiclinks.internal.ShortDynamicLinkImpl$WarningImpl:
+    public java.lang.String getCode()
+com.google.firebase.dynamiclinks.internal.ShortDynamicLinkImplCreator:
+    public static final int CONTENT_DESCRIPTION
+com.google.firebase.dynamiclinks.internal.WarningImplCreator:
+    public static final int CONTENT_DESCRIPTION
+com.google.firebase.dynamiclinks.ktx.FirebaseDynamicLinksKt
 com.google.firebase.dynamicloading.ComponentLoader:
     public abstract void discoverComponents()
 com.google.firebase.events.Event:
@@ -10157,8 +10293,11 @@ com.google.firebase.firestore.DocumentSnapshot:
     public com.google.firebase.Timestamp getTimestamp(java.lang.String)
     public com.google.firebase.Timestamp getTimestamp(java.lang.String,com.google.firebase.firestore.DocumentSnapshot$ServerTimestampBehavior)
     private java.lang.Object getTypedValue(java.lang.String,java.lang.Class)
+    public com.google.firebase.firestore.VectorValue getVectorValue(java.lang.String)
     public java.lang.Object toObject(java.lang.Class)
     public java.lang.Object toObject(java.lang.Class,com.google.firebase.firestore.DocumentSnapshot$ServerTimestampBehavior)
+com.google.firebase.firestore.FieldValue:
+    public static com.google.firebase.firestore.VectorValue vector(double[])
 com.google.firebase.firestore.Filter:
     public static com.google.firebase.firestore.Filter arrayContains(java.lang.String,java.lang.Object)
     public static com.google.firebase.firestore.Filter arrayContainsAny(java.lang.String,java.util.List)
@@ -10173,7 +10312,6 @@ com.google.firebase.firestore.Filter:
 com.google.firebase.firestore.FirebaseFirestore:
     private static final java.lang.String TAG
     public com.google.firebase.firestore.ListenerRegistration addSnapshotsInSyncListener(android.app.Activity,java.lang.Runnable)
-    com.google.firebase.firestore.util.AsyncQueue getAsyncQueue()
     private static com.google.firebase.FirebaseApp getDefaultFirebaseApp()
     public com.google.firebase.firestore.FirebaseFirestoreSettings getFirestoreSettings()
     public static com.google.firebase.firestore.FirebaseFirestore getInstance()
@@ -10195,6 +10333,8 @@ com.google.firebase.firestore.FirebaseFirestoreSettings:
     static final long DEFAULT_CACHE_SIZE_BYTES
     public static final java.lang.String DEFAULT_HOST
     static final long MINIMUM_CACHE_BYTES
+com.google.firebase.firestore.FirestoreClientProvider:
+    com.google.firebase.firestore.util.AsyncQueue getAsyncQueue()
 com.google.firebase.firestore.FirestoreKt$dataObjects$$inlined$map$1$1
 com.google.firebase.firestore.FirestoreKt$dataObjects$$inlined$map$1$2$1
 com.google.firebase.firestore.FirestoreKt$dataObjects$$inlined$map$1$2
@@ -10275,6 +10415,8 @@ com.google.firebase.firestore.TransactionOptions$Builder:
 com.google.firebase.firestore.TransactionOptions:
     static final int DEFAULT_MAX_ATTEMPTS_COUNT
     static synthetic int access$000(com.google.firebase.firestore.TransactionOptions)
+com.google.firebase.firestore.VectorValue:
+    public double[] toArray()
 com.google.firebase.firestore.WriteBatch$Function
 com.google.firebase.firestore.WriteBatch:
     public varargs com.google.firebase.firestore.WriteBatch update(com.google.firebase.firestore.DocumentReference,com.google.firebase.firestore.FieldPath,java.lang.Object,java.lang.Object[])
@@ -10294,6 +10436,8 @@ com.google.firebase.firestore.core.ActivityScope:
     private static final java.lang.String FRAGMENT_TAG
     private static final java.lang.String SUPPORT_FRAGMENT_TAG
     public void <init>()
+com.google.firebase.firestore.core.ComponentProvider:
+    public void setRemoteProvider(com.google.firebase.firestore.remote.RemoteComponenetProvider)
 com.google.firebase.firestore.core.CompositeFilter:
     private com.google.firebase.firestore.core.FieldFilter findFirstMatchingFilter(com.google.firebase.firestore.util.Function)
 com.google.firebase.firestore.core.FirestoreClient:
@@ -10342,6 +10486,7 @@ com.google.firebase.firestore.index.FirestoreIndexValueWriter:
     public static final int INDEX_TYPE_REFERENCE_SEGMENT
     public static final int INDEX_TYPE_STRING
     public static final int INDEX_TYPE_TIMESTAMP
+    public static final int INDEX_TYPE_VECTOR
     public static final int NOT_TRUNCATED
 com.google.firebase.firestore.index.IndexByteEncoder:
     public void reset()
@@ -10379,6 +10524,9 @@ com.google.firebase.firestore.local.EncodedPath:
     private static final char ESCAPE
     void <init>()
     static com.google.firebase.firestore.model.FieldPath decodeFieldPath(java.lang.String)
+com.google.firebase.firestore.local.GlobalsCache:
+    public abstract com.google.protobuf.ByteString getSessionsToken()
+    public abstract void setSessionToken(com.google.protobuf.ByteString)
 com.google.firebase.firestore.local.IndexBackfiller:
     private static final java.lang.String LOG_TAG
     private static final int MAX_DOCUMENTS_TO_PROCESS
@@ -10392,7 +10540,9 @@ com.google.firebase.firestore.local.LocalDocumentsView:
 com.google.firebase.firestore.local.LocalStore:
     java.util.Collection getFieldIndexes()
     public com.google.firebase.database.collection.ImmutableSortedSet getRemoteDocumentKeys(int)
+    public com.google.protobuf.ByteString getSessionToken()
     private synthetic java.util.Collection lambda$getFieldIndexes$14()
+    public void setSessionsToken(com.google.protobuf.ByteString)
 com.google.firebase.firestore.local.LruGarbageCollector$Params:
     private static final long COLLECTION_DISABLED
     private static final long DEFAULT_CACHE_SIZE_BYTES
@@ -10407,6 +10557,9 @@ com.google.firebase.firestore.local.LruGarbageCollector$Results:
     public boolean hasRun()
 com.google.firebase.firestore.local.LruGarbageCollector:
     public com.google.firebase.firestore.local.LruGarbageCollector withNewThreshold(long)
+com.google.firebase.firestore.local.MemoryGlobalsCache:
+    public com.google.protobuf.ByteString getSessionsToken()
+    public void setSessionToken(com.google.protobuf.ByteString)
 com.google.firebase.firestore.local.MemoryIndexManager:
     public java.util.Collection getFieldIndexes(java.lang.String)
 com.google.firebase.firestore.local.MemoryMutationQueue:
@@ -10429,6 +10582,13 @@ com.google.firebase.firestore.local.ReferenceSet:
     public void removeAllReferences()
 com.google.firebase.firestore.local.RemoteDocumentCache:
     public abstract java.util.Map getDocumentsMatchingQuery(com.google.firebase.firestore.core.Query,com.google.firebase.firestore.model.FieldIndex$IndexOffset,java.util.Set)
+com.google.firebase.firestore.local.SQLiteGlobalsCache:
+    private static final java.lang.String SESSION_TOKEN
+    private byte[] get(java.lang.String)
+    public com.google.protobuf.ByteString getSessionsToken()
+    private static synthetic byte[] lambda$get$0(android.database.Cursor)
+    private void set(java.lang.String,byte[])
+    public void setSessionToken(com.google.protobuf.ByteString)
 com.google.firebase.firestore.local.SQLiteLruReferenceDelegate:
     static final int REMOVE_ORPHANED_DOCUMENTS_BATCH_SIZE
 com.google.firebase.firestore.local.SQLiteMutationQueue:
@@ -10488,6 +10648,7 @@ com.google.firebase.firestore.model.ServerTimestamps:
     private static final java.lang.String TYPE_KEY
     private void <init>()
 com.google.firebase.firestore.model.Values:
+    public static final java.lang.String TYPE_KEY
     public static final int TYPE_ORDER_ARRAY
     public static final int TYPE_ORDER_BLOB
     public static final int TYPE_ORDER_BOOLEAN
@@ -10500,6 +10661,8 @@ com.google.firebase.firestore.model.Values:
     public static final int TYPE_ORDER_SERVER_TIMESTAMP
     public static final int TYPE_ORDER_STRING
     public static final int TYPE_ORDER_TIMESTAMP
+    public static final int TYPE_ORDER_VECTOR
+    public static final java.lang.String VECTOR_MAP_VECTORS_KEY
     public void <init>()
 com.google.firebase.firestore.model.mutation.MutationBatch:
     public static final int UNKNOWN
@@ -10811,6 +10974,9 @@ com.google.firebase.firestore.remote.FirebaseClientGrpcMetadataProvider:
 com.google.firebase.firestore.remote.FirestoreCallCredentials:
     private static final java.lang.String LOG_TAG
     public void thisUsesUnstableApi()
+com.google.firebase.firestore.remote.FirestoreChannel:
+    void <init>(com.google.firebase.firestore.util.AsyncQueue,android.content.Context,com.google.firebase.firestore.auth.CredentialsProvider,com.google.firebase.firestore.auth.CredentialsProvider,com.google.firebase.firestore.core.DatabaseInfo,com.google.firebase.firestore.remote.GrpcMetadataProvider)
+    private static com.google.firebase.firestore.remote.GrpcCallProvider getGrpcCallProvider(com.google.firebase.firestore.util.AsyncQueue,android.content.Context,com.google.firebase.firestore.auth.CredentialsProvider,com.google.firebase.firestore.auth.CredentialsProvider,com.google.firebase.firestore.core.DatabaseInfo)
 com.google.firebase.firestore.remote.GrpcCallProvider:
     private static final int CONNECTIVITY_ATTEMPT_TIMEOUT_MS
     private static final java.lang.String LOG_TAG
@@ -10841,9 +11007,6 @@ com.google.firebase.firestore.util.AsyncQueue$DelayedTask:
     static synthetic long access$1300(com.google.firebase.firestore.util.AsyncQueue$DelayedTask)
     static synthetic com.google.firebase.firestore.util.AsyncQueue$TimerId access$900(com.google.firebase.firestore.util.AsyncQueue$DelayedTask)
     void skipDelay()
-com.google.firebase.firestore.util.AsyncQueue$SynchronizedShutdownAwareExecutor:
-    static synthetic void access$1000(com.google.firebase.firestore.util.AsyncQueue$SynchronizedShutdownAwareExecutor,int)
-    private void setCorePoolSize(int)
 com.google.firebase.firestore.util.AsyncQueue:
     public boolean containsDelayedTask(com.google.firebase.firestore.util.AsyncQueue$TimerId)
     private static synthetic int lambda$runDelayedTasksUntil$5(com.google.firebase.firestore.util.AsyncQueue$DelayedTask,com.google.firebase.firestore.util.AsyncQueue$DelayedTask)
@@ -10851,7 +11014,6 @@ com.google.firebase.firestore.util.AsyncQueue:
     private static synthetic void lambda$runSync$4(java.lang.Runnable,java.lang.Throwable[],java.util.concurrent.Semaphore)
     public void runDelayedTasksUntil(com.google.firebase.firestore.util.AsyncQueue$TimerId)
     public void runSync(java.lang.Runnable)
-    public void shutdown()
     public void skipDelaysForTimerId(com.google.firebase.firestore.util.AsyncQueue$TimerId)
 com.google.firebase.firestore.util.ByteBufferInputStream
 com.google.firebase.firestore.util.CustomClassMapper$BeanMapper:
@@ -10879,6 +11041,7 @@ com.google.firebase.firestore.util.CustomClassMapper:
     private static com.google.firebase.Timestamp convertTimestamp(java.lang.Object,com.google.firebase.firestore.util.CustomClassMapper$DeserializeContext)
     public static java.lang.Object convertToCustomClass(java.lang.Object,java.lang.Class,com.google.firebase.firestore.DocumentReference)
     public static java.util.Map convertToPlainJavaTypes(java.util.Map)
+    private static com.google.firebase.firestore.VectorValue convertVectorValue(java.lang.Object,com.google.firebase.firestore.util.CustomClassMapper$DeserializeContext)
     private static java.lang.RuntimeException deserializeError(com.google.firebase.firestore.util.CustomClassMapper$ErrorPath,java.lang.String)
     private static java.lang.Object deserializeToClass(java.lang.Object,java.lang.Class,com.google.firebase.firestore.util.CustomClassMapper$DeserializeContext)
     private static java.lang.Object deserializeToEnum(java.lang.Object,java.lang.Class,com.google.firebase.firestore.util.CustomClassMapper$DeserializeContext)
@@ -14726,19 +14889,6 @@ com.google.gson.stream.MalformedJsonException:
     public void <init>(java.lang.String,java.lang.Throwable)
     public void <init>(java.lang.Throwable)
 com.google.gson.stream.package-info
-com.google.j2objc.annotations.AutoreleasePool
-com.google.j2objc.annotations.J2ObjCIncompatible
-com.google.j2objc.annotations.LoopTranslation$LoopStyle
-com.google.j2objc.annotations.LoopTranslation
-com.google.j2objc.annotations.ObjectiveCName
-com.google.j2objc.annotations.OnDealloc
-com.google.j2objc.annotations.Property
-com.google.j2objc.annotations.ReflectionSupport$Level
-com.google.j2objc.annotations.ReflectionSupport
-com.google.j2objc.annotations.RetainedLocalRef
-com.google.j2objc.annotations.RetainedWith
-com.google.j2objc.annotations.Weak
-com.google.j2objc.annotations.WeakOuter
 com.google.logging.type.HttpRequest$1
 com.google.logging.type.HttpRequest$Builder
 com.google.logging.type.HttpRequest
@@ -15349,14 +15499,14 @@ com.google.protobuf.FieldInfo:
     private static void checkFieldNumber(int)
     public int compareTo(com.google.protobuf.FieldInfo)
     public synthetic bridge int compareTo(java.lang.Object)
+    public static com.google.protobuf.FieldInfo forExplicitPresenceField(java.lang.reflect.Field,int,com.google.protobuf.FieldType,java.lang.reflect.Field,int,boolean,com.google.protobuf.Internal$EnumVerifier)
     public static com.google.protobuf.FieldInfo forField(java.lang.reflect.Field,int,com.google.protobuf.FieldType,boolean)
     public static com.google.protobuf.FieldInfo forFieldWithEnumVerifier(java.lang.reflect.Field,int,com.google.protobuf.FieldType,com.google.protobuf.Internal$EnumVerifier)
+    public static com.google.protobuf.FieldInfo forLegacyRequiredField(java.lang.reflect.Field,int,com.google.protobuf.FieldType,java.lang.reflect.Field,int,boolean,com.google.protobuf.Internal$EnumVerifier)
     public static com.google.protobuf.FieldInfo forMapField(java.lang.reflect.Field,int,java.lang.Object,com.google.protobuf.Internal$EnumVerifier)
     public static com.google.protobuf.FieldInfo forOneofMemberField(int,com.google.protobuf.FieldType,com.google.protobuf.OneofInfo,java.lang.Class,boolean,com.google.protobuf.Internal$EnumVerifier)
     public static com.google.protobuf.FieldInfo forPackedField(java.lang.reflect.Field,int,com.google.protobuf.FieldType,java.lang.reflect.Field)
     public static com.google.protobuf.FieldInfo forPackedFieldWithEnumVerifier(java.lang.reflect.Field,int,com.google.protobuf.FieldType,com.google.protobuf.Internal$EnumVerifier,java.lang.reflect.Field)
-    public static com.google.protobuf.FieldInfo forProto2OptionalField(java.lang.reflect.Field,int,com.google.protobuf.FieldType,java.lang.reflect.Field,int,boolean,com.google.protobuf.Internal$EnumVerifier)
-    public static com.google.protobuf.FieldInfo forProto2RequiredField(java.lang.reflect.Field,int,com.google.protobuf.FieldType,java.lang.reflect.Field,int,boolean,com.google.protobuf.Internal$EnumVerifier)
     public static com.google.protobuf.FieldInfo forRepeatedMessageField(java.lang.reflect.Field,int,com.google.protobuf.FieldType,java.lang.Class)
     public java.lang.Class getListElementType()
     public java.lang.Class getOneofStoredType()
@@ -15640,6 +15790,7 @@ com.google.protobuf.LazyFieldLite:
 com.google.protobuf.LazyStringArrayList$ByteArrayListView
 com.google.protobuf.LazyStringArrayList$ByteStringListView
 com.google.protobuf.LazyStringArrayList:
+    public void <init>()
     public void <init>(com.google.protobuf.LazyStringList)
     public void <init>(java.util.List)
     static synthetic java.lang.Object access$000(com.google.protobuf.LazyStringArrayList,int,byte[])
@@ -15722,14 +15873,20 @@ com.google.protobuf.MessageLiteToString:
     private static final java.lang.String MAP_SUFFIX
     private void <init>()
 com.google.protobuf.MessageSchema:
+    private static final int CHECK_INITIALIZED_BIT
     private static final int ENFORCE_UTF8_MASK
     private static final int FIELD_TYPE_MASK
+    private static final int HAS_HAS_BIT
     private static final int INTS_PER_FIELD
+    private static final int LEGACY_ENUM_IS_CLOSED_BIT
+    private static final int LEGACY_ENUM_IS_CLOSED_MASK
     private static final int NO_PRESENCE_SENTINEL
     private static final int OFFSET_BITS
     private static final int OFFSET_MASK
     static final int ONEOF_TYPE_OFFSET
+    private static final int REQUIRED_BIT
     private static final int REQUIRED_MASK
+    private static final int UTF8_CHECK_BIT
     int getSchemaSize()
 com.google.protobuf.Method$1
 com.google.protobuf.Method$Builder
@@ -15804,6 +15961,9 @@ com.google.protobuf.Protobuf:
 com.google.protobuf.ProtobufArrayList:
     void <init>()
 com.google.protobuf.ProtocolStringList
+com.google.protobuf.RawMessageInfo:
+    private static final int IS_EDITION_BIT
+    private static final int IS_PROTO2_BIT
 com.google.protobuf.Reader:
     public static final int READ_DONE
     public static final int TAG_UNKNOWN
@@ -16495,7 +16655,6 @@ io.flutter.embedding.engine.FlutterEngineConnectionRegistry$DefaultFlutterAssets
     public java.lang.String getAssetFilePathBySubpath(java.lang.String)
     public java.lang.String getAssetFilePathBySubpath(java.lang.String,java.lang.String)
 io.flutter.embedding.engine.FlutterEngineConnectionRegistry$FlutterEngineActivityPluginBinding:
-    public void addOnNewIntentListener(io.flutter.plugin.common.PluginRegistry$NewIntentListener)
     public void addOnSaveStateListener(io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding$OnSaveInstanceStateListener)
     public void addOnUserLeaveHintListener(io.flutter.plugin.common.PluginRegistry$UserLeaveHintListener)
     public void addOnWindowFocusChangedListener(io.flutter.plugin.common.PluginRegistry$WindowFocusChangedListener)
@@ -16705,7 +16864,6 @@ io.flutter.embedding.engine.plugins.PluginRegistry:
     public abstract void remove(java.util.Set)
     public abstract void removeAll()
 io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding:
-    public abstract void addOnNewIntentListener(io.flutter.plugin.common.PluginRegistry$NewIntentListener)
     public abstract void addOnSaveStateListener(io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding$OnSaveInstanceStateListener)
     public abstract void addOnUserLeaveHintListener(io.flutter.plugin.common.PluginRegistry$UserLeaveHintListener)
     public abstract void addOnWindowFocusChangedListener(io.flutter.plugin.common.PluginRegistry$WindowFocusChangedListener)
@@ -16822,7 +16980,6 @@ io.flutter.plugin.common.JSONUtil:
     private void <init>()
     public static java.lang.Object unwrap(java.lang.Object)
 io.flutter.plugin.common.MethodCall:
-    public java.lang.Object argument(java.lang.String)
     public boolean hasArgument(java.lang.String)
 io.flutter.plugin.common.MethodChannel:
     private static final java.lang.String TAG
@@ -17074,6 +17231,27 @@ io.flutter.plugins.firebase.core.R$string
 io.flutter.plugins.firebase.core.R$style
 io.flutter.plugins.firebase.core.R$styleable
 io.flutter.plugins.firebase.core.R
+io.flutter.plugins.firebase.dynamiclinks.BuildConfig
+io.flutter.plugins.firebase.dynamiclinks.Constants
+io.flutter.plugins.firebase.dynamiclinks.FlutterFirebaseDynamicLinksPlugin:
+    private static final java.lang.String METHOD_CHANNEL_NAME
+    private static final java.lang.String TAG
+io.flutter.plugins.firebase.dynamiclinks.R$anim
+io.flutter.plugins.firebase.dynamiclinks.R$animator
+io.flutter.plugins.firebase.dynamiclinks.R$attr
+io.flutter.plugins.firebase.dynamiclinks.R$color
+io.flutter.plugins.firebase.dynamiclinks.R$dimen
+io.flutter.plugins.firebase.dynamiclinks.R$drawable
+io.flutter.plugins.firebase.dynamiclinks.R$id
+io.flutter.plugins.firebase.dynamiclinks.R$integer
+io.flutter.plugins.firebase.dynamiclinks.R$layout
+io.flutter.plugins.firebase.dynamiclinks.R$raw
+io.flutter.plugins.firebase.dynamiclinks.R$string
+io.flutter.plugins.firebase.dynamiclinks.R$style
+io.flutter.plugins.firebase.dynamiclinks.R$styleable
+io.flutter.plugins.firebase.dynamiclinks.R
+io.flutter.plugins.firebase.dynamiclinks.Utils:
+    public void <init>()
 io.flutter.plugins.firebase.firestore.BuildConfig
 io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreException:
     private static final java.lang.String ERROR_ABORTED
@@ -17354,6 +17532,7 @@ io.grpc.CallCredentials$RequestInfo:
 io.grpc.CallCredentials:
     public void thisUsesUnstableApi()
 io.grpc.CallOptions$Key:
+    public static io.grpc.CallOptions$Key createWithDefault(java.lang.String,java.lang.Object)
     public java.lang.Object getDefault()
     public static io.grpc.CallOptions$Key of(java.lang.String,java.lang.Object)
 io.grpc.CallOptions:
@@ -17456,16 +17635,51 @@ io.grpc.Contexts:
     private void <init>()
     public static io.grpc.ServerCall$Listener interceptCall(io.grpc.Context,io.grpc.ServerCall,io.grpc.Metadata,io.grpc.ServerCallHandler)
 io.grpc.Deadline:
-    public static io.grpc.Deadline$Ticker getSystemTicker()
     public io.grpc.Deadline offset(long,java.util.concurrent.TimeUnit)
     public java.util.concurrent.ScheduledFuture runOnExpiration(java.lang.Runnable,java.util.concurrent.ScheduledExecutorService)
 io.grpc.DecompressorRegistry:
     public java.util.Set getKnownMessageEncodings()
 io.grpc.Detachable
 io.grpc.EquivalentAddressGroup$Attr
+io.grpc.EquivalentAddressGroup:
+    public void <init>(java.util.List)
 io.grpc.ExperimentalApi
+io.grpc.ForwardingChannelBuilder2:
+    public io.grpc.ManagedChannelBuilder addTransportFilter(io.grpc.ClientTransportFilter)
+    public io.grpc.ManagedChannelBuilder compressorRegistry(io.grpc.CompressorRegistry)
+    public io.grpc.ManagedChannelBuilder decompressorRegistry(io.grpc.DecompressorRegistry)
+    public io.grpc.ManagedChannelBuilder defaultLoadBalancingPolicy(java.lang.String)
+    public io.grpc.ManagedChannelBuilder defaultServiceConfig(java.util.Map)
+    public io.grpc.ManagedChannelBuilder directExecutor()
+    public io.grpc.ManagedChannelBuilder disableRetry()
+    public io.grpc.ManagedChannelBuilder disableServiceConfigLookUp()
+    public io.grpc.ManagedChannelBuilder enableRetry()
+    public io.grpc.ManagedChannelBuilder executor(java.util.concurrent.Executor)
+    public static io.grpc.ManagedChannelBuilder forAddress(java.lang.String,int)
+    public static io.grpc.ManagedChannelBuilder forTarget(java.lang.String)
+    public io.grpc.ManagedChannelBuilder idleTimeout(long,java.util.concurrent.TimeUnit)
+    public io.grpc.ManagedChannelBuilder intercept(java.util.List)
+    public varargs io.grpc.ManagedChannelBuilder intercept(io.grpc.ClientInterceptor[])
+    public io.grpc.ManagedChannelBuilder keepAliveTime(long,java.util.concurrent.TimeUnit)
+    public io.grpc.ManagedChannelBuilder keepAliveTimeout(long,java.util.concurrent.TimeUnit)
+    public io.grpc.ManagedChannelBuilder keepAliveWithoutCalls(boolean)
+    public io.grpc.ManagedChannelBuilder maxHedgedAttempts(int)
+    public io.grpc.ManagedChannelBuilder maxInboundMessageSize(int)
+    public io.grpc.ManagedChannelBuilder maxInboundMetadataSize(int)
+    public io.grpc.ManagedChannelBuilder maxRetryAttempts(int)
+    public io.grpc.ManagedChannelBuilder maxTraceEvents(int)
+    public io.grpc.ManagedChannelBuilder nameResolverFactory(io.grpc.NameResolver$Factory)
+    public io.grpc.ManagedChannelBuilder offloadExecutor(java.util.concurrent.Executor)
+    public io.grpc.ManagedChannelBuilder overrideAuthority(java.lang.String)
+    public io.grpc.ManagedChannelBuilder perRpcBufferLimit(long)
+    public io.grpc.ManagedChannelBuilder proxyDetector(io.grpc.ProxyDetector)
+    public io.grpc.ManagedChannelBuilder retryBufferSize(long)
+    public io.grpc.ManagedChannelBuilder setBinaryLog(io.grpc.BinaryLog)
+    private io.grpc.ManagedChannelBuilder thisT()
+    public io.grpc.ManagedChannelBuilder usePlaintext()
+    public io.grpc.ManagedChannelBuilder useTransportSecurity()
+    public io.grpc.ManagedChannelBuilder userAgent(java.lang.String)
 io.grpc.ForwardingChannelBuilder:
-    public io.grpc.ManagedChannel build()
     public io.grpc.ForwardingChannelBuilder compressorRegistry(io.grpc.CompressorRegistry)
     public synthetic bridge io.grpc.ManagedChannelBuilder compressorRegistry(io.grpc.CompressorRegistry)
     public io.grpc.ForwardingChannelBuilder decompressorRegistry(io.grpc.DecompressorRegistry)
@@ -17480,14 +17694,10 @@ io.grpc.ForwardingChannelBuilder:
     public synthetic bridge io.grpc.ManagedChannelBuilder disableRetry()
     public io.grpc.ForwardingChannelBuilder disableServiceConfigLookUp()
     public synthetic bridge io.grpc.ManagedChannelBuilder disableServiceConfigLookUp()
-    public io.grpc.ForwardingChannelBuilder enableFullStreamDecompression()
-    public synthetic bridge io.grpc.ManagedChannelBuilder enableFullStreamDecompression()
     public io.grpc.ForwardingChannelBuilder enableRetry()
     public synthetic bridge io.grpc.ManagedChannelBuilder enableRetry()
     public io.grpc.ForwardingChannelBuilder executor(java.util.concurrent.Executor)
     public synthetic bridge io.grpc.ManagedChannelBuilder executor(java.util.concurrent.Executor)
-    public static io.grpc.ManagedChannelBuilder forAddress(java.lang.String,int)
-    public static io.grpc.ManagedChannelBuilder forTarget(java.lang.String)
     public io.grpc.ForwardingChannelBuilder idleTimeout(long,java.util.concurrent.TimeUnit)
     public synthetic bridge io.grpc.ManagedChannelBuilder idleTimeout(long,java.util.concurrent.TimeUnit)
     public io.grpc.ForwardingChannelBuilder intercept(java.util.List)
@@ -17652,10 +17862,11 @@ io.grpc.InternalStatus:
 io.grpc.KnownLength:
     public abstract int available()
 io.grpc.LoadBalancer$CreateSubchannelArgs$Builder:
-    public io.grpc.LoadBalancer$CreateSubchannelArgs$Builder addOption(io.grpc.LoadBalancer$CreateSubchannelArgs$Key,java.lang.Object)
-io.grpc.LoadBalancer$CreateSubchannelArgs$Key
-io.grpc.LoadBalancer$CreateSubchannelArgs:
-    public java.lang.Object getOption(io.grpc.LoadBalancer$CreateSubchannelArgs$Key)
+    public io.grpc.LoadBalancer$CreateSubchannelArgs$Builder setAddresses(io.grpc.EquivalentAddressGroup)
+io.grpc.LoadBalancer$CreateSubchannelArgs$Key:
+    public static io.grpc.LoadBalancer$CreateSubchannelArgs$Key createWithDefault(java.lang.String,java.lang.Object)
+    public java.lang.Object getDefault()
+io.grpc.LoadBalancer$ErrorPicker
 io.grpc.LoadBalancer$Helper:
     public abstract io.grpc.ManagedChannel createOobChannel(io.grpc.EquivalentAddressGroup,java.lang.String)
     public io.grpc.ManagedChannel createOobChannel(java.util.List,java.lang.String)
@@ -17683,6 +17894,7 @@ io.grpc.ManagedChannel:
     public abstract boolean isTerminated()
     public void resetConnectBackoff()
 io.grpc.ManagedChannelBuilder:
+    public io.grpc.ManagedChannelBuilder addTransportFilter(io.grpc.ClientTransportFilter)
     public abstract io.grpc.ManagedChannelBuilder compressorRegistry(io.grpc.CompressorRegistry)
     public abstract io.grpc.ManagedChannelBuilder decompressorRegistry(io.grpc.DecompressorRegistry)
     public io.grpc.ManagedChannelBuilder defaultLoadBalancingPolicy(java.lang.String)
@@ -17690,7 +17902,6 @@ io.grpc.ManagedChannelBuilder:
     public abstract io.grpc.ManagedChannelBuilder directExecutor()
     public io.grpc.ManagedChannelBuilder disableRetry()
     public io.grpc.ManagedChannelBuilder disableServiceConfigLookUp()
-    public io.grpc.ManagedChannelBuilder enableFullStreamDecompression()
     public io.grpc.ManagedChannelBuilder enableRetry()
     public abstract io.grpc.ManagedChannelBuilder executor(java.util.concurrent.Executor)
     public static io.grpc.ManagedChannelBuilder forAddress(java.lang.String,int)
@@ -17784,10 +17995,12 @@ io.grpc.NameResolver$Args:
     public java.lang.String getOverrideAuthority()
     public io.grpc.NameResolver$Args$Builder toBuilder()
 io.grpc.NameResolver$ResolutionResultAttr
-io.grpc.NameResolverProvider:
-    protected java.util.Collection getProducedSocketAddressTypes()
+io.grpc.NameResolverRegistry$NameResolverFactory:
+    public java.lang.String getDefaultScheme()
+    public io.grpc.NameResolver newNameResolver(java.net.URI,io.grpc.NameResolver$Args)
 io.grpc.NameResolverRegistry:
     private static final java.lang.String UNKNOWN_SCHEME
+    public io.grpc.NameResolver$Factory asFactory()
     public synchronized void deregister(io.grpc.NameResolverProvider)
     public synchronized void register(io.grpc.NameResolverProvider)
 io.grpc.PartialForwardingClientCall:
@@ -17824,7 +18037,12 @@ io.grpc.ServerInterceptors$KnownLengthBufferedInputStream
 io.grpc.ServerInterceptors
 io.grpc.ServerMethodDefinition
 io.grpc.ServerProvider$NewServerBuilderResult
-io.grpc.ServerProvider
+io.grpc.ServerProvider:
+    protected abstract io.grpc.ServerBuilder builderForPort(int)
+    protected abstract boolean isAvailable()
+    protected io.grpc.ServerProvider$NewServerBuilderResult newServerBuilderForPort(int,io.grpc.ServerCredentials)
+    protected abstract int priority()
+    public static io.grpc.ServerProvider provider()
 io.grpc.ServerRegistry$1
 io.grpc.ServerRegistry$ProviderNotFoundException
 io.grpc.ServerRegistry$ServerPriorityAccessor
@@ -17844,7 +18062,6 @@ io.grpc.ServiceProviders:
     private void <init>()
     public static java.lang.Object load(java.lang.Class,java.lang.Iterable,java.lang.ClassLoader,io.grpc.ServiceProviders$PriorityAccessor)
 io.grpc.Status:
-    private static final java.lang.String TEST_EQUALS_FAILURE_PROPERTY
     public io.grpc.StatusException asException(io.grpc.Metadata)
     public io.grpc.StatusRuntimeException asRuntimeException(io.grpc.Metadata)
     public static io.grpc.Status fromCode(io.grpc.Status$Code)
@@ -17882,106 +18099,15 @@ io.grpc.android.UdsSocket$3
 io.grpc.android.UdsSocket$4
 io.grpc.android.UdsSocket
 io.grpc.android.UdsSocketFactory
-io.grpc.inprocess.AnonymousInProcessSocketAddress
-io.grpc.inprocess.InProcessChannelBuilder$1
-io.grpc.inprocess.InProcessChannelBuilder$1InProcessChannelTransportFactoryBuilder
-io.grpc.inprocess.InProcessChannelBuilder$InProcessClientTransportFactory
-io.grpc.inprocess.InProcessChannelBuilder
-io.grpc.inprocess.InProcessServer
-io.grpc.inprocess.InProcessServerBuilder$1InProcessClientTransportServersBuilder
-io.grpc.inprocess.InProcessServerBuilder
-io.grpc.inprocess.InProcessSocketAddress
-io.grpc.inprocess.InProcessTransport$1
-io.grpc.inprocess.InProcessTransport$2
-io.grpc.inprocess.InProcessTransport$3
-io.grpc.inprocess.InProcessTransport$4
-io.grpc.inprocess.InProcessTransport$5
-io.grpc.inprocess.InProcessTransport$6
-io.grpc.inprocess.InProcessTransport$7
-io.grpc.inprocess.InProcessTransport$InProcessStream$InProcessClientStream
-io.grpc.inprocess.InProcessTransport$InProcessStream$InProcessServerStream
-io.grpc.inprocess.InProcessTransport$InProcessStream
-io.grpc.inprocess.InProcessTransport$SingleMessageProducer
-io.grpc.inprocess.InProcessTransport
-io.grpc.inprocess.InternalInProcess
-io.grpc.inprocess.InternalInProcessChannelBuilder
-io.grpc.inprocess.InternalInProcessServerBuilder
 io.grpc.internal.AbstractClientStream$GetFramer:
     public void dispose()
     public io.grpc.internal.Framer setMessageCompression(boolean)
-io.grpc.internal.AbstractManagedChannelImplBuilder:
-    public synthetic bridge io.grpc.ManagedChannelBuilder compressorRegistry(io.grpc.CompressorRegistry)
-    public io.grpc.internal.AbstractManagedChannelImplBuilder compressorRegistry(io.grpc.CompressorRegistry)
-    public synthetic bridge io.grpc.ManagedChannelBuilder decompressorRegistry(io.grpc.DecompressorRegistry)
-    public io.grpc.internal.AbstractManagedChannelImplBuilder decompressorRegistry(io.grpc.DecompressorRegistry)
-    public synthetic bridge io.grpc.ManagedChannelBuilder defaultLoadBalancingPolicy(java.lang.String)
-    public io.grpc.internal.AbstractManagedChannelImplBuilder defaultLoadBalancingPolicy(java.lang.String)
-    public synthetic bridge io.grpc.ManagedChannelBuilder defaultServiceConfig(java.util.Map)
-    public io.grpc.internal.AbstractManagedChannelImplBuilder defaultServiceConfig(java.util.Map)
-    public synthetic bridge io.grpc.ManagedChannelBuilder directExecutor()
-    public io.grpc.internal.AbstractManagedChannelImplBuilder directExecutor()
-    public synthetic bridge io.grpc.ManagedChannelBuilder disableRetry()
-    public io.grpc.internal.AbstractManagedChannelImplBuilder disableRetry()
-    public synthetic bridge io.grpc.ManagedChannelBuilder disableServiceConfigLookUp()
-    public io.grpc.internal.AbstractManagedChannelImplBuilder disableServiceConfigLookUp()
-    public synthetic bridge io.grpc.ManagedChannelBuilder enableFullStreamDecompression()
-    public io.grpc.internal.AbstractManagedChannelImplBuilder enableFullStreamDecompression()
-    public synthetic bridge io.grpc.ManagedChannelBuilder enableRetry()
-    public io.grpc.internal.AbstractManagedChannelImplBuilder enableRetry()
-    public synthetic bridge io.grpc.ManagedChannelBuilder executor(java.util.concurrent.Executor)
-    public io.grpc.internal.AbstractManagedChannelImplBuilder executor(java.util.concurrent.Executor)
-    public static io.grpc.ManagedChannelBuilder forAddress(java.lang.String,int)
-    public static io.grpc.ManagedChannelBuilder forTarget(java.lang.String)
-    public synthetic bridge io.grpc.ManagedChannelBuilder idleTimeout(long,java.util.concurrent.TimeUnit)
-    public io.grpc.internal.AbstractManagedChannelImplBuilder idleTimeout(long,java.util.concurrent.TimeUnit)
-    public synthetic bridge io.grpc.ManagedChannelBuilder intercept(java.util.List)
-    public synthetic bridge io.grpc.ManagedChannelBuilder intercept(io.grpc.ClientInterceptor[])
-    public io.grpc.internal.AbstractManagedChannelImplBuilder intercept(java.util.List)
-    public varargs io.grpc.internal.AbstractManagedChannelImplBuilder intercept(io.grpc.ClientInterceptor[])
-    public synthetic bridge io.grpc.ManagedChannelBuilder keepAliveTime(long,java.util.concurrent.TimeUnit)
-    public io.grpc.internal.AbstractManagedChannelImplBuilder keepAliveTime(long,java.util.concurrent.TimeUnit)
-    public synthetic bridge io.grpc.ManagedChannelBuilder keepAliveTimeout(long,java.util.concurrent.TimeUnit)
-    public io.grpc.internal.AbstractManagedChannelImplBuilder keepAliveTimeout(long,java.util.concurrent.TimeUnit)
-    public synthetic bridge io.grpc.ManagedChannelBuilder keepAliveWithoutCalls(boolean)
-    public io.grpc.internal.AbstractManagedChannelImplBuilder keepAliveWithoutCalls(boolean)
-    public synthetic bridge io.grpc.ManagedChannelBuilder maxHedgedAttempts(int)
-    public io.grpc.internal.AbstractManagedChannelImplBuilder maxHedgedAttempts(int)
-    public synthetic bridge io.grpc.ManagedChannelBuilder maxInboundMessageSize(int)
-    public io.grpc.internal.AbstractManagedChannelImplBuilder maxInboundMessageSize(int)
-    public synthetic bridge io.grpc.ManagedChannelBuilder maxInboundMetadataSize(int)
-    public io.grpc.internal.AbstractManagedChannelImplBuilder maxInboundMetadataSize(int)
-    public synthetic bridge io.grpc.ManagedChannelBuilder maxRetryAttempts(int)
-    public io.grpc.internal.AbstractManagedChannelImplBuilder maxRetryAttempts(int)
-    public synthetic bridge io.grpc.ManagedChannelBuilder maxTraceEvents(int)
-    public io.grpc.internal.AbstractManagedChannelImplBuilder maxTraceEvents(int)
-    public synthetic bridge io.grpc.ManagedChannelBuilder nameResolverFactory(io.grpc.NameResolver$Factory)
-    public io.grpc.internal.AbstractManagedChannelImplBuilder nameResolverFactory(io.grpc.NameResolver$Factory)
-    public synthetic bridge io.grpc.ManagedChannelBuilder offloadExecutor(java.util.concurrent.Executor)
-    public io.grpc.internal.AbstractManagedChannelImplBuilder offloadExecutor(java.util.concurrent.Executor)
-    public synthetic bridge io.grpc.ManagedChannelBuilder overrideAuthority(java.lang.String)
-    public io.grpc.internal.AbstractManagedChannelImplBuilder overrideAuthority(java.lang.String)
-    public synthetic bridge io.grpc.ManagedChannelBuilder perRpcBufferLimit(long)
-    public io.grpc.internal.AbstractManagedChannelImplBuilder perRpcBufferLimit(long)
-    public synthetic bridge io.grpc.ManagedChannelBuilder proxyDetector(io.grpc.ProxyDetector)
-    public io.grpc.internal.AbstractManagedChannelImplBuilder proxyDetector(io.grpc.ProxyDetector)
-    public synthetic bridge io.grpc.ManagedChannelBuilder retryBufferSize(long)
-    public io.grpc.internal.AbstractManagedChannelImplBuilder retryBufferSize(long)
-    public synthetic bridge io.grpc.ManagedChannelBuilder setBinaryLog(io.grpc.BinaryLog)
-    public io.grpc.internal.AbstractManagedChannelImplBuilder setBinaryLog(io.grpc.BinaryLog)
-    protected final io.grpc.internal.AbstractManagedChannelImplBuilder thisT()
-    public synthetic bridge io.grpc.ManagedChannelBuilder usePlaintext()
-    public io.grpc.internal.AbstractManagedChannelImplBuilder usePlaintext()
-    public synthetic bridge io.grpc.ManagedChannelBuilder useTransportSecurity()
-    public io.grpc.internal.AbstractManagedChannelImplBuilder useTransportSecurity()
-    public synthetic bridge io.grpc.ManagedChannelBuilder userAgent(java.lang.String)
-    public io.grpc.internal.AbstractManagedChannelImplBuilder userAgent(java.lang.String)
 io.grpc.internal.AbstractReadableBuffer:
     public byte[] array()
     public int arrayOffset()
     public boolean byteBufferSupported()
     public java.nio.ByteBuffer getByteBuffer()
     public boolean hasArray()
-io.grpc.internal.AbstractServerImplBuilder
 io.grpc.internal.AbstractServerStream$Sink
 io.grpc.internal.AbstractServerStream$TransportState$1
 io.grpc.internal.AbstractServerStream$TransportState$2
@@ -18039,8 +18165,7 @@ io.grpc.internal.CompositeReadableBuffer$NoThrowReadOperation:
 io.grpc.internal.CompositeReadableBuffer:
     public boolean byteBufferSupported()
     public java.nio.ByteBuffer getByteBuffer()
-io.grpc.internal.ConnectionClientTransport:
-    public abstract io.grpc.Attributes getAttributes()
+    public void readBytes(io.grpc.internal.CompositeReadableBuffer,int)
 io.grpc.internal.ConscryptLoader
 io.grpc.internal.Deframer:
     public abstract void setFullStreamDecompressor(io.grpc.internal.GzipInflatingBuffer)
@@ -18078,7 +18203,6 @@ io.grpc.internal.DnsNameResolver:
     protected void setResourceResolver(io.grpc.internal.DnsNameResolver$ResourceResolver)
 io.grpc.internal.DnsNameResolverProvider:
     private static final java.lang.String SCHEME
-    protected java.util.Collection getProducedSocketAddressTypes()
 io.grpc.internal.ExponentialBackoffPolicy:
     io.grpc.internal.ExponentialBackoffPolicy setInitialBackoffNanos(long)
     io.grpc.internal.ExponentialBackoffPolicy setJitter(double)
@@ -18091,12 +18215,12 @@ io.grpc.internal.FailingClientTransport$1
 io.grpc.internal.FailingClientTransport:
     public com.google.common.util.concurrent.ListenableFuture getStats()
     public void ping(io.grpc.internal.ClientTransport$PingCallback,java.util.concurrent.Executor)
+io.grpc.internal.FixedObjectPool
 io.grpc.internal.ForwardingClientStream:
     public io.grpc.Attributes getAttributes()
     public void setMessageCompression(boolean)
 io.grpc.internal.ForwardingClientStreamTracer
 io.grpc.internal.ForwardingConnectionClientTransport:
-    public io.grpc.Attributes getAttributes()
     public com.google.common.util.concurrent.ListenableFuture getStats()
 io.grpc.internal.ForwardingManagedChannel:
     public boolean isShutdown()
@@ -18110,6 +18234,7 @@ io.grpc.internal.ForwardingReadableBuffer:
     public java.nio.ByteBuffer getByteBuffer()
     public boolean hasArray()
     public int readInt()
+    public void touch()
 io.grpc.internal.Framer:
     public abstract void dispose()
     public abstract io.grpc.internal.Framer setMessageCompression(boolean)
@@ -18120,6 +18245,7 @@ io.grpc.internal.GrpcUtil$3:
 io.grpc.internal.GrpcUtil$6:
     public com.google.common.util.concurrent.ListenableFuture getStats()
     public void ping(io.grpc.internal.ClientTransport$PingCallback,java.util.concurrent.Executor)
+io.grpc.internal.GrpcUtil$AuthorityEscaper
 io.grpc.internal.GrpcUtil$GrpcBuildVersion
 io.grpc.internal.GrpcUtil:
     public static final java.lang.String CONTENT_ACCEPT_ENCODING
@@ -18131,7 +18257,7 @@ io.grpc.internal.GrpcUtil:
     public static final int DEFAULT_PORT_PLAINTEXT
     public static final int DEFAULT_PORT_SSL
     public static final java.lang.String HTTP_METHOD
-    private static final java.lang.String IMPLEMENTATION_VERSION
+    public static final java.lang.String IMPLEMENTATION_VERSION
     public static final long KEEPALIVE_TIME_NANOS_DISABLED
     public static final java.lang.String MESSAGE_ACCEPT_ENCODING
     public static final java.lang.String MESSAGE_ENCODING
@@ -18211,18 +18337,17 @@ io.grpc.internal.ManagedChannelImpl$SubchannelImpl:
 io.grpc.internal.ManagedChannelImpl:
     static final long IDLE_TIMEOUT_MILLIS_DISABLE
     static final long SUBCHANNEL_SHUTDOWN_DELAY_SECONDS
-    static synthetic boolean access$4600(io.grpc.internal.ManagedChannelImpl)
-    static synthetic io.grpc.internal.ObjectPool access$5200(io.grpc.internal.ManagedChannelImpl)
-    static synthetic io.grpc.internal.ClientTransportFactory access$5300(io.grpc.internal.ManagedChannelImpl)
-    static synthetic void access$5700(io.grpc.internal.ManagedChannelImpl,io.grpc.ConnectivityStateInfo)
+    static synthetic boolean access$4700(io.grpc.internal.ManagedChannelImpl)
+    static synthetic io.grpc.internal.ObjectPool access$5300(io.grpc.internal.ManagedChannelImpl)
+    static synthetic io.grpc.internal.ClientTransportFactory access$5400(io.grpc.internal.ManagedChannelImpl)
+    static synthetic void access$5800(io.grpc.internal.ManagedChannelImpl,io.grpc.ConnectivityStateInfo)
     static synthetic java.lang.String access$600(io.grpc.internal.ManagedChannelImpl)
-    static synthetic io.grpc.internal.ClientTransportFactory access$6100(io.grpc.internal.ManagedChannelImpl)
-    static synthetic io.grpc.NameResolver$Args access$6200(io.grpc.internal.ManagedChannelImpl)
-    static synthetic io.grpc.NameResolver$Factory access$6300(io.grpc.internal.ManagedChannelImpl)
-    static synthetic io.grpc.internal.ManagedChannelImpl$ExecutorHolder access$6400(io.grpc.internal.ManagedChannelImpl)
-    static synthetic io.grpc.ChannelCredentials access$6500(io.grpc.internal.ManagedChannelImpl)
-    static synthetic io.grpc.NameResolverRegistry access$6600(io.grpc.internal.ManagedChannelImpl)
-    static synthetic io.grpc.internal.ManagedChannelImpl$ExecutorHolder access$7700(io.grpc.internal.ManagedChannelImpl)
+    static synthetic io.grpc.internal.ClientTransportFactory access$6300(io.grpc.internal.ManagedChannelImpl)
+    static synthetic io.grpc.NameResolverRegistry access$6400(io.grpc.internal.ManagedChannelImpl)
+    static synthetic io.grpc.NameResolver$Args access$6500(io.grpc.internal.ManagedChannelImpl)
+    static synthetic io.grpc.internal.ManagedChannelImpl$ExecutorHolder access$6600(io.grpc.internal.ManagedChannelImpl)
+    static synthetic io.grpc.ChannelCredentials access$6700(io.grpc.internal.ManagedChannelImpl)
+    static synthetic io.grpc.internal.ManagedChannelImpl$ExecutorHolder access$7800(io.grpc.internal.ManagedChannelImpl)
     static synthetic java.util.Set access$800(io.grpc.internal.ManagedChannelImpl)
     io.grpc.InternalConfigSelector getConfigSelector()
     public com.google.common.util.concurrent.ListenableFuture getStats()
@@ -18231,8 +18356,8 @@ io.grpc.internal.ManagedChannelImpl:
     public boolean isShutdown()
     public boolean isTerminated()
     public void resetConnectBackoff()
-io.grpc.internal.ManagedChannelImplBuilder$DirectAddressNameResolverFactory$1
-io.grpc.internal.ManagedChannelImplBuilder$DirectAddressNameResolverFactory
+io.grpc.internal.ManagedChannelImplBuilder$DirectAddressNameResolverProvider$1
+io.grpc.internal.ManagedChannelImplBuilder$DirectAddressNameResolverProvider
 io.grpc.internal.ManagedChannelImplBuilder$FixedPortProvider
 io.grpc.internal.ManagedChannelImplBuilder$UnsupportedClientTransportFactoryBuilder
 io.grpc.internal.ManagedChannelImplBuilder:
@@ -18243,6 +18368,8 @@ io.grpc.internal.ManagedChannelImplBuilder:
     private boolean authorityCheckerDisabled
     public void <init>(java.net.SocketAddress,java.lang.String,io.grpc.ChannelCredentials,io.grpc.CallCredentials,io.grpc.internal.ManagedChannelImplBuilder$ClientTransportFactoryBuilder,io.grpc.internal.ManagedChannelImplBuilder$ChannelBuilderDefaultPortProvider)
     public void <init>(java.net.SocketAddress,java.lang.String,io.grpc.internal.ManagedChannelImplBuilder$ClientTransportFactoryBuilder,io.grpc.internal.ManagedChannelImplBuilder$ChannelBuilderDefaultPortProvider)
+    public synthetic bridge io.grpc.ManagedChannelBuilder addTransportFilter(io.grpc.ClientTransportFilter)
+    public io.grpc.internal.ManagedChannelImplBuilder addTransportFilter(io.grpc.ClientTransportFilter)
     java.lang.String checkAuthority(java.lang.String)
     private static java.util.List checkListEntryTypes(java.util.List)
     private static java.util.Map checkMapEntryTypes(java.util.Map)
@@ -18262,8 +18389,6 @@ io.grpc.internal.ManagedChannelImplBuilder:
     public synthetic bridge io.grpc.ManagedChannelBuilder disableServiceConfigLookUp()
     public io.grpc.internal.ManagedChannelImplBuilder disableServiceConfigLookUp()
     public io.grpc.internal.ManagedChannelImplBuilder enableCheckAuthority()
-    public synthetic bridge io.grpc.ManagedChannelBuilder enableFullStreamDecompression()
-    public io.grpc.internal.ManagedChannelImplBuilder enableFullStreamDecompression()
     public synthetic bridge io.grpc.ManagedChannelBuilder enableRetry()
     public io.grpc.internal.ManagedChannelImplBuilder enableRetry()
     public synthetic bridge io.grpc.ManagedChannelBuilder executor(java.util.concurrent.Executor)
@@ -18286,6 +18411,7 @@ io.grpc.internal.ManagedChannelImplBuilder:
     public io.grpc.internal.ManagedChannelImplBuilder maxTraceEvents(int)
     public synthetic bridge io.grpc.ManagedChannelBuilder nameResolverFactory(io.grpc.NameResolver$Factory)
     public io.grpc.internal.ManagedChannelImplBuilder nameResolverFactory(io.grpc.NameResolver$Factory)
+    io.grpc.internal.ManagedChannelImplBuilder nameResolverRegistry(io.grpc.NameResolverRegistry)
     public synthetic bridge io.grpc.ManagedChannelBuilder offloadExecutor(java.util.concurrent.Executor)
     public io.grpc.internal.ManagedChannelImplBuilder offloadExecutor(java.util.concurrent.Executor)
     public synthetic bridge io.grpc.ManagedChannelBuilder overrideAuthority(java.lang.String)
@@ -18337,6 +18463,7 @@ io.grpc.internal.MigratingThreadDeframer$DeframeMessageProducer
 io.grpc.internal.MigratingThreadDeframer$MigratingDeframerListener
 io.grpc.internal.MigratingThreadDeframer$Op
 io.grpc.internal.MigratingThreadDeframer
+io.grpc.internal.NameResolverFactoryToProviderFacade
 io.grpc.internal.NoopClientStream:
     public io.grpc.Attributes getAttributes()
     public void setMessageCompression(boolean)
@@ -18365,9 +18492,17 @@ io.grpc.internal.OobChannel:
     public void resetConnectBackoff()
     void setSubchannel(io.grpc.internal.InternalSubchannel)
     void updateAddresses(java.util.List)
+io.grpc.internal.PickFirstLeafLoadBalancer$Index:
+    public io.grpc.Attributes getCurrentEagAttributes()
+    public boolean isAtBeginning()
+io.grpc.internal.PickFirstLeafLoadBalancer$PickFirstLeafLoadBalancerConfig:
+    public void <init>(java.lang.Boolean)
+    void <init>(java.lang.Boolean,java.lang.Long)
+io.grpc.internal.PickFirstLeafLoadBalancer:
+    static final int CONNECTION_DELAY_INTERVAL_MS
+    public static final java.lang.String GRPC_EXPERIMENTAL_XDS_DUALSTACK_ENDPOINTS
+    io.grpc.ConnectivityState getConcludedConnectivityState()
 io.grpc.internal.PickFirstLoadBalancerProvider:
-    private static final java.lang.String CONFIG_FLAG_NAME
-    private static final java.lang.String NO_CONFIG
     private static final java.lang.String SHUFFLE_ADDRESS_LIST_KEY
 io.grpc.internal.ProxyDetectorImpl:
     private static final java.lang.String GRPC_PROXY_ENV_VAR
@@ -18514,11 +18649,14 @@ io.grpc.okhttp.OkHttpChannelBuilder:
     public synthetic bridge io.grpc.ManagedChannelBuilder maxInboundMetadataSize(int)
     public io.grpc.okhttp.OkHttpChannelBuilder maxInboundMetadataSize(int)
     public io.grpc.okhttp.OkHttpChannelBuilder negotiationType(io.grpc.okhttp.NegotiationType)
+    public io.grpc.okhttp.OkHttpChannelBuilder scheduledExecutorService(java.util.concurrent.ScheduledExecutorService)
     void setStatsEnabled(boolean)
     io.grpc.okhttp.OkHttpChannelBuilder setTransportTracerFactory(io.grpc.internal.TransportTracer$Factory)
     public io.grpc.okhttp.OkHttpChannelBuilder socketFactory(javax.net.SocketFactory)
+    public io.grpc.okhttp.OkHttpChannelBuilder sslSocketFactory(javax.net.ssl.SSLSocketFactory)
     static io.grpc.okhttp.OkHttpChannelBuilder$SslSocketFactoryResult sslSocketFactoryFrom(io.grpc.ChannelCredentials)
     public io.grpc.okhttp.OkHttpChannelBuilder tlsConnectionSpec(java.lang.String[],java.lang.String[])
+    public io.grpc.okhttp.OkHttpChannelBuilder transportExecutor(java.util.concurrent.Executor)
     public synthetic bridge io.grpc.ManagedChannelBuilder useTransportSecurity()
     public io.grpc.okhttp.OkHttpChannelBuilder useTransportSecurity()
 io.grpc.okhttp.OkHttpChannelProvider:
@@ -18550,6 +18688,12 @@ io.grpc.okhttp.OkHttpServerBuilder$1
 io.grpc.okhttp.OkHttpServerBuilder$ClientCertRequestingSocketFactory
 io.grpc.okhttp.OkHttpServerBuilder$HandshakerSocketFactoryResult
 io.grpc.okhttp.OkHttpServerBuilder
+io.grpc.okhttp.OkHttpServerProvider:
+    protected synthetic bridge io.grpc.ServerBuilder builderForPort(int)
+    protected io.grpc.okhttp.OkHttpServerBuilder builderForPort(int)
+    protected boolean isAvailable()
+    protected io.grpc.ServerProvider$NewServerBuilderResult newServerBuilderForPort(int,io.grpc.ServerCredentials)
+    protected int priority()
 io.grpc.okhttp.OkHttpServerStream$Sink
 io.grpc.okhttp.OkHttpServerStream$TransportState
 io.grpc.okhttp.OkHttpServerStream
@@ -18842,23 +18986,34 @@ io.grpc.util.ForwardingLoadBalancerHelper:
     public io.grpc.NameResolverRegistry getNameResolverRegistry()
     public io.grpc.ChannelCredentials getUnsafeChannelCredentials()
     public void ignoreRefreshNameResolutionCheck()
-    public void updateBalancingState(io.grpc.ConnectivityState,io.grpc.LoadBalancer$SubchannelPicker)
     public void updateOobChannelAddresses(io.grpc.ManagedChannel,io.grpc.EquivalentAddressGroup)
     public void updateOobChannelAddresses(io.grpc.ManagedChannel,java.util.List)
 io.grpc.util.ForwardingSubchannel:
     public io.grpc.Channel asChannel()
-    public io.grpc.Attributes getAttributes()
-    public java.lang.String toString()
-    public void updateAddresses(java.util.List)
 io.grpc.util.GracefulSwitchLoadBalancer:
+    public java.lang.String delegateType()
     public void handleSubchannelState(io.grpc.LoadBalancer$Subchannel,io.grpc.ConnectivityStateInfo)
+io.grpc.util.MultiChildLoadBalancer$ChildLbState:
+    public io.grpc.EquivalentAddressGroup getEag()
+    public java.lang.Object getKey()
+    protected io.grpc.util.GracefulSwitchLoadBalancer getLb()
+    public io.grpc.LoadBalancer$ResolvedAddresses getResolvedAddresses()
+    protected io.grpc.LoadBalancer$Subchannel getSubchannels(io.grpc.LoadBalancer$PickSubchannelArgs)
+    protected void markReactivated()
+    protected void setDeactivated()
+io.grpc.util.MultiChildLoadBalancer:
+    protected io.grpc.util.MultiChildLoadBalancer$ChildLbState getChildLbState(java.lang.Object)
+    protected io.grpc.util.MultiChildLoadBalancer$ChildLbState getChildLbStateEag(io.grpc.EquivalentAddressGroup)
+    protected com.google.common.collect.ImmutableMap getImmutableChildMap()
+    protected void handleNameResolutionError(io.grpc.util.MultiChildLoadBalancer$ChildLbState,io.grpc.Status)
+    protected void removeChild(java.lang.Object)
 io.grpc.util.MutableHandlerRegistry
 io.grpc.util.OutlierDetectionLoadBalancer$AddressTracker:
     long activeVolume()
     boolean containsSubchannel(io.grpc.util.OutlierDetectionLoadBalancer$OutlierDetectionSubchannel)
     java.util.Set getSubchannels()
 io.grpc.util.RoundRobinLoadBalancer$ReadyPicker:
-    java.util.List getList()
+    java.util.List getSubchannelPickers()
 io.grpc.util.SecretRoundRobinLoadBalancerProvider$Provider:
     private static final java.lang.String NO_CONFIG
 io.grpc.util.SecretRoundRobinLoadBalancerProvider
@@ -19200,8 +19355,6 @@ kotlin.annotation.Retention
 kotlin.annotation.Target
 kotlin.collections.AbstractCollection:
     public abstract java.util.Iterator iterator()
-kotlin.collections.AbstractList$Companion:
-    public final void checkBoundsIndexes$kotlin_stdlib(int,int,int)
 kotlin.collections.AbstractList:
     public abstract int getSize()
 kotlin.collections.AbstractMap$Companion
@@ -19243,7 +19396,6 @@ kotlin.collections.ArraysKt:
 kotlin.collections.ArraysKt__ArraysJVMKt:
     public void <init>()
     public static final int contentDeepHashCode(java.lang.Object[])
-    public static final void copyOfRangeToIndexCheck(int,int)
     public static final synthetic java.lang.Object[] orEmpty(java.lang.Object[])
     private static final java.lang.String toString(byte[],java.nio.charset.Charset)
     public static final synthetic java.lang.Object[] toTypedArray(java.util.Collection)
@@ -19359,7 +19511,6 @@ kotlin.collections.ArraysKt___ArraysJvmKt:
     public static final long[] copyInto(long[],long[],int,int,int)
     public static final short[] copyInto(short[],short[],int,int,int)
     public static final boolean[] copyInto(boolean[],boolean[],int,int,int)
-    public static synthetic byte[] copyInto$default(byte[],byte[],int,int,int,int,java.lang.Object)
     public static synthetic char[] copyInto$default(char[],char[],int,int,int,int,java.lang.Object)
     public static synthetic double[] copyInto$default(double[],double[],int,int,int,int,java.lang.Object)
     public static synthetic float[] copyInto$default(float[],float[],int,int,int,int,java.lang.Object)
@@ -19385,7 +19536,6 @@ kotlin.collections.ArraysKt___ArraysJvmKt:
     private static final short[] copyOf(short[],int)
     private static final boolean[] copyOf(boolean[])
     private static final boolean[] copyOf(boolean[],int)
-    public static final byte[] copyOfRange(byte[],int,int)
     public static final char[] copyOfRange(char[],int,int)
     public static final double[] copyOfRange(double[],int,int)
     public static final float[] copyOfRange(float[],int,int)
@@ -23565,8 +23715,6 @@ kotlin.text.StringsKt__StringsJVMKt:
     private static final int codePointCount(java.lang.String,int,int)
     public static final int compareTo(java.lang.String,java.lang.String,boolean)
     public static synthetic int compareTo$default(java.lang.String,java.lang.String,boolean,int,java.lang.Object)
-    public static final java.lang.String concatToString(char[])
-    public static final java.lang.String concatToString(char[],int,int)
     public static synthetic java.lang.String concatToString$default(char[],int,int,int,java.lang.Object)
     public static final boolean contentEquals(java.lang.CharSequence,java.lang.CharSequence)
     public static final boolean contentEquals(java.lang.CharSequence,java.lang.CharSequence,boolean)
@@ -23639,10 +23787,8 @@ kotlin.text.StringsKt__StringsKt:
     public static final java.lang.String commonSuffixWith(java.lang.CharSequence,java.lang.CharSequence,boolean)
     public static synthetic java.lang.String commonSuffixWith$default(java.lang.CharSequence,java.lang.CharSequence,boolean,int,java.lang.Object)
     public static final boolean contains(java.lang.CharSequence,char,boolean)
-    public static final boolean contains(java.lang.CharSequence,java.lang.CharSequence,boolean)
     private static final boolean contains(java.lang.CharSequence,kotlin.text.Regex)
     public static synthetic boolean contains$default(java.lang.CharSequence,char,boolean,int,java.lang.Object)
-    public static synthetic boolean contains$default(java.lang.CharSequence,java.lang.CharSequence,boolean,int,java.lang.Object)
     public static final boolean contentEqualsIgnoreCaseImpl(java.lang.CharSequence,java.lang.CharSequence)
     public static final boolean contentEqualsImpl(java.lang.CharSequence,java.lang.CharSequence)
     public static final boolean endsWith(java.lang.CharSequence,char,boolean)
@@ -25954,27 +26100,74 @@ kotlinx.coroutines.tasks.TasksKt$awaitImpl$2$1
 kotlinx.coroutines.tasks.TasksKt$awaitImpl$2$2
 kotlinx.coroutines.tasks.TasksKt
 kotlinx.coroutines.time.TimeKt
-okio.AsyncTimeout$1:
-    public okio.Timeout timeout()
-okio.AsyncTimeout$2:
-    public okio.Timeout timeout()
+okio.-Base64:
+    public static final byte[] decodeBase64ToArray(java.lang.String)
+    public static final byte[] getBASE64()
+    public static synthetic void getBASE64$annotations()
+    public static final byte[] getBASE64_URL_SAFE()
+    public static synthetic void getBASE64_URL_SAFE$annotations()
+okio.-DeflaterSinkExtensions
+okio.-DeprecatedOkio
+okio.-DeprecatedUpgrade
+okio.-DeprecatedUtf8
+okio.-GzipSinkExtensions
+okio.-GzipSourceExtensions
+okio.-InflaterSourceExtensions
+okio.-SegmentedByteString:
+    public static final int and(byte,int)
+    public static final long and(byte,long)
+    public static final long and(int,long)
+    public static final int getDEFAULT__ByteString_size()
+    public static final okio.Buffer$UnsafeCursor getDEFAULT__new_UnsafeCursor()
+    public static synthetic void getDEFAULT__new_UnsafeCursor$annotations()
+    public static final int leftRotate(int,int)
+    public static final long minOf(int,long)
+    public static final long minOf(long,int)
+    public static final int resolveDefaultParameter(byte[],int)
+    public static final okio.Buffer$UnsafeCursor resolveDefaultParameter(okio.Buffer$UnsafeCursor)
+    public static final int reverseBytes(int)
+    public static final long reverseBytes(long)
+    public static final short reverseBytes(short)
+    public static final long rightRotate(long,int)
+    public static final int shl(byte,int)
+    public static final int shr(byte,int)
+    public static final java.lang.String toHexString(byte)
+    public static final java.lang.String toHexString(long)
+    public static final byte xor(byte,byte)
+okio.AsyncTimeout$sink$1:
+    public okio.AsyncTimeout timeout()
+    public synthetic bridge okio.Timeout timeout()
+okio.AsyncTimeout$source$1:
+    public okio.AsyncTimeout timeout()
+    public synthetic bridge okio.Timeout timeout()
 okio.AsyncTimeout:
     private static final int TIMEOUT_WRITE_SIZE
-okio.Base64:
-    private void <init>()
-    public static byte[] decode(java.lang.String)
-    public static java.lang.String encodeUrl(byte[])
-okio.Buffer$2
-okio.Buffer$UnsafeCursor
+    public final java.lang.Object withTimeout(kotlin.jvm.functions.Function0)
+okio.BlackholeSink
+okio.Buffer$UnsafeCursor:
+    public boolean readWrite
+    public final long expandBuffer(int)
+    public final okio.Segment getSegment$okio()
+    public final int next()
+    public final long resizeBuffer(long)
+    public final int seek(long)
+okio.Buffer$inputStream$1
 okio.Buffer:
-    static final int REPLACEMENT_CHARACTER
+    public final byte -deprecated_getByte(long)
+    public final long -deprecated_size()
     public final okio.Buffer copyTo(java.io.OutputStream)
+    public final okio.Buffer copyTo(java.io.OutputStream,long)
     public final okio.Buffer copyTo(java.io.OutputStream,long,long)
-    private okio.ByteString digest(java.lang.String)
-    public okio.BufferedSink emit()
+    public final okio.Buffer copyTo(okio.Buffer,long)
+    public static synthetic okio.Buffer copyTo$default(okio.Buffer,java.io.OutputStream,long,long,int,java.lang.Object)
+    public static synthetic okio.Buffer copyTo$default(okio.Buffer,okio.Buffer,long,int,java.lang.Object)
+    public static synthetic okio.Buffer copyTo$default(okio.Buffer,okio.Buffer,long,long,int,java.lang.Object)
+    private final okio.ByteString digest(java.lang.String)
+    public okio.Buffer emit()
+    public synthetic bridge okio.BufferedSink emit()
     public okio.Buffer emitCompleteSegments()
     public synthetic bridge okio.BufferedSink emitCompleteSegments()
-    private okio.ByteString hmac(java.lang.String,okio.ByteString)
+    private final okio.ByteString hmac(java.lang.String,okio.ByteString)
     public final okio.ByteString hmacSha1(okio.ByteString)
     public final okio.ByteString hmacSha256(okio.ByteString)
     public final okio.ByteString hmacSha512(okio.ByteString)
@@ -25989,15 +26182,15 @@ okio.Buffer:
     public okio.BufferedSource peek()
     public boolean rangeEquals(long,okio.ByteString)
     public boolean rangeEquals(long,okio.ByteString,int,int)
-    private boolean rangeEquals(okio.Segment,int,okio.ByteString,int,int)
     public int read(byte[])
     public long readAll(okio.Sink)
     public final okio.Buffer$UnsafeCursor readAndWriteUnsafe()
     public final okio.Buffer$UnsafeCursor readAndWriteUnsafe(okio.Buffer$UnsafeCursor)
+    public static synthetic okio.Buffer$UnsafeCursor readAndWriteUnsafe$default(okio.Buffer,okio.Buffer$UnsafeCursor,int,java.lang.Object)
     public long readDecimalLong()
     public final okio.Buffer readFrom(java.io.InputStream)
     public final okio.Buffer readFrom(java.io.InputStream,long)
-    private void readFrom(java.io.InputStream,long,boolean)
+    private final void readFrom(java.io.InputStream,long,boolean)
     public void readFully(okio.Buffer,long)
     public long readHexadecimalUnsignedLong()
     public int readIntLe()
@@ -26007,18 +26200,20 @@ okio.Buffer:
     public java.lang.String readString(java.nio.charset.Charset)
     public final okio.Buffer$UnsafeCursor readUnsafe()
     public final okio.Buffer$UnsafeCursor readUnsafe(okio.Buffer$UnsafeCursor)
+    public static synthetic okio.Buffer$UnsafeCursor readUnsafe$default(okio.Buffer,okio.Buffer$UnsafeCursor,int,java.lang.Object)
     public int readUtf8CodePoint()
     public java.lang.String readUtf8Line()
     public boolean request(long)
-    java.util.List segmentSizes()
     public int select(okio.Options)
-    int selectPrefix(okio.Options,boolean)
     public final okio.ByteString sha1()
     public final okio.ByteString sha256()
     public final okio.ByteString sha512()
     public okio.Timeout timeout()
+    public okio.Buffer write(okio.ByteString,int,int)
+    public okio.Buffer write(okio.Source,long)
     public synthetic bridge okio.BufferedSink write(okio.ByteString)
-    public okio.BufferedSink write(okio.Source,long)
+    public synthetic bridge okio.BufferedSink write(okio.ByteString,int,int)
+    public synthetic bridge okio.BufferedSink write(okio.Source,long)
     public synthetic bridge okio.BufferedSink write(byte[],int,int)
     public long writeAll(okio.Source)
     public okio.Buffer writeDecimalLong(long)
@@ -26037,14 +26232,17 @@ okio.Buffer:
     public synthetic bridge okio.BufferedSink writeString(java.lang.String,int,int,java.nio.charset.Charset)
     public synthetic bridge okio.BufferedSink writeString(java.lang.String,java.nio.charset.Charset)
     public final okio.Buffer writeTo(java.io.OutputStream)
+    public static synthetic okio.Buffer writeTo$default(okio.Buffer,java.io.OutputStream,long,int,java.lang.Object)
     public synthetic bridge okio.BufferedSink writeUtf8(java.lang.String,int,int)
     public synthetic bridge okio.BufferedSink writeUtf8CodePoint(int)
 okio.BufferedSink:
     public abstract okio.Buffer buffer()
     public abstract okio.BufferedSink emit()
     public abstract okio.BufferedSink emitCompleteSegments()
+    public abstract okio.Buffer getBuffer()
     public abstract java.io.OutputStream outputStream()
     public abstract okio.BufferedSink write(okio.ByteString)
+    public abstract okio.BufferedSink write(okio.ByteString,int,int)
     public abstract okio.BufferedSink write(okio.Source,long)
     public abstract okio.BufferedSink write(byte[],int,int)
     public abstract long writeAll(okio.Source)
@@ -26094,18 +26292,37 @@ okio.BufferedSource:
     public abstract java.lang.String readUtf8LineStrict(long)
     public abstract boolean request(long)
     public abstract int select(okio.Options)
+okio.ByteString$Companion:
+    public final okio.ByteString -deprecated_decodeBase64(java.lang.String)
+    public final okio.ByteString -deprecated_decodeHex(java.lang.String)
+    public final okio.ByteString -deprecated_encodeString(java.lang.String,java.nio.charset.Charset)
+    public final okio.ByteString -deprecated_encodeUtf8(java.lang.String)
+    public final okio.ByteString -deprecated_of(java.nio.ByteBuffer)
+    public final okio.ByteString -deprecated_of(byte[],int,int)
+    public final okio.ByteString -deprecated_read(java.io.InputStream,int)
+    public final okio.ByteString decodeBase64(java.lang.String)
+    public final okio.ByteString decodeHex(java.lang.String)
+    public final okio.ByteString encodeString(java.lang.String,java.nio.charset.Charset)
+    public static synthetic okio.ByteString encodeString$default(okio.ByteString$Companion,java.lang.String,java.nio.charset.Charset,int,java.lang.Object)
+    public final okio.ByteString of(java.nio.ByteBuffer)
+    public final okio.ByteString of(byte[],int,int)
+    public static synthetic okio.ByteString of$default(okio.ByteString$Companion,byte[],int,int,int,java.lang.Object)
+    public final okio.ByteString read(java.io.InputStream,int)
 okio.ByteString:
     private static final long serialVersionUID
+    public final byte -deprecated_getByte(int)
+    public final int -deprecated_size()
     public java.nio.ByteBuffer asByteBuffer()
     public java.lang.String base64Url()
-    public static okio.ByteString decodeBase64(java.lang.String)
-    public static okio.ByteString decodeHex(java.lang.String)
-    private static int decodeHexDigit(char)
-    private okio.ByteString digest(java.lang.String)
-    public static okio.ByteString encodeString(java.lang.String,java.nio.charset.Charset)
+    public void copyInto(int,byte[],int,int)
+    public static synthetic void copyInto$default(okio.ByteString,int,byte[],int,int,int,java.lang.Object)
+    public static final okio.ByteString decodeBase64(java.lang.String)
+    public static final okio.ByteString decodeHex(java.lang.String)
+    public okio.ByteString digest$okio(java.lang.String)
+    public static final okio.ByteString encodeString(java.lang.String,java.nio.charset.Charset)
     public final boolean endsWith(okio.ByteString)
     public final boolean endsWith(byte[])
-    private okio.ByteString hmac(java.lang.String,okio.ByteString)
+    public okio.ByteString hmac$okio(java.lang.String,okio.ByteString)
     public okio.ByteString hmacSha1(okio.ByteString)
     public okio.ByteString hmacSha256(okio.ByteString)
     public okio.ByteString hmacSha512(okio.ByteString)
@@ -26113,61 +26330,121 @@ okio.ByteString:
     public final int indexOf(okio.ByteString,int)
     public final int indexOf(byte[])
     public int indexOf(byte[],int)
-    byte[] internalArray()
+    public static synthetic int indexOf$default(okio.ByteString,okio.ByteString,int,int,java.lang.Object)
+    public static synthetic int indexOf$default(okio.ByteString,byte[],int,int,java.lang.Object)
     public final int lastIndexOf(okio.ByteString)
     public final int lastIndexOf(okio.ByteString,int)
     public final int lastIndexOf(byte[])
     public int lastIndexOf(byte[],int)
-    public okio.ByteString md5()
-    public static okio.ByteString of(java.nio.ByteBuffer)
-    public static okio.ByteString of(byte[],int,int)
-    public static okio.ByteString read(java.io.InputStream,int)
-    private void readObject(java.io.ObjectInputStream)
-    public okio.ByteString sha1()
-    public okio.ByteString sha256()
-    public okio.ByteString sha512()
+    public static synthetic int lastIndexOf$default(okio.ByteString,okio.ByteString,int,int,java.lang.Object)
+    public static synthetic int lastIndexOf$default(okio.ByteString,byte[],int,int,java.lang.Object)
+    public final okio.ByteString md5()
+    public static final okio.ByteString of(java.nio.ByteBuffer)
+    public static final okio.ByteString of(byte[],int,int)
+    public static final okio.ByteString read(java.io.InputStream,int)
+    private final void readObject(java.io.ObjectInputStream)
+    public final okio.ByteString sha1()
+    public final okio.ByteString sha256()
+    public final okio.ByteString sha512()
     public final boolean startsWith(byte[])
     public java.lang.String string(java.nio.charset.Charset)
-    public okio.ByteString substring(int)
+    public final okio.ByteString substring()
+    public final okio.ByteString substring(int)
+    public okio.ByteString substring(int,int)
+    public static synthetic okio.ByteString substring$default(okio.ByteString,int,int,int,java.lang.Object)
     public okio.ByteString toAsciiUppercase()
     public void write(java.io.OutputStream)
-    private void writeObject(java.io.ObjectOutputStream)
+    private final void writeObject(java.io.ObjectOutputStream)
+okio.CipherSink
+okio.CipherSource
 okio.DeflaterSink
+okio.ExperimentalFileSystem
+okio.FileHandle$FileHandleSink
+okio.FileHandle$FileHandleSource
+okio.FileHandle
+okio.FileMetadata
+okio.FileSystem$Companion
+okio.FileSystem
+okio.ForwardingFileSystem$listRecursively$1
+okio.ForwardingFileSystem
 okio.ForwardingSink
 okio.ForwardingSource
 okio.ForwardingTimeout
 okio.GzipSink
 okio.GzipSource
+okio.HashingSink$Companion
 okio.HashingSink
+okio.HashingSource$Companion
 okio.HashingSource
 okio.InflaterSource
-okio.Okio$1:
+okio.InputStreamSource:
     public okio.Timeout timeout()
-okio.Okio$2:
-    public okio.Timeout timeout()
-okio.Okio$3
+okio.JvmFileHandle
+okio.JvmSystemFileSystem
+okio.NioFileSystemFileHandle
+okio.NioFileSystemWrappingFileSystem
+okio.NioSystemFileSystem
 okio.Okio:
-    public static okio.Sink appendingSink(java.io.File)
-    public static okio.Sink blackhole()
-    public static okio.Sink sink(java.io.File)
-    public static okio.Sink sink(java.io.OutputStream)
-    public static varargs okio.Sink sink(java.nio.file.Path,java.nio.file.OpenOption[])
-    public static okio.Source source(java.io.File)
-    public static okio.Source source(java.io.InputStream)
-    public static varargs okio.Source source(java.nio.file.Path,java.nio.file.OpenOption[])
+    public static final okio.Sink appendingSink(java.io.File)
+    public static final okio.FileSystem asResourceFileSystem(java.lang.ClassLoader)
+    public static final okio.Sink blackhole()
+    public static final okio.CipherSink cipherSink(okio.Sink,javax.crypto.Cipher)
+    public static final okio.CipherSource cipherSource(okio.Source,javax.crypto.Cipher)
+    public static final okio.HashingSink hashingSink(okio.Sink,java.security.MessageDigest)
+    public static final okio.HashingSink hashingSink(okio.Sink,javax.crypto.Mac)
+    public static final okio.HashingSource hashingSource(okio.Source,java.security.MessageDigest)
+    public static final okio.HashingSource hashingSource(okio.Source,javax.crypto.Mac)
+    public static final okio.FileSystem openZip(okio.FileSystem,okio.Path)
+    public static final okio.Sink sink(java.io.File)
+    public static final okio.Sink sink(java.io.File,boolean)
+    public static final okio.Sink sink(java.io.OutputStream)
+    public static final varargs okio.Sink sink(java.nio.file.Path,java.nio.file.OpenOption[])
+    public static synthetic okio.Sink sink$default(java.io.File,boolean,int,java.lang.Object)
+    public static final okio.Source source(java.io.File)
+    public static final okio.Source source(java.io.InputStream)
+    public static final varargs okio.Source source(java.nio.file.Path,java.nio.file.OpenOption[])
+    public static final java.lang.Object use(java.io.Closeable,kotlin.jvm.functions.Function1)
+okio.Okio__JvmOkioKt:
+    public static final okio.Sink appendingSink(java.io.File)
+    public static final okio.FileSystem asResourceFileSystem(java.lang.ClassLoader)
+    public static final okio.CipherSink cipherSink(okio.Sink,javax.crypto.Cipher)
+    public static final okio.CipherSource cipherSource(okio.Source,javax.crypto.Cipher)
+    public static final okio.HashingSink hashingSink(okio.Sink,java.security.MessageDigest)
+    public static final okio.HashingSink hashingSink(okio.Sink,javax.crypto.Mac)
+    public static final okio.HashingSource hashingSource(okio.Source,java.security.MessageDigest)
+    public static final okio.HashingSource hashingSource(okio.Source,javax.crypto.Mac)
+    public static final okio.FileSystem openZip(okio.FileSystem,okio.Path)
+    public static final okio.Sink sink(java.io.File)
+    public static final okio.Sink sink(java.io.File,boolean)
+    public static final okio.Sink sink(java.io.OutputStream)
+    public static final varargs okio.Sink sink(java.nio.file.Path,java.nio.file.OpenOption[])
+    public static synthetic okio.Sink sink$default(java.io.File,boolean,int,java.lang.Object)
+    public static final okio.Source source(java.io.File)
+    public static final okio.Source source(java.io.InputStream)
+    public static final varargs okio.Source source(java.nio.file.Path,java.nio.file.OpenOption[])
+okio.Okio__OkioKt:
+    public static final okio.Sink blackhole()
+    public static final java.lang.Object use(java.io.Closeable,kotlin.jvm.functions.Function1)
+okio.Options$Companion
 okio.Options
+okio.OutputStreamSink:
+    public okio.Timeout timeout()
+okio.Path$Companion
+okio.Path
 okio.PeekSource
-okio.Pipe$PipeSink
-okio.Pipe$PipeSource
+okio.Pipe$sink$1
+okio.Pipe$source$1
 okio.Pipe
-okio.PushableTimeout
-okio.RealBufferedSink$1
+okio.RealBufferedSink$outputStream$1
 okio.RealBufferedSink:
     public okio.Buffer buffer()
     public okio.BufferedSink emit()
+    public okio.Buffer getBuffer()
+    public static synthetic void getBuffer$annotations()
     public java.io.OutputStream outputStream()
     public okio.Timeout timeout()
     public okio.BufferedSink write(okio.ByteString)
+    public okio.BufferedSink write(okio.ByteString,int,int)
     public okio.BufferedSink write(okio.Source,long)
     public okio.BufferedSink write(byte[],int,int)
     public long writeAll(okio.Source)
@@ -26181,9 +26458,10 @@ okio.RealBufferedSink:
     public okio.BufferedSink writeString(java.lang.String,java.nio.charset.Charset)
     public okio.BufferedSink writeUtf8(java.lang.String,int,int)
     public okio.BufferedSink writeUtf8CodePoint(int)
-okio.RealBufferedSource$1
+okio.RealBufferedSource$inputStream$1
 okio.RealBufferedSource:
     public okio.Buffer buffer()
+    public static synthetic void getBuffer$annotations()
     public long indexOf(byte)
     public long indexOf(byte,long)
     public long indexOf(byte,long,long)
@@ -26219,49 +26497,186 @@ okio.RealBufferedSource:
     public int select(okio.Options)
     public okio.Timeout timeout()
 okio.Segment:
-    static final int SHARE_MINIMUM
-    static final int SIZE
-    final okio.Segment unsharedCopy()
+    public static final int SHARE_MINIMUM
+    public static final int SIZE
+    public final okio.Segment unsharedCopy()
 okio.SegmentPool:
-    static final long MAX_SIZE
+    public final int getByteCount()
+    public final int getMAX_SIZE()
 okio.SegmentedByteString:
     public java.nio.ByteBuffer asByteBuffer()
     public java.lang.String base64Url()
-    public okio.ByteString hmacSha1(okio.ByteString)
-    public okio.ByteString hmacSha256(okio.ByteString)
+    public void copyInto(int,byte[],int,int)
+    public okio.ByteString digest$okio(java.lang.String)
+    public okio.ByteString hmac$okio(java.lang.String,okio.ByteString)
     public int indexOf(byte[],int)
-    byte[] internalArray()
     public int lastIndexOf(byte[],int)
-    public okio.ByteString md5()
-    public okio.ByteString sha1()
-    public okio.ByteString sha256()
     public java.lang.String string(java.nio.charset.Charset)
-    public okio.ByteString substring(int)
+    public okio.ByteString substring(int,int)
     public okio.ByteString toAsciiUppercase()
     public void write(java.io.OutputStream)
-    private java.lang.Object writeReplace()
+    private final java.lang.Object writeReplace()
 okio.Sink:
     public abstract okio.Timeout timeout()
 okio.Source:
     public abstract okio.Timeout timeout()
-okio.Timeout$1:
+okio.Throttler$sink$1
+okio.Throttler$source$1
+okio.Throttler
+okio.Timeout$Companion$NONE$1:
     public okio.Timeout deadlineNanoTime(long)
     public okio.Timeout timeout(long,java.util.concurrent.TimeUnit)
+okio.Timeout$Companion:
+    public final long minTimeout(long,long)
 okio.Timeout:
+    public final void awaitSignal(java.util.concurrent.locks.Condition)
     public okio.Timeout clearDeadline()
     public okio.Timeout clearTimeout()
     public final okio.Timeout deadline(long,java.util.concurrent.TimeUnit)
     public okio.Timeout deadlineNanoTime(long)
-    static long minTimeout(long,long)
+    public final java.lang.Object intersectWith(okio.Timeout,kotlin.jvm.functions.Function0)
     public okio.Timeout timeout(long,java.util.concurrent.TimeUnit)
     public final void waitUntilNotified(java.lang.Object)
 okio.Utf8
-okio.Util:
-    private void <init>()
-    public static int reverseBytesInt(int)
-    public static long reverseBytesLong(long)
-    public static short reverseBytesShort(short)
-okio.package-info
+okio.ZipFileSystem$Companion
+okio.ZipFileSystem
+okio._JvmPlatformKt:
+    public static final java.util.concurrent.locks.ReentrantLock newLock()
+    public static final java.lang.Object withLock(java.util.concurrent.locks.ReentrantLock,kotlin.jvm.functions.Function0)
+okio.internal.-Buffer:
+    public static final long OVERFLOW_DIGIT_START
+    public static final long OVERFLOW_ZONE
+    public static final int SEGMENTING_THRESHOLD
+    public static final void commonClear(okio.Buffer)
+    public static final void commonClose(okio.Buffer$UnsafeCursor)
+    public static final long commonCompleteSegmentByteCount(okio.Buffer)
+    public static final okio.Buffer commonCopy(okio.Buffer)
+    public static final okio.Buffer commonCopyTo(okio.Buffer,okio.Buffer,long,long)
+    public static final boolean commonEquals(okio.Buffer,java.lang.Object)
+    public static final long commonExpandBuffer(okio.Buffer$UnsafeCursor,int)
+    public static final byte commonGet(okio.Buffer,long)
+    public static final int commonHashCode(okio.Buffer)
+    public static final long commonIndexOf(okio.Buffer,byte,long,long)
+    public static final long commonIndexOf(okio.Buffer,okio.ByteString,long)
+    public static final long commonIndexOfElement(okio.Buffer,okio.ByteString,long)
+    public static final int commonNext(okio.Buffer$UnsafeCursor)
+    public static final boolean commonRangeEquals(okio.Buffer,long,okio.ByteString,int,int)
+    public static final int commonRead(okio.Buffer,byte[])
+    public static final int commonRead(okio.Buffer,byte[],int,int)
+    public static final long commonRead(okio.Buffer,okio.Buffer,long)
+    public static final long commonReadAll(okio.Buffer,okio.Sink)
+    public static final okio.Buffer$UnsafeCursor commonReadAndWriteUnsafe(okio.Buffer,okio.Buffer$UnsafeCursor)
+    public static final byte commonReadByte(okio.Buffer)
+    public static final byte[] commonReadByteArray(okio.Buffer)
+    public static final byte[] commonReadByteArray(okio.Buffer,long)
+    public static final okio.ByteString commonReadByteString(okio.Buffer)
+    public static final okio.ByteString commonReadByteString(okio.Buffer,long)
+    public static final long commonReadDecimalLong(okio.Buffer)
+    public static final void commonReadFully(okio.Buffer,okio.Buffer,long)
+    public static final void commonReadFully(okio.Buffer,byte[])
+    public static final long commonReadHexadecimalUnsignedLong(okio.Buffer)
+    public static final int commonReadInt(okio.Buffer)
+    public static final long commonReadLong(okio.Buffer)
+    public static final short commonReadShort(okio.Buffer)
+    public static final okio.Buffer$UnsafeCursor commonReadUnsafe(okio.Buffer,okio.Buffer$UnsafeCursor)
+    public static final java.lang.String commonReadUtf8(okio.Buffer,long)
+    public static final int commonReadUtf8CodePoint(okio.Buffer)
+    public static final java.lang.String commonReadUtf8Line(okio.Buffer)
+    public static final java.lang.String commonReadUtf8LineStrict(okio.Buffer,long)
+    public static final long commonResizeBuffer(okio.Buffer$UnsafeCursor,long)
+    public static final int commonSeek(okio.Buffer$UnsafeCursor,long)
+    public static final int commonSelect(okio.Buffer,okio.Options)
+    public static final void commonSkip(okio.Buffer,long)
+    public static final okio.ByteString commonSnapshot(okio.Buffer)
+    public static final okio.ByteString commonSnapshot(okio.Buffer,int)
+    public static final okio.Segment commonWritableSegment(okio.Buffer,int)
+    public static final okio.Buffer commonWrite(okio.Buffer,okio.ByteString,int,int)
+    public static final okio.Buffer commonWrite(okio.Buffer,okio.Source,long)
+    public static final okio.Buffer commonWrite(okio.Buffer,byte[])
+    public static final okio.Buffer commonWrite(okio.Buffer,byte[],int,int)
+    public static final void commonWrite(okio.Buffer,okio.Buffer,long)
+    public static synthetic okio.Buffer commonWrite$default(okio.Buffer,okio.ByteString,int,int,int,java.lang.Object)
+    public static final long commonWriteAll(okio.Buffer,okio.Source)
+    public static final okio.Buffer commonWriteByte(okio.Buffer,int)
+    public static final okio.Buffer commonWriteDecimalLong(okio.Buffer,long)
+    public static final okio.Buffer commonWriteHexadecimalUnsignedLong(okio.Buffer,long)
+    public static final okio.Buffer commonWriteInt(okio.Buffer,int)
+    public static final okio.Buffer commonWriteLong(okio.Buffer,long)
+    public static final okio.Buffer commonWriteShort(okio.Buffer,int)
+    public static final okio.Buffer commonWriteUtf8(okio.Buffer,java.lang.String,int,int)
+    public static final okio.Buffer commonWriteUtf8CodePoint(okio.Buffer,int)
+    public static synthetic void getHEX_DIGIT_BYTES$annotations()
+    public static final boolean rangeEquals(okio.Segment,int,byte[],int,int)
+    public static final java.lang.Object seek(okio.Buffer,long,kotlin.jvm.functions.Function2)
+    public static final int selectPrefix(okio.Buffer,okio.Options,boolean)
+    public static synthetic int selectPrefix$default(okio.Buffer,okio.Options,boolean,int,java.lang.Object)
+okio.internal.-ByteString:
+    public static final synthetic int access$decodeHexDigit(char)
+    public static final java.lang.String commonBase64(okio.ByteString)
+    public static final java.lang.String commonBase64Url(okio.ByteString)
+    public static final int commonCompareTo(okio.ByteString,okio.ByteString)
+    public static final void commonCopyInto(okio.ByteString,int,byte[],int,int)
+    public static final okio.ByteString commonDecodeBase64(java.lang.String)
+    public static final okio.ByteString commonDecodeHex(java.lang.String)
+    public static final okio.ByteString commonEncodeUtf8(java.lang.String)
+    public static final boolean commonEndsWith(okio.ByteString,okio.ByteString)
+    public static final boolean commonEndsWith(okio.ByteString,byte[])
+    public static final boolean commonEquals(okio.ByteString,java.lang.Object)
+    public static final byte commonGetByte(okio.ByteString,int)
+    public static final int commonGetSize(okio.ByteString)
+    public static final int commonHashCode(okio.ByteString)
+    public static final java.lang.String commonHex(okio.ByteString)
+    public static final int commonIndexOf(okio.ByteString,byte[],int)
+    public static final byte[] commonInternalArray(okio.ByteString)
+    public static final int commonLastIndexOf(okio.ByteString,okio.ByteString,int)
+    public static final int commonLastIndexOf(okio.ByteString,byte[],int)
+    public static final okio.ByteString commonOf(byte[])
+    public static final boolean commonRangeEquals(okio.ByteString,int,okio.ByteString,int,int)
+    public static final boolean commonRangeEquals(okio.ByteString,int,byte[],int,int)
+    public static final boolean commonStartsWith(okio.ByteString,okio.ByteString)
+    public static final boolean commonStartsWith(okio.ByteString,byte[])
+    public static final okio.ByteString commonSubstring(okio.ByteString,int,int)
+    public static final okio.ByteString commonToAsciiLowercase(okio.ByteString)
+    public static final okio.ByteString commonToAsciiUppercase(okio.ByteString)
+    public static final byte[] commonToByteArray(okio.ByteString)
+    public static final okio.ByteString commonToByteString(byte[],int,int)
+    public static final java.lang.String commonToString(okio.ByteString)
+    public static final java.lang.String commonUtf8(okio.ByteString)
+    private static final int decodeHexDigit(char)
+    public static synthetic void getHEX_DIGIT_CHARS$annotations()
+okio.internal.-FileSystem$collectRecursively$1
+okio.internal.-FileSystem$commonDeleteRecursively$sequence$1
+okio.internal.-FileSystem$commonListRecursively$1
+okio.internal.-FileSystem
+okio.internal.-Path
+okio.internal.-RealBufferedSink
+okio.internal.-RealBufferedSource
+okio.internal.-SegmentedByteString:
+    public static final void commonCopyInto(okio.SegmentedByteString,int,byte[],int,int)
+    public static final boolean commonEquals(okio.SegmentedByteString,java.lang.Object)
+    public static final int commonGetSize(okio.SegmentedByteString)
+    public static final int commonHashCode(okio.SegmentedByteString)
+    public static final byte commonInternalGet(okio.SegmentedByteString,int)
+    public static final boolean commonRangeEquals(okio.SegmentedByteString,int,okio.ByteString,int,int)
+    public static final boolean commonRangeEquals(okio.SegmentedByteString,int,byte[],int,int)
+    public static final okio.ByteString commonSubstring(okio.SegmentedByteString,int,int)
+    public static final byte[] commonToByteArray(okio.SegmentedByteString)
+    public static final void commonWrite(okio.SegmentedByteString,okio.Buffer,int,int)
+    private static final void forEachSegment(okio.SegmentedByteString,int,int,kotlin.jvm.functions.Function3)
+    public static final void forEachSegment(okio.SegmentedByteString,kotlin.jvm.functions.Function3)
+okio.internal.EocdRecord
+okio.internal.FixedLengthSource
+okio.internal.ResourceFileSystem$Companion$toJarRoot$zip$1
+okio.internal.ResourceFileSystem$Companion
+okio.internal.ResourceFileSystem$roots$2
+okio.internal.ResourceFileSystem
+okio.internal.ZipEntry
+okio.internal.ZipFilesKt$buildIndex$$inlined$sortedBy$1
+okio.internal.ZipFilesKt$openZip$1
+okio.internal.ZipFilesKt$readEntry$1
+okio.internal.ZipFilesKt$readOrSkipLocalHeader$1
+okio.internal.ZipFilesKt
+okio.internal._Utf8Kt
 org.checkerframework.checker.builder.qual.CalledMethods
 org.checkerframework.checker.builder.qual.NotCalledMethods
 org.checkerframework.checker.builder.qual.ReturnsReceiver
@@ -26575,6 +26990,7 @@ org.checkerframework.common.value.qual.StaticallyExecutable
 org.checkerframework.common.value.qual.StringVal
 org.checkerframework.common.value.qual.UnknownVal
 org.checkerframework.dataflow.qual.Deterministic
+org.checkerframework.dataflow.qual.Impure
 org.checkerframework.dataflow.qual.Pure$Kind
 org.checkerframework.dataflow.qual.Pure
 org.checkerframework.dataflow.qual.SideEffectFree
@@ -26901,8 +27317,6 @@ io.grpc.MethodDescriptor:
     static final synthetic boolean $assertionsDisabled
 io.grpc.NameResolver$ConfigOrError:
     static final synthetic boolean $assertionsDisabled
-io.grpc.Status:
-    static final synthetic boolean $assertionsDisabled
 io.grpc.internal.AtomicBackoff$State:
     static final synthetic boolean $assertionsDisabled
 io.grpc.internal.ClientCallImpl$ContextCancellationListener:
@@ -26929,14 +27343,15 @@ io.grpc.internal.ManagedChannelImpl:
 io.grpc.internal.ManagedChannelImplBuilder:
     io.grpc.BinaryLog binlog
     final io.grpc.ChannelCredentials channelCredentials
+io.grpc.internal.ManagedClientTransport$Listener$-CC
+io.grpc.internal.ReadableBuffer:
+    public abstract void touch()
 io.grpc.internal.RetriableStream$Sublistener:
     static final synthetic boolean $assertionsDisabled
 io.grpc.internal.ThreadOptimizedDeframer
 io.grpc.okhttp.OkHttpClientTransport:
     com.google.common.util.concurrent.SettableFuture connectedFuture
 io.grpc.stub.AbstractAsyncStub:
-    static final synthetic boolean $assertionsDisabled
-io.grpc.stub.ClientCalls:
     static final synthetic boolean $assertionsDisabled
 kotlin.coroutines.jvm.internal.CoroutineStackFrame:
     public abstract java.lang.StackTraceElement getStackTraceElement()

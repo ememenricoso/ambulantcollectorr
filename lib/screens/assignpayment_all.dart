@@ -21,7 +21,7 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
   TextEditingController totalAmountController = TextEditingController();
   Map<String, TextEditingController> feeControllers = {};
   Map<String, String> feeLabels = {};
-  Map<String, String> feeRates = {}; // Map to store fee rates from Firestore
+  Map<String, double> feeRates = {};  // Map to store fee rates from Firestore
   Map<String, String> feeSummary = {};
 
   
@@ -89,7 +89,7 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
 void _calculateTotalAmount() {
   setState(() {
     // Parse the current values from the controllers
-    double ticketRate = double.tryParse(feeControllers['Ticket Rate']?.text.replaceAll('₱ ', '').replaceAll(',', '') ?? '0') ?? 0.0;
+    double ticketRate = feeRates['Ticket Rate'] ?? 0.0; // Now using double directly
     int numberOfTickets = int.tryParse(numberOfTicketsController.text) ?? 0;
 
     // Calculate total amount
@@ -100,7 +100,7 @@ void _calculateTotalAmount() {
 
 
 String _calculateTotalFees() {
-double totalFees = 0.0;
+  double totalFees = 0.0;
 
   // Calculate fees excluding the ticket rate
   feeControllers.forEach((key, controller) {
@@ -132,27 +132,27 @@ double totalFees = 0.0;
   Map<String, String> tempFees = {};
 
   setState(() {
-  for (var doc in rateDocuments) {
-    String feeName = doc.get('name');
-    String feeRate = doc.get('rate');
+    for (var doc in rateDocuments) {
+      String feeName = doc.get('name');
+      double feeRate = doc.get('rate'); // Fetching the rate as double
 
-    // Directly use the feeRate from Firestore without parsing multiple times
-    tempFees[feeName] = feeRate;
+      // Directly use the feeRate from Firestore without parsing multiple times
+      tempFees[feeName] = feeRate.toString();
 
-    if (feeName == 'Ticket Rate') {
-      ticketRate = double.tryParse(feeRate.replaceAll('₱ ', '').replaceAll(',', '')) ?? 0.0; 
-      ticketController.text = '₱ ${ticketRate.toStringAsFixed(2)}'; // Set the ticket controller text
+      if (feeName == 'Ticket Rate') {
+        ticketRate = feeRate;
+        ticketController.text = '₱ ${ticketRate.toStringAsFixed(2)}'; // Set the ticket controller text
+      }
+
+      // Only create a new controller if it doesn't exist
+      if (!feeControllers.containsKey(feeName) && (feeName == 'Ticket Rate' || feeName == 'Garbage Fee')) {
+        feeControllers[feeName] = TextEditingController(text: '₱ ${feeRate.toStringAsFixed(2)}');
+        feeLabels[feeName] = feeName;
+      }
+
+      feeRates[feeName] = feeRate; // Store the fee rate as double
     }
-
-    // Only create a new controller if it doesn't exist
-    if (!feeControllers.containsKey(feeName) && (feeName == 'Ticket Rate' || feeName == 'Garbage Fee')) {
-      feeControllers[feeName] = TextEditingController(text: '₱ $feeRate');
-      feeLabels[feeName] = feeName;
-    }
-
-    feeRates[feeName] = feeRate; // Store the fee rate
-  }
-});
+  });
 
   _calculateTotalAmount(); // Recalculate total amount after loading fees
 }

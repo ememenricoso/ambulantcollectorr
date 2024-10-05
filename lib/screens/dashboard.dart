@@ -1,7 +1,10 @@
+import 'package:ambulantcollector/screens/approve_vendor.dart'; // Import the ApproveVendor screen
 import 'package:ambulantcollector/screens/assignpayment_all.dart';
 import 'package:ambulantcollector/screens/notifications.dart';
 import 'package:ambulantcollector/screens/profile_screen.dart';
 import 'package:ambulantcollector/screens/vendor.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatefulWidget {
@@ -14,26 +17,96 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   int _selectedIndex = 2; // Default to Dashboard
 
-  // List of screens for bottom navigation, excluding Dashboard
   final List<Widget> _screens = [
-    const Vendor(), // Vendors screen
-    const AssignPaymentAllScreen(), // Payment screen
-    const Dashboard(), // Dashboard screen
-    const NotificationsScreen(), // Notifications screen
-    const ProfileScreen(), // Profile screen
+    const Vendor(),
+    const AssignPaymentAllScreen(),
+    const Dashboard(),
+    const NotificationsScreen(),
+    const ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index; // Update selected index
+      _selectedIndex = index;
     });
   }
 
-  // Bottom Navigation Bar
+//vendor counts
+Future<Map<String, int>> _getVendorCounts() async {
+  final currentUser = FirebaseAuth.instance.currentUser;
+
+  if (currentUser == null) {
+    return {};
+  }
+
+  final collectorSnapshot = await FirebaseFirestore.instance
+      .collection('ambulant_collector')
+      .where('email', isEqualTo: currentUser.email)
+      .limit(1)
+      .get();
+
+  if (collectorSnapshot.docs.isEmpty) {
+    return {};
+  }
+
+  final collectorData = collectorSnapshot.docs.first.data();
+  final String assignedCollection = collectorData['collector'] ?? '';
+
+  if (assignedCollection.isEmpty) {
+    return {};
+  }
+
+  // Initialize vendor counts
+  final vendorCounts = <String, int>{
+    'Daily': 0,
+    'Monday': 0,
+    'Tuesday': 0,
+    'Wednesday': 0,
+    'Thursday': 0,
+    'Friday': 0,
+    'Saturday': 0,
+    'Sunday': 0,
+    'ALL': 0,
+  };
+
+  // Get all approved vendors assigned to the collector
+  final allVendorsSnapshot = await FirebaseFirestore.instance
+      .collection('approved_vendors')
+      .where('status', isEqualTo: 'Approved')
+      .where('collector', isEqualTo: assignedCollection)
+      .get();
+
+  vendorCounts['ALL'] = allVendorsSnapshot.docs.length;
+
+  // Count daily and each day
+  for (var vendorDoc in allVendorsSnapshot.docs) {
+    final vendorData = vendorDoc.data();
+
+    // Check for daily assignments, looking for day_assign_1 to day_assign_8
+    for (int i = 1; i <= 8; i++) {
+      String dayAssign = vendorData['day_assign_$i'] ?? '';
+
+      // Count the assignments for the respective days
+      if (dayAssign.isNotEmpty && vendorCounts.containsKey(dayAssign)) {
+        vendorCounts[dayAssign] = (vendorCounts[dayAssign] ?? 0) + 1;
+      }
+
+      // Specifically handle 'Daily' count
+      if (dayAssign == 'Daily') {
+        vendorCounts['Daily'] = (vendorCounts['Daily'] ?? 0) + 1;
+      }
+    }
+  }
+
+  return vendorCounts.map((key, value) => MapEntry(key, value));
+}
+
+
+
   Widget bottomNavigationBar() {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
-      backgroundColor: const Color.fromARGB(255, 41, 239, 48),
+      backgroundColor: Colors.green,
       selectedItemColor: Colors.black,
       unselectedItemColor: Colors.white,
       currentIndex: _selectedIndex,
@@ -67,9 +140,9 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _selectedIndex == 2 // Show AppBar only on Dashboard screen
+      appBar: _selectedIndex == 2
           ? AppBar(
-              title: const Text(""), // Empty title to avoid spacing issues
+              title: const Text(""),
               flexibleSpace: const Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -87,97 +160,170 @@ class _DashboardState extends State<Dashboard> {
                   ],
                 ),
               ),
-              backgroundColor: const Color.fromARGB(255, 31, 232, 37),
+              backgroundColor: Colors.green,
               elevation: 1.0,
             )
-          : null, // No AppBar for other screens
-      body: _selectedIndex == 2 // Show Dashboard content
-          ? Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start, // Align items to the start
-                children: [
-                  // Welcome Text
-                  const Text(
-                    'WELCOME to,',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                  const Text(
-                    'CARBONRENT',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 20), // Space after welcome text
+          : null,
+      body: _selectedIndex == 2
+          ? SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'WELCOME to,',
+                      style: TextStyle(fontSize: 24),
+                    ),
+                    const Text(
+                      'CarbonRent',
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.green),
+                    ),
+                    const SizedBox(height: 100),
+                    const Text(
+                      'Schedule',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    const SizedBox(height: 8),
+                    // Horizontal Scroll for All Vendors and Days of the Week
+                    SizedBox(
+                      height: 130,
+                      child: FutureBuilder<Map<String, int>>(
+                        future: _getVendorCounts(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(child: CircularProgressIndicator());
+                          }
+                          final vendorCounts = snapshot.data ?? {};
 
-                  // Horizontal Scroll for All Vendors and Days of the Week
-                  SizedBox(
-                    height: 80.0, // Adjust height as needed
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 7, // For Monday to Sunday
-                      separatorBuilder: (context, index) => const SizedBox(width: 10), // Distance between cards
-                      itemBuilder: (context, index) {
-                        final day = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'][index];
-                        return DashboardCard(
-                          icon: Icons.calendar_today,
-                          title: day,
-                          onTap: () {
-                            // Handle day tap
-                          },
-                        );
-                      },
+                  return ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 9, // 8 days + 1 for Daily
+                        separatorBuilder: (context, index) => const SizedBox(width: 10),
+                        itemBuilder: (context, index) {
+                          String title;
+                          Color textColor = Colors.white;
+                          Color iconColor = Colors.white;
+
+                          if (index == 0) {
+                            title = 'ALL';
+                          } else if (index == 1) {
+                            title = 'Daily';
+                          } else {
+                            title = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'][index - 2];
+                          }
+
+                          return DashboardCard(
+                            icon: Icons.calendar_today,
+                            title: title,
+                            vendorText: '${vendorCounts[title] ?? 0} ${vendorCounts[title] == 1 ? 'vendor' : 'vendors'}', // Display vendor count
+                            color: const Color.fromARGB(255, 38, 108, 41),
+                            textColor: textColor,
+                            iconColor: iconColor,
+                            onTap: () {
+                              if (index == 0) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const ApproveVendor(),
+                                  ),
+                                );
+                              } else if (index == 1) { // Check if the tapped index is for "DAILY"
+                                // Navigate to the Daily screen
+                               /*  Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const DailyPage(), // Replace with your actual DailyPage
+                                  ),
+                                ); */
+                              } else {
+                                  }
+                                },
+                              );
+                            },
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 10.0),
-                  // Two cards for Paid and Unpaid with text above
-                  const SizedBox(height: 20), // Space above Paid and Unpaid cards
-                  const Text(
-                    'Payment Status',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 10), // Space between text and cards
-                  Expanded(
-                    child: GridView.count(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 10.0,
-                      mainAxisSpacing: 10.0,
-                      childAspectRatio: 1.2, // Adjusted for smaller size
-                      children: <Widget>[
-                        DashboardCard(
-                          icon: Icons.check_circle,
-                          title: 'PAID',
-                          onTap: () {
-                            // Handle Paid tap
-                          },
-                        ),
-                        DashboardCard(
-                          icon: Icons.cancel,
-                          title: 'UNPAID',
-                          onTap: () {
-                            // Handle Unpaid tap
-                          },
-                        ),
-                      ],
+
+                    const SizedBox(height: 20.0),
+                    // Two cards for Paid and Unpaid with text above
+                    const Text(
+                      'Payment Status',
+                      style: TextStyle(fontSize: 18),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 10),
+                    SizedBox(
+                      height: 300,
+                      child: GridView.count(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10.0,
+                        mainAxisSpacing: 10.0,
+                        childAspectRatio: 1.5,
+                        children: <Widget>[
+                          DashboardCard(
+                            icon: Icons.check_circle,
+                            title: 'PAID',
+                            vendorText: '100 vendors',
+                            color: const Color.fromARGB(255, 249, 251, 247),
+                            textColor: Colors.green,
+                            iconColor: Colors.green,
+                            onTap: () {
+                             /*  Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const PaidVendorsPage(),
+                                ),
+                              ); */
+                            },
+                          ),
+                          DashboardCard(
+                            icon: Icons.cancel,
+                            title: 'UNPAID',
+                            vendorText: '50 vendors',
+                            color: const Color.fromARGB(255, 249, 251, 247),
+                            textColor: Colors.red,
+                            iconColor: Colors.red,
+                            onTap: () {
+                              /* Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const UnpaidVendorsPage(),
+                                ),
+                              ); */
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             )
-          : _screens[_selectedIndex], // Show other screens when selected
-      bottomNavigationBar: bottomNavigationBar(), // Bottom navigation bar
+          : _screens[_selectedIndex],
+      bottomNavigationBar: bottomNavigationBar(),
     );
   }
 }
 
-// Assuming you have a DashboardCard widget, make sure it accommodates its contents correctly
+// Updated DashboardCard class
 class DashboardCard extends StatelessWidget {
   final IconData icon;
   final String title;
+  final String vendorText; // New vendorText property
+  final Color color;
+  final Color textColor;
+  final Color iconColor; // Icon color
   final VoidCallback onTap;
 
   const DashboardCard({
     Key? key,
     required this.icon,
     required this.title,
+    required this.vendorText, // Add vendorText
+    required this.color,
+    required this.textColor,
+    required this.iconColor, // Icon color
     required this.onTap,
   }) : super(key: key);
 
@@ -186,10 +332,10 @@ class DashboardCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 100, // Set a fixed width
-        height: 60, // Adjusted height for smaller size
+        width: 135,
+        height: 80,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: color, // Use background color passed in
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
@@ -200,17 +346,41 @@ class DashboardCard extends StatelessWidget {
             ),
           ],
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: 30, color: Colors.black),
-            const SizedBox(height: 5), // Space between icon and text
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Icon(icon, size: 24, color: iconColor), // Use icon color
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      title,
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: textColor, // Use text color
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const Spacer(),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Text(
+                  vendorText, // Show vendor count with text
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: textColor, // Use text color
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,4 +1,4 @@
-import 'package:ambulantcollector/screens/dashboard.dart';
+import 'package:ambulantcollector/screens/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Dashboard(),
+      home: const LogInScreen(),
     );
   }
 }

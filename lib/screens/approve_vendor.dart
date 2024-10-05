@@ -216,41 +216,53 @@ void _showEditDialog() {
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: ElevatedButton(
-                      onPressed: () async {
-                        if (_selectedSchedule != null) {
-                          final approvedUsers = await approvedCollectorsRef.where('status', isEqualTo: 'Approved').get();
+                        onPressed: () async {
+                          if (_selectedSchedule != null) {
+                            final approvedUsers = await approvedCollectorsRef.where('status', isEqualTo: 'Approved').get();
 
-                          for (int index = 0; index < approvedUsers.docs.length; index++) {
-                            if (_selectedVendors[index]) {
-                              String vendorId = approvedUsers.docs[index].id; // Get the vendor ID
+                            bool hasUpdatedVendors = false; // Flag to track if any vendors were updated
+                            bool dialogShown = false; // Flag to prevent multiple dialogs
 
-                              // Fetch existing assignments
-                              DocumentSnapshot vendorDoc = await FirebaseFirestore.instance.collection('approved_vendors').doc(vendorId).get();
-                              int assignmentCount = 0;
+                            for (int index = 0; index < approvedUsers.docs.length; index++) {
+                              if (_selectedVendors[index]) {
+                                String vendorId = approvedUsers.docs[index].id; // Get the vendor ID
 
-                              if (vendorDoc.exists) {
-                                Map<String, dynamic>? data = vendorDoc.data() as Map<String, dynamic>?;
-                                data?.forEach((key, value) {
-                                  if (key.startsWith('day_assign_')) {
-                                    // Extract the number from the key and find the maximum assignment count
-                                    int count = int.tryParse(key.split('_').last) ?? 0;
-                                    if (count > assignmentCount) {
-                                      assignmentCount = count;
+                                // Fetch existing assignments
+                                DocumentSnapshot vendorDoc = await FirebaseFirestore.instance.collection('approved_vendors').doc(vendorId).get();
+                                int assignmentCount = 0;
+
+                                if (vendorDoc.exists) {
+                                  Map<String, dynamic>? data = vendorDoc.data() as Map<String, dynamic>?;
+                                  data?.forEach((key, value) {
+                                    if (key.startsWith('day_assign_')) {
+                                      // Extract the number from the key and find the maximum assignment count
+                                      int count = int.tryParse(key.split('_').last) ?? 0;
+                                      if (count > assignmentCount) {
+                                        assignmentCount = count;
+                                      }
                                     }
-                                  }
-                                });
+                                  });
+                                }
+
+                                // Increment assignment count for new key
+                                assignmentCount += 1;
+                                String newAssignmentKey = 'day_assign_' + assignmentCount.toString();
+
+                                await FirebaseFirestore.instance.collection('approved_vendors').doc(vendorId).set({
+                                  newAssignmentKey: _selectedSchedule,
+                                }, SetOptions(merge: true)); // Merge to avoid overwriting existing assignments
+
+                                hasUpdatedVendors = true; // Set the flag to true as at least one vendor is updated
                               }
+                            }
 
-                              // Increment assignment count for new key
-                              assignmentCount += 1;
-                              String newAssignmentKey = 'day_assign_$assignmentCount';
+                            if (hasUpdatedVendors && !dialogShown) {
+                              dialogShown = true; // Prevent additional dialogs
 
-                              await FirebaseFirestore.instance.collection('approved_vendors').doc(vendorId).set({
-                                newAssignmentKey: _selectedSchedule,
-                              }, SetOptions(merge: true)); // Merge to avoid overwriting existing assignments
-                              // Show success message as a dialog
+                              // Show success message as a dialog only if vendors were updated
                               showDialog(
                                 context: context,
+                                barrierDismissible: false, // Disable dialog dismiss when clicking outside
                                 builder: (BuildContext context) {
                                   return AlertDialog(
                                     contentPadding: const EdgeInsets.all(0), // No padding around the content
@@ -273,7 +285,7 @@ void _showEditDialog() {
                                           ),
                                           child: const Center(
                                             child: Text(
-                                              'ASSIGNED SUCCESSFULL!',
+                                              'ASSIGNED SUCCESSFULLY!',
                                               style: TextStyle(color: Colors.white, fontSize: 18), // Change title text color to white
                                             ),
                                           ),
@@ -299,18 +311,18 @@ void _showEditDialog() {
                                           style: TextStyle(color: Colors.green), // Change 'OK' text color to green
                                         ),
                                         onPressed: () {
+                                          dialogShown = false; // Reset the flag when the dialog is dismissed
                                           Navigator.of(context).pop(); // Close the dialog
                                         },
-                                       ),
+                                      ),
                                     ],
                                   );
                                 },
                               );
                             }
-                          }
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Please select a day to assign.')),
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Please select a day to assign.')),
                           );
                         }
                       },
@@ -653,6 +665,7 @@ void _confirmDeletion(BuildContext context, String fieldName, String userId, Str
         title: const Text('Confirm Deletion'),
         content: Text('Are you sure you want to delete $day?'),
         actions: [
+          
           TextButton(
             onPressed: () {
               // Perform deletion from Firestore
@@ -662,10 +675,14 @@ void _confirmDeletion(BuildContext context, String fieldName, String userId, Str
             },
             child: const Text('Delete'),
           ),
-          TextButton(
+           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Cancel'),
+            child: const Text(
+              'Cancel',
+              style: TextStyle(color: Color.fromARGB(255, 59, 187, 36)), // Change cancel text color to white
+            ),
           ),
+          
         ],
       );
     },
@@ -675,7 +692,7 @@ void _confirmDeletion(BuildContext context, String fieldName, String userId, Str
 
 
 Widget _buildDialogUserList(StateSetter dialogSetState) {
-  final currentUser = FirebaseAuth.instance.currentUser;
+  final currentUser = FirebaseAuth.instance.currentUser; // Get the logged-in user
 
   if (currentUser == null) {
     return const Center(child: Text('No collector logged in.'));
@@ -684,8 +701,8 @@ Widget _buildDialogUserList(StateSetter dialogSetState) {
   return FutureBuilder<QuerySnapshot>(
     future: FirebaseFirestore.instance
         .collection('ambulant_collector')
-        .where('email', isEqualTo: currentUser.email)
-        .limit(1)
+        .where('email', isEqualTo: currentUser.email) // Query by logged-in collector's email
+        .limit(1) // Only one collector should match the email
         .get(),
     builder: (context, collectorSnapshot) {
       if (collectorSnapshot.connectionState == ConnectionState.waiting) {
@@ -700,19 +717,21 @@ Widget _buildDialogUserList(StateSetter dialogSetState) {
         return const Center(child: Text('Collector data not found.'));
       }
 
+      // Get the collector's assigned collection value (e.g., '01', '02', etc.)
       final collectorDoc = collectorSnapshot.data!.docs.first;
       final collectorData = collectorDoc.data() as Map<String, dynamic>;
-      final String assignedCollection = collectorData['collector'] ?? '';
+      final String assignedCollection = collectorData['collector'] ?? ''; // Ensure 'collector' field exists
 
       if (assignedCollection.isEmpty) {
         return const Center(child: Text('Collector has no assigned collection.'));
       }
 
+      // Now query the approved_vendors collection based on the collector's assigned collection
       return StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('approved_vendors')
             .where('status', isEqualTo: 'Approved')
-            .where('collector', isEqualTo: assignedCollection)
+            .where('collector', isEqualTo: assignedCollection) // Filter by the collector's assigned collection
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -729,40 +748,26 @@ Widget _buildDialogUserList(StateSetter dialogSetState) {
 
           final approvedUsers = snapshot.data!.docs;
 
-          // Filter out vendors already assigned to the selected day
+          // Apply search filter logic (based on last name or document number)
           final filteredUsers = approvedUsers.where((user) {
-            final assignedDays = (user.data() as Map<String, dynamic>?)
-                ?.entries
-                .where((entry) => entry.key.startsWith('day_assign_'))
-                .map((entry) => entry.value)
-                .toList() ?? []; // Ensure it's not null
-
-            // Check if the vendor is not assigned to the selected day
-            return !assignedDays.contains(_selectedSchedule);
-          }).toList();
-
-          // Apply search filter logic
-          final searchFilteredUsers = filteredUsers.where((user) {
-            final matchesQuery = user['last_name']
-                    .toString()
-                    .toLowerCase()
-                    .contains(_dialogSearchQuery) ||
+            final matchesQuery = user['last_name'].toString().toLowerCase().contains(_dialogSearchQuery) ||
                 getNumberFromDocumentId(user.id).contains(_dialogSearchQuery);
             return matchesQuery;
           }).toList();
 
-          if (searchFilteredUsers.isEmpty) {
-            return const Center(child: Text('No vendors available to be assigned.'));
+          if (filteredUsers.isEmpty) {
+            return const Center(child: Text('No matching results'));
           }
 
-          if (_selectedVendors.length != searchFilteredUsers.length) {
-            _selectedVendors = List.filled(searchFilteredUsers.length, false);
+          // Initialize the selected vendors list with the size of the filtered list
+          if (_selectedVendors.length != filteredUsers.length) {
+            _selectedVendors = List.filled(filteredUsers.length, false);
           }
 
           return ListView.builder(
-            itemCount: searchFilteredUsers.length,
+            itemCount: filteredUsers.length,
             itemBuilder: (context, index) {
-              final user = searchFilteredUsers[index];
+              final user = filteredUsers[index];
               final first = user['first_name'];
               final last = user['last_name'];
 
@@ -773,6 +778,7 @@ Widget _buildDialogUserList(StateSetter dialogSetState) {
                   padding: const EdgeInsets.all(10.0),
                   child: Row(
                     children: [
+                      // Checkbox for selecting the vendor
                       Checkbox(
                         value: _selectedVendors[index],
                         activeColor: Colors.green,
@@ -782,6 +788,7 @@ Widget _buildDialogUserList(StateSetter dialogSetState) {
                           });
                         },
                       ),
+                      // Profile Icon
                       Container(
                         width: 80,
                         height: 80,
@@ -828,7 +835,7 @@ Widget _buildDialogUserList(StateSetter dialogSetState) {
                         child: TextButton(
                           onPressed: () async {
                             if (_selectedSchedule != null) {
-                              String vendorId = searchFilteredUsers[index].id;
+                              String vendorId = filteredUsers[index].id;
 
                               DocumentSnapshot vendorDoc = await FirebaseFirestore.instance
                                   .collection('approved_vendors')
@@ -859,9 +866,78 @@ Widget _buildDialogUserList(StateSetter dialogSetState) {
                                 newAssignmentKey: _selectedSchedule,
                               }, SetOptions(merge: true));
 
-                              // Success dialog here
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    contentPadding: const EdgeInsets.all(0),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Container(
+                                          height: 60,
+                                          decoration: const BoxDecoration(
+                                            color: Color.fromARGB(255, 36, 204, 42),
+                                            borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(15),
+                                              topRight: Radius.circular(15),
+                                            ),
+                                          ),
+                                          child: const Center(
+                                            child: Text(
+                                              'ASSIGNED SUCCESSFULLY!',
+                                              style: TextStyle(color: Colors.white, fontSize: 18),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          width: double.infinity,
+                                          padding: const EdgeInsets.all(20),
+                                          child: const Center(
+                                            child: Text(
+                                              'Schedule Assigned Successfully!',
+                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        child: const Text(
+                                          'OK',
+                                          style: TextStyle(color: Colors.green),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
                             } else {
-                              // Error dialog here
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text('Error'),
+                                    content: const Text('Please select a schedule before saving.'),
+                                    actions: [
+                                      TextButton(
+                                        child: const Text('OK'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
                             }
                           },
                           child: const Text('Save', style: TextStyle(color: Color.fromARGB(255, 72, 151, 39))),
@@ -878,7 +954,6 @@ Widget _buildDialogUserList(StateSetter dialogSetState) {
     },
   );
 }
-
 
 
   String getNumberFromDocumentId(String docId) {

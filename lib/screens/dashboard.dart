@@ -1,4 +1,10 @@
 import 'package:ambulantcollector/screens/Daily.dart';
+import 'package:ambulantcollector/screens/Friday.dart';
+import 'package:ambulantcollector/screens/Saturday.dart';
+import 'package:ambulantcollector/screens/Sunday.dart';
+import 'package:ambulantcollector/screens/Thursday.dart';
+import 'package:ambulantcollector/screens/Tuesday.dart';
+import 'package:ambulantcollector/screens/Wednesday.dart';
 import 'package:ambulantcollector/screens/approve_vendor.dart'; // Import the ApproveVendor screen
 import 'package:ambulantcollector/screens/assignpayment_all.dart';
 import 'package:ambulantcollector/screens/monday.dart';
@@ -245,6 +251,60 @@ Future<Map<String, int>> _getVendorCounts() async {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => MondayPage(), // Replace with your actual DailyPage
+                                  ),
+                                ); 
+                              } 
+                               else if (index == 3) { // Check if the tapped index is for "DAILY"
+                                // Navigate to the Daily screen
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => TuesdayPage(), // Replace with your actual DailyPage
+                                  ),
+                                ); 
+                              } 
+                               else if (index == 4) { // Check if the tapped index is for "DAILY"
+                                // Navigate to the Daily screen
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Wednesday(), // Replace with your actual DailyPage
+                                  ),
+                                ); 
+                              } 
+                               else if (index == 5) { // Check if the tapped index is for "DAILY"
+                                // Navigate to the Daily screen
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Thursday(), // Replace with your actual DailyPage
+                                  ),
+                                ); 
+                              } 
+                               else if (index == 6) { // Check if the tapped index is for "DAILY"
+                                // Navigate to the Daily screen
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Friday(), // Replace with your actual DailyPage
+                                  ),
+                                ); 
+                              } 
+                               else if (index == 7) { // Check if the tapped index is for "DAILY"
+                                // Navigate to the Daily screen
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Saturday(), // Replace with your actual DailyPage
+                                  ),
+                                ); 
+                              } 
+                               else if (index == 8) { // Check if the tapped index is for "DAILY"
+                                // Navigate to the Daily screen
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Sunday(), // Replace with your actual DailyPage
                                   ),
                                 ); 
                               } 

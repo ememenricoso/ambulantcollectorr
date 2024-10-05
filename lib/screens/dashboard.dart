@@ -1,5 +1,7 @@
+import 'package:ambulantcollector/screens/Daily.dart';
 import 'package:ambulantcollector/screens/approve_vendor.dart'; // Import the ApproveVendor screen
 import 'package:ambulantcollector/screens/assignpayment_all.dart';
+import 'package:ambulantcollector/screens/monday.dart';
 import 'package:ambulantcollector/screens/notifications.dart';
 import 'package:ambulantcollector/screens/profile_screen.dart';
 import 'package:ambulantcollector/screens/vendor.dart';
@@ -230,13 +232,23 @@ Future<Map<String, int>> _getVendorCounts() async {
                                 );
                               } else if (index == 1) { // Check if the tapped index is for "DAILY"
                                 // Navigate to the Daily screen
-                               /*  Navigator.push(
+                                Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const DailyPage(), // Replace with your actual DailyPage
+                                    builder: (context) => DailyPage(), // Replace with your actual DailyPage
                                   ),
-                                ); */
-                              } else {
+                                ); 
+                              }
+                                else if (index == 2) { // Check if the tapped index is for "DAILY"
+                                // Navigate to the Daily screen
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MondayPage(), // Replace with your actual DailyPage
+                                  ),
+                                ); 
+                              } 
+                              else {
                                   }
                                 },
                               );

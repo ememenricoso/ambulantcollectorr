@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class MondayPage extends StatelessWidget {
+class DailyPage extends StatelessWidget {
   final CollectionReference approvedVendorsRef =
       FirebaseFirestore.instance.collection('approved_vendors');
 
@@ -9,14 +9,14 @@ class MondayPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Monday Assignments'),
+        title: const Text('Daily Assignments'),
         backgroundColor: Colors.green,
       ),
-      body: _buildMondayVendorList(context),
+      body: _buildDailyVendorList(context),
     );
   }
 
-  Widget _buildMondayVendorList(BuildContext context) {
+  Widget _buildDailyVendorList(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
       stream: approvedVendorsRef.snapshots(),
       builder: (context, snapshot) {
@@ -29,30 +29,30 @@ class MondayPage extends StatelessWidget {
         }
 
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-          return const Center(child: Text('No vendors assigned on Monday'));
+          return const Center(child: Text('No vendors assigned on Daily'));
         }
 
         final vendors = snapshot.data!.docs;
 
-        final mondayVendors = vendors.where((vendor) {
-          // Check for vendors assigned on Monday
-          return _isVendorAssignedOnDay(vendor, 'Monday');
+        final dailyVendors = vendors.where((vendor) {
+          // Check for vendors assigned on Daily
+          return _isVendorAssignedOnDay(vendor, 'Daily');
         }).toList();
 
-        if (mondayVendors.isEmpty) {
-          return const Center(child: Text('No vendors assigned on Monday'));
+        if (dailyVendors.isEmpty) {
+          return const Center(child: Text('No vendors assigned on Daily'));
         }
 
         return ListView.builder(
-          itemCount: mondayVendors.length,
+          itemCount: dailyVendors.length,
           itemBuilder: (context, index) {
-            final vendor = mondayVendors[index];
+            final vendor = dailyVendors[index];
             final firstName = vendor['first_name'];
             final lastName = vendor['last_name'];
             final vendorId = vendor.id; // Get the vendor ID for deletion
 
-            // Find the specific field that contains 'Monday'
-            String? mondayField = _findMondayField(vendor);
+            // Find the specific field that contains 'Daily'
+            String? dailyField = _findDailyField(vendor);
 
             return Card(
               elevation: 2,
@@ -87,7 +87,7 @@ class MondayPage extends StatelessWidget {
                             ),
                           ),
                           const Text(
-                            'Assigned on: Monday',
+                            'Assigned on: Daily',
                             style: TextStyle(
                               color: Colors.green,
                               fontSize: 14,
@@ -99,11 +99,11 @@ class MondayPage extends StatelessWidget {
                     IconButton(
                       icon: const Icon(Icons.delete, color: Colors.red),
                       onPressed: () {
-                        if (mondayField != null) {
-                          _deleteVendorAssignment(vendorId, mondayField, context);
+                        if (dailyField != null) {
+                          _deleteVendorAssignment(vendorId, dailyField, context);
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('No Monday assignment found')),
+                            const SnackBar(content: Text('No Daily assignment found')),
                           );
                         }
                       },
@@ -134,7 +134,7 @@ class MondayPage extends StatelessWidget {
     return false;
   }
 
-  String? _findMondayField(QueryDocumentSnapshot vendor) {
+  String? _findDailyField(QueryDocumentSnapshot vendor) {
     final vendorData = vendor.data() as Map<String, dynamic>?;
 
     if (vendorData == null) {
@@ -143,11 +143,11 @@ class MondayPage extends StatelessWidget {
 
     for (int i = 1; i <= 10; i++) {
       final fieldValue = vendorData['day_assign_$i'];
-      if (fieldValue == 'Monday') {
+      if (fieldValue == 'Daily') {
         return 'day_assign_$i'; // Return the specific field name
       }
     }
-    return null; // No Monday assignment found
+    return null; // No Daily assignment found
   }
 
   Future<void> _deleteVendorAssignment(String vendorId, String fieldName, BuildContext context) async {

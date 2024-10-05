@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SelectVendorsScreen extends StatefulWidget {
@@ -45,7 +46,7 @@ class _SelectVendorsScreenState extends State<SelectVendorsScreen> {
   }
 
 
-  Future<void> _fetchApprovedVendors() async {
+  /* Future<void> _fetchApprovedVendors() async {
     setState(() {
       _isLoading = true;
     });
@@ -72,7 +73,59 @@ class _SelectVendorsScreenState extends State<SelectVendorsScreen> {
       });
       print("Error fetching vendors: $e");
     }
+  } */
+
+Future<void> _fetchApprovedVendors() async {
+  setState(() {
+    _isLoading = true;
+  });
+
+  try {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      QuerySnapshot collectorQuerySnapshot = await FirebaseFirestore.instance
+          .collection('ambulant_collector')
+          .where('email', isEqualTo: user.email)
+          .get();
+
+      if (collectorQuerySnapshot.docs.isNotEmpty) {
+        var collectorDoc = collectorQuerySnapshot.docs.first;
+        var collectorData = collectorDoc.data() as Map<String, dynamic>;
+
+        if (collectorData.containsKey('collector')) {
+          String collectorId = collectorData['collector'];
+
+          // Fetch only a limited number of vendors for pagination
+          QuerySnapshot vendorSnapshot = await FirebaseFirestore.instance
+              .collection('approved_vendors')
+              .where('collector', isEqualTo: collectorId)
+              .where('status', isEqualTo: 'Approved')
+              .limit(10)  // Fetch only 10 vendors at a time
+              .get();
+
+          setState(() {
+            _vendors = vendorSnapshot.docs.map((doc) {
+              var data = doc.data() as Map<String, dynamic>;
+              return {
+                'id': doc.id,
+                'full_name': '${data['first_name']} ${data['last_name']}',
+              };
+            }).toList();
+            _isLoading = false;
+          });
+        }
+      }
+    }
+  } catch (e) {
+    setState(() {
+      _isLoading = false;
+    });
+    print("Error fetching vendors: $e");
   }
+}
+
+
 
   void _clearSearch() {
     _searchController.clear();

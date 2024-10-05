@@ -664,8 +664,14 @@ void _confirmDeletion(BuildContext context, String fieldName, String userId, Str
       return AlertDialog(
         title: const Text('Confirm Deletion'),
         content: Text('Are you sure you want to delete $day?'),
-        actions: [
-          
+        actions: [ 
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text(
+              'Cancel',
+              style: TextStyle(color: Colors.green), // Change cancel text color to white
+            ),
+          ),
           TextButton(
             onPressed: () {
               // Perform deletion from Firestore
@@ -673,16 +679,9 @@ void _confirmDeletion(BuildContext context, String fieldName, String userId, Str
               Navigator.of(context).pop(); // Close confirmation dialog
               Navigator.of(context).pop(); // Close edit dialog
             },
-            child: const Text('Delete'),
-          ),
-           TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text(
-              'Cancel',
-              style: TextStyle(color: Color.fromARGB(255, 59, 187, 36)), // Change cancel text color to white
-            ),
-          ),
-          
+            child: const Text('Delete',
+            style: TextStyle(color: Colors.green),),
+          ),   
         ],
       );
     },

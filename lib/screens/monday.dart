@@ -21,7 +21,7 @@ class MondayPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center, // Center the text and icon
               mainAxisSize: MainAxisSize.min, // Minimize the space taken by the Row
               children: [
-                Icon(Icons.check_circle, color: Colors.white), // Icon next to the text
+                Icon(Icons.assignment, color: Colors.white), // Icon next to the text
                 SizedBox(width: 8), // Space between icon and text
                 Text(
                   "Monday Vendors",

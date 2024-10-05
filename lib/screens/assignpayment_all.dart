@@ -1,6 +1,7 @@
 import 'package:ambulantcollector/screens/dashboard.dart';
 import 'package:ambulantcollector/screens/vendor_payment.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; // For formatting the date
 
@@ -39,7 +40,7 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
     _calculateTotalAmount(); // Calculate the total amount when initializing
     _loadFees();  }
 
-  Future<void> _loadPayorData() async {
+/*   Future<void> _loadPayorData() async {
     DocumentSnapshot payorSnapshot = await FirebaseFirestore.instance
         .collection('user_ambulant')
         .doc('payor')
@@ -52,7 +53,39 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
         payorController.text = '$firstName $lastName';
       });
     }
+  } */
+
+ // For accessing the currently logged-in user
+
+Future<void> _loadPayorData() async {
+  // Get the currently logged-in user's email
+  User? currentUser = FirebaseAuth.instance.currentUser;
+
+  if (currentUser != null) {
+    String email = currentUser.email!; // Assuming email will never be null
+
+    // Query the Firestore collection 'ambulant_collector' to find the collector with this email
+    QuerySnapshot collectorSnapshot = await FirebaseFirestore.instance
+        .collection('ambulant_collector')
+        .where('email', isEqualTo: email)
+        .limit(1) // Limit the query to only get one result
+        .get();
+
+    if (collectorSnapshot.docs.isNotEmpty) {
+      // Get the first document from the query results
+      DocumentSnapshot collectorDoc = collectorSnapshot.docs.first;
+
+      // Retrieve and display the first name and last name
+      setState(() {
+        var firstName = collectorDoc.get('firstName');
+        var lastName = collectorDoc.get('lastName');
+        payorController.text = '$firstName $lastName';
+      });
+    }
+  } else {
+    print('No user is logged in.');
   }
+}
 
   void _initializeDate() {
     setState(() {

@@ -25,8 +25,33 @@ class _AddVendorScreenState extends State<AddVendorScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add Vendor"),
-      ),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.white), // Back icon with white color
+            onPressed: () {
+              Navigator.of(context).pop(); // Navigate back to the previous screen
+            },
+          ),
+          title: const Text(""), // Empty title to avoid spacing issues
+          flexibleSpace: const Center( // Center the content
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center, // Center the text and icon
+              mainAxisSize: MainAxisSize.min, // Minimize the space taken by the Row
+              children: [
+                Icon(Icons.add_box_rounded, color: Colors.white), // Icon next to the text
+                SizedBox(width: 8), // Space between icon and text
+                Text(
+                  "Add Vendor",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20, // Set text color to white
+                  ),
+                ),
+              ],
+            ),
+          ),
+          backgroundColor: Colors.green, // Set background color to green
+          elevation: 1.0,
+        ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

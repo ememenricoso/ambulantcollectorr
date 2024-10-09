@@ -1,20 +1,24 @@
 -- Merging decision tree log ---
 application
-INJECTED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml:2:5-33:19
-MERGED from [:cloud_firestore] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore-5.4.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
-MERGED from [:cloud_firestore] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore-5.4.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
-MERGED from [:firebase_auth] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-5.2.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
-MERGED from [:firebase_auth] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-5.2.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
-MERGED from [:firebase_storage] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_storage-12.3.0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
-MERGED from [:firebase_storage] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_storage-12.3.0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
-MERGED from [:firebase_core] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-3.4.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
-MERGED from [:firebase_core] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-3.4.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
-MERGED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+13\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:5-34:19
-MERGED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+13\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:5-34:19
+INJECTED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml:2:5-34:19
+MERGED from [:cloud_firestore] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore-5.4.4\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
+MERGED from [:cloud_firestore] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore-5.4.4\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
+MERGED from [:firebase_auth] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-5.3.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
+MERGED from [:firebase_auth] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-5.3.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
+MERGED from [:firebase_dynamic_links] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_dynamic_links-6.0.8\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:5-17:19
+MERGED from [:firebase_dynamic_links] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_dynamic_links-6.0.8\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:5-17:19
+MERGED from [:firebase_storage] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_storage-12.3.2\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
+MERGED from [:firebase_storage] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_storage-12.3.2\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
+MERGED from [:firebase_core] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-3.6.0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
+MERGED from [:firebase_core] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-3.6.0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
+MERGED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+14\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:5-34:19
+MERGED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+14\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:5-34:19
 MERGED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\69e628b70da89946d196a4d7869d6805\transformed\jetified-firebase-auth-23.0.0\AndroidManifest.xml:28:5-73:19
 MERGED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\69e628b70da89946d196a4d7869d6805\transformed\jetified-firebase-auth-23.0.0\AndroidManifest.xml:28:5-73:19
-MERGED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\3b0de67e61ae90c4ef46fadefe89a552\transformed\jetified-firebase-firestore-25.0.0\AndroidManifest.xml:13:5-24:19
-MERGED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\3b0de67e61ae90c4ef46fadefe89a552\transformed\jetified-firebase-firestore-25.0.0\AndroidManifest.xml:13:5-24:19
+MERGED from [com.google.firebase:firebase-firestore:25.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\b630cce113763ce6a95ddea1c25c9145\transformed\jetified-firebase-firestore-25.1.0\AndroidManifest.xml:13:5-24:19
+MERGED from [com.google.firebase:firebase-firestore:25.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\b630cce113763ce6a95ddea1c25c9145\transformed\jetified-firebase-firestore-25.1.0\AndroidManifest.xml:13:5-24:19
+MERGED from [com.google.firebase:firebase-dynamic-links:22.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\d2574b9c733e28f4515653243cac87ad\transformed\jetified-firebase-dynamic-links-22.1.0\AndroidManifest.xml:20:5-31:19
+MERGED from [com.google.firebase:firebase-dynamic-links:22.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\d2574b9c733e28f4515653243cac87ad\transformed\jetified-firebase-dynamic-links-22.1.0\AndroidManifest.xml:20:5-31:19
 MERGED from [com.google.firebase:firebase-storage:21.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\c980dfdd5144c6ffcd24322c37f2c9f6\transformed\jetified-firebase-storage-21.0.0\AndroidManifest.xml:26:5-37:19
 MERGED from [com.google.firebase:firebase-storage:21.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\c980dfdd5144c6ffcd24322c37f2c9f6\transformed\jetified-firebase-storage-21.0.0\AndroidManifest.xml:26:5-37:19
 MERGED from [com.google.firebase:firebase-appcheck:18.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\94ea371286469bddf735ced11fee466d\transformed\jetified-firebase-appcheck-18.0.0\AndroidManifest.xml:21:5-32:19
@@ -43,6 +47,8 @@ MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\FATIMA E
 MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\a536cee45c1b25c1294c94456b5b0580\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:19:5-23:19
 MERGED from [com.google.android.gms:play-services-tasks:18.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\e389960847384804af7996299b6ffc28\transformed\jetified-play-services-tasks-18.1.0\AndroidManifest.xml:5:5-20
 MERGED from [com.google.android.gms:play-services-tasks:18.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\e389960847384804af7996299b6ffc28\transformed\jetified-play-services-tasks-18.1.0\AndroidManifest.xml:5:5-20
+MERGED from [com.google.firebase:firebase-measurement-connector:19.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\205130675f0d6af1dfe2817d7abbf322\transformed\jetified-firebase-measurement-connector-19.0.0\AndroidManifest.xml:22:5-23:19
+MERGED from [com.google.firebase:firebase-measurement-connector:19.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\205130675f0d6af1dfe2817d7abbf322\transformed\jetified-firebase-measurement-connector-19.0.0\AndroidManifest.xml:22:5-23:19
 MERGED from [com.google.android.gms:play-services-basement:18.3.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\967b49b1f932b640b7166ccbd5f12cb7\transformed\jetified-play-services-basement-18.3.0\AndroidManifest.xml:20:5-24:19
 MERGED from [com.google.android.gms:play-services-basement:18.3.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\967b49b1f932b640b7166ccbd5f12cb7\transformed\jetified-play-services-basement-18.3.0\AndroidManifest.xml:20:5-24:19
 MERGED from [androidx.core:core:1.13.1] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\5cdbe69f11866466d760c8a27161ef86\transformed\core-1.13.1\AndroidManifest.xml:28:5-89
@@ -58,20 +64,22 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\FA
 	android:name
 		INJECTED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml
 manifest
-ADDED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml:1:1-45:12
-INJECTED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml:1:1-45:12
-INJECTED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml:1:1-45:12
-INJECTED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml:1:1-45:12
-MERGED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml:1:1-45:12
-MERGED from [:cloud_firestore] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore-5.4.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-17:12
+ADDED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml:1:1-46:12
+INJECTED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml:1:1-46:12
+INJECTED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml:1:1-46:12
+INJECTED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml:1:1-46:12
+MERGED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml:1:1-46:12
+MERGED from [:cloud_firestore] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore-5.4.4\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-17:12
 MERGED from [:file_picker] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\file_picker-5.5.0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-19:12
-MERGED from [:firebase_auth] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-5.2.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-17:12
-MERGED from [:firebase_storage] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_storage-12.3.0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-17:12
-MERGED from [:firebase_core] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-3.4.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-17:12
-MERGED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+13\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-36:12
+MERGED from [:firebase_auth] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-5.3.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-17:12
+MERGED from [:firebase_dynamic_links] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_dynamic_links-6.0.8\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-19:12
+MERGED from [:firebase_storage] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_storage-12.3.2\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-17:12
+MERGED from [:firebase_core] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-3.6.0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-17:12
+MERGED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+14\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-36:12
 MERGED from [:flutter_plugin_android_lifecycle] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_plugin_android_lifecycle-2.0.22\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\69e628b70da89946d196a4d7869d6805\transformed\jetified-firebase-auth-23.0.0\AndroidManifest.xml:17:1-75:12
-MERGED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\3b0de67e61ae90c4ef46fadefe89a552\transformed\jetified-firebase-firestore-25.0.0\AndroidManifest.xml:2:1-26:12
+MERGED from [com.google.firebase:firebase-firestore:25.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\b630cce113763ce6a95ddea1c25c9145\transformed\jetified-firebase-firestore-25.1.0\AndroidManifest.xml:2:1-26:12
+MERGED from [com.google.firebase:firebase-dynamic-links:22.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\d2574b9c733e28f4515653243cac87ad\transformed\jetified-firebase-dynamic-links-22.1.0\AndroidManifest.xml:15:1-33:12
 MERGED from [com.google.firebase:firebase-storage:21.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\c980dfdd5144c6ffcd24322c37f2c9f6\transformed\jetified-firebase-storage-21.0.0\AndroidManifest.xml:15:1-39:12
 MERGED from [com.google.firebase:firebase-appcheck:18.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\94ea371286469bddf735ced11fee466d\transformed\jetified-firebase-appcheck-18.0.0\AndroidManifest.xml:15:1-34:12
 MERGED from [com.google.firebase:firebase-common-ktx:21.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\97f66dafcc3a95a8b2856d4bc4a1de1a\transformed\jetified-firebase-common-ktx-21.0.0\AndroidManifest.xml:2:1-18:12
@@ -99,9 +107,10 @@ MERGED from [com.google.firebase:firebase-database-collection:18.0.1] C:\Users\F
 MERGED from [com.google.android.gms:play-services-auth-base:18.0.4] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\349cb7aad20c40358fa6f43d8a94642f\transformed\jetified-play-services-auth-base-18.0.4\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\a536cee45c1b25c1294c94456b5b0580\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:16:1-24:12
 MERGED from [com.google.android.gms:play-services-tasks:18.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\e389960847384804af7996299b6ffc28\transformed\jetified-play-services-tasks-18.1.0\AndroidManifest.xml:2:1-6:12
+MERGED from [com.google.firebase:firebase-measurement-connector:19.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\205130675f0d6af1dfe2817d7abbf322\transformed\jetified-firebase-measurement-connector-19.0.0\AndroidManifest.xml:17:1-25:12
 MERGED from [com.google.android.gms:play-services-basement:18.3.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\967b49b1f932b640b7166ccbd5f12cb7\transformed\jetified-play-services-basement-18.3.0\AndroidManifest.xml:16:1-26:12
 MERGED from [androidx.fragment:fragment:1.7.1] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\6d10a8bb8c4c45ae15529e3e2fbb0a73\transformed\fragment-1.7.1\AndroidManifest.xml:2:1-7:12
-MERGED from [androidx.activity:activity:1.9.1] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\e99aaa533986770560e7076b53030d47\transformed\jetified-activity-1.9.1\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.activity:activity:1.9.2] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\f95e8154345df6e3480c4c37381d2154\transformed\jetified-activity-1.9.2\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.browser:browser:1.4.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\157140f977be644df5072a0d280f4b14\transformed\browser-1.4.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\5d880d296ac71222df0cdcf6e76750c0\transformed\viewpager-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.core:core-ktx:1.13.1] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\a7b1dc775fe77558f9999aba5fe80d69\transformed\jetified-core-ktx-1.13.1\AndroidManifest.xml:2:1-7:12
@@ -121,60 +130,64 @@ MERGED from [androidx.arch.core:core-runtime:2.2.0] C:\Users\FATIMA ENRICOSO\.gr
 MERGED from [androidx.window.extensions.core:core:1.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\7e070005c88600e59b642db75278141d\transformed\jetified-core-1.0.0\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.annotation:annotation-experimental:1.4.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\c0ebefd9f054e630863ae6978726565e\transformed\jetified-annotation-experimental-1.4.0\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.firebase:protolite-well-known-types:18.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\36d3a47e59052106a23009ef6ecb72bb\transformed\jetified-protolite-well-known-types-18.0.0\AndroidManifest.xml:2:1-11:12
-MERGED from [io.grpc:grpc-android:1.57.2] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\a1403e62592e82603440d6bbe0142b07\transformed\jetified-grpc-android-1.57.2\AndroidManifest.xml:2:1-9:12
+MERGED from [io.grpc:grpc-android:1.62.2] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\fa21b09cec07b486b6b2cb4804a4b669\transformed\jetified-grpc-android-1.62.2\AndroidManifest.xml:2:1-9:12
 INJECTED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\debug\AndroidManifest.xml:1:1-7:12
 INJECTED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\debug\AndroidManifest.xml:1:1-7:12
 INJECTED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\debug\AndroidManifest.xml:1:1-7:12
 	package
 		INJECTED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml:1:1-45:12
+		ADDED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml:1:1-46:12
 		INJECTED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\debug\AndroidManifest.xml
 	android:versionName
 		INJECTED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml:1:1-45:12
+		ADDED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml:1:1-46:12
 		INJECTED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\debug\AndroidManifest.xml
 	android:versionCode
 		INJECTED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml:1:1-45:12
+		ADDED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml:1:1-46:12
 		INJECTED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\debug\AndroidManifest.xml
 	xmlns:android
 		ADDED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml:1:11-69
 queries
-ADDED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml:39:5-44:15
+ADDED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml:40:5-45:15
 MERGED from [:file_picker] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\file_picker-5.5.0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:5-17:15
 MERGED from [:file_picker] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\file_picker-5.5.0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:5-17:15
 intent#action:name:android.intent.action.PROCESS_TEXT+data:mimeType:text/plain
-ADDED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml:40:9-43:18
+ADDED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml:41:9-44:18
 action#android.intent.action.PROCESS_TEXT
-ADDED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml:41:13-72
+ADDED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml:42:13-72
 	android:name
-		ADDED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml:41:21-70
+		ADDED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml:42:21-70
 data
-ADDED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml:42:13-50
+ADDED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml:43:13-50
 	android:mimeType
-		ADDED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml:42:19-48
+		ADDED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml:43:19-48
 uses-sdk
 INJECTED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml
 INJECTED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\main\AndroidManifest.xml
-MERGED from [:cloud_firestore] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore-5.4.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:cloud_firestore] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore-5.4.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:cloud_firestore] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore-5.4.4\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:cloud_firestore] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore-5.4.4\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:file_picker] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\file_picker-5.5.0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:file_picker] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\file_picker-5.5.0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:firebase_auth] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-5.2.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:firebase_auth] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-5.2.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:firebase_storage] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_storage-12.3.0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:firebase_storage] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_storage-12.3.0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:firebase_core] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-3.4.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:firebase_core] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-3.4.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+13\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:6:5-8:41
-MERGED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+13\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:6:5-8:41
+MERGED from [:firebase_auth] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-5.3.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:firebase_auth] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-5.3.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:firebase_dynamic_links] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_dynamic_links-6.0.8\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:firebase_dynamic_links] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_dynamic_links-6.0.8\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:firebase_storage] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_storage-12.3.2\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:firebase_storage] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_storage-12.3.2\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:firebase_core] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-3.6.0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:firebase_core] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-3.6.0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+14\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:6:5-8:41
+MERGED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+14\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:6:5-8:41
 MERGED from [:flutter_plugin_android_lifecycle] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_plugin_android_lifecycle-2.0.22\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:flutter_plugin_android_lifecycle] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_plugin_android_lifecycle-2.0.22\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\69e628b70da89946d196a4d7869d6805\transformed\jetified-firebase-auth-23.0.0\AndroidManifest.xml:21:5-23:151
 MERGED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\69e628b70da89946d196a4d7869d6805\transformed\jetified-firebase-auth-23.0.0\AndroidManifest.xml:21:5-23:151
-MERGED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\3b0de67e61ae90c4ef46fadefe89a552\transformed\jetified-firebase-firestore-25.0.0\AndroidManifest.xml:6:5-44
-MERGED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\3b0de67e61ae90c4ef46fadefe89a552\transformed\jetified-firebase-firestore-25.0.0\AndroidManifest.xml:6:5-44
+MERGED from [com.google.firebase:firebase-firestore:25.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\b630cce113763ce6a95ddea1c25c9145\transformed\jetified-firebase-firestore-25.1.0\AndroidManifest.xml:6:5-44
+MERGED from [com.google.firebase:firebase-firestore:25.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\b630cce113763ce6a95ddea1c25c9145\transformed\jetified-firebase-firestore-25.1.0\AndroidManifest.xml:6:5-44
+MERGED from [com.google.firebase:firebase-dynamic-links:22.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\d2574b9c733e28f4515653243cac87ad\transformed\jetified-firebase-dynamic-links-22.1.0\AndroidManifest.xml:18:5-44
+MERGED from [com.google.firebase:firebase-dynamic-links:22.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\d2574b9c733e28f4515653243cac87ad\transformed\jetified-firebase-dynamic-links-22.1.0\AndroidManifest.xml:18:5-44
 MERGED from [com.google.firebase:firebase-storage:21.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\c980dfdd5144c6ffcd24322c37f2c9f6\transformed\jetified-firebase-storage-21.0.0\AndroidManifest.xml:19:5-44
 MERGED from [com.google.firebase:firebase-storage:21.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\c980dfdd5144c6ffcd24322c37f2c9f6\transformed\jetified-firebase-storage-21.0.0\AndroidManifest.xml:19:5-44
 MERGED from [com.google.firebase:firebase-appcheck:18.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\94ea371286469bddf735ced11fee466d\transformed\jetified-firebase-appcheck-18.0.0\AndroidManifest.xml:18:5-44
@@ -229,12 +242,14 @@ MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\FATIMA E
 MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\a536cee45c1b25c1294c94456b5b0580\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:18:5-43
 MERGED from [com.google.android.gms:play-services-tasks:18.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\e389960847384804af7996299b6ffc28\transformed\jetified-play-services-tasks-18.1.0\AndroidManifest.xml:4:5-43
 MERGED from [com.google.android.gms:play-services-tasks:18.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\e389960847384804af7996299b6ffc28\transformed\jetified-play-services-tasks-18.1.0\AndroidManifest.xml:4:5-43
+MERGED from [com.google.firebase:firebase-measurement-connector:19.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\205130675f0d6af1dfe2817d7abbf322\transformed\jetified-firebase-measurement-connector-19.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-measurement-connector:19.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\205130675f0d6af1dfe2817d7abbf322\transformed\jetified-firebase-measurement-connector-19.0.0\AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-basement:18.3.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\967b49b1f932b640b7166ccbd5f12cb7\transformed\jetified-play-services-basement-18.3.0\AndroidManifest.xml:18:5-43
 MERGED from [com.google.android.gms:play-services-basement:18.3.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\967b49b1f932b640b7166ccbd5f12cb7\transformed\jetified-play-services-basement-18.3.0\AndroidManifest.xml:18:5-43
 MERGED from [androidx.fragment:fragment:1.7.1] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\6d10a8bb8c4c45ae15529e3e2fbb0a73\transformed\fragment-1.7.1\AndroidManifest.xml:5:5-44
 MERGED from [androidx.fragment:fragment:1.7.1] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\6d10a8bb8c4c45ae15529e3e2fbb0a73\transformed\fragment-1.7.1\AndroidManifest.xml:5:5-44
-MERGED from [androidx.activity:activity:1.9.1] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\e99aaa533986770560e7076b53030d47\transformed\jetified-activity-1.9.1\AndroidManifest.xml:20:5-44
-MERGED from [androidx.activity:activity:1.9.1] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\e99aaa533986770560e7076b53030d47\transformed\jetified-activity-1.9.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity:1.9.2] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\f95e8154345df6e3480c4c37381d2154\transformed\jetified-activity-1.9.2\AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity:1.9.2] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\f95e8154345df6e3480c4c37381d2154\transformed\jetified-activity-1.9.2\AndroidManifest.xml:20:5-44
 MERGED from [androidx.browser:browser:1.4.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\157140f977be644df5072a0d280f4b14\transformed\browser-1.4.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.browser:browser:1.4.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\157140f977be644df5072a0d280f4b14\transformed\browser-1.4.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\5d880d296ac71222df0cdcf6e76750c0\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
@@ -273,8 +288,8 @@ MERGED from [androidx.annotation:annotation-experimental:1.4.0] C:\Users\FATIMA 
 MERGED from [androidx.annotation:annotation-experimental:1.4.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\c0ebefd9f054e630863ae6978726565e\transformed\jetified-annotation-experimental-1.4.0\AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:protolite-well-known-types:18.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\36d3a47e59052106a23009ef6ecb72bb\transformed\jetified-protolite-well-known-types-18.0.0\AndroidManifest.xml:7:5-9:41
 MERGED from [com.google.firebase:protolite-well-known-types:18.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\36d3a47e59052106a23009ef6ecb72bb\transformed\jetified-protolite-well-known-types-18.0.0\AndroidManifest.xml:7:5-9:41
-MERGED from [io.grpc:grpc-android:1.57.2] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\a1403e62592e82603440d6bbe0142b07\transformed\jetified-grpc-android-1.57.2\AndroidManifest.xml:5:5-44
-MERGED from [io.grpc:grpc-android:1.57.2] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\a1403e62592e82603440d6bbe0142b07\transformed\jetified-grpc-android-1.57.2\AndroidManifest.xml:5:5-44
+MERGED from [io.grpc:grpc-android:1.62.2] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\fa21b09cec07b486b6b2cb4804a4b669\transformed\jetified-grpc-android-1.62.2\AndroidManifest.xml:5:5-44
+MERGED from [io.grpc:grpc-android:1.62.2] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\fa21b09cec07b486b6b2cb4804a4b669\transformed\jetified-grpc-android-1.62.2\AndroidManifest.xml:5:5-44
 INJECTED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\debug\AndroidManifest.xml
 INJECTED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\debug\AndroidManifest.xml
 	tools:overrideLibrary
@@ -287,10 +302,12 @@ INJECTED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\androi
 		INJECTED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\debug\AndroidManifest.xml
 uses-permission#android.permission.INTERNET
 ADDED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\debug\AndroidManifest.xml:6:5-66
+MERGED from [:firebase_dynamic_links] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_dynamic_links-6.0.8\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-67
+MERGED from [:firebase_dynamic_links] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_dynamic_links-6.0.8\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-67
 MERGED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\69e628b70da89946d196a4d7869d6805\transformed\jetified-firebase-auth-23.0.0\AndroidManifest.xml:25:5-67
 MERGED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\69e628b70da89946d196a4d7869d6805\transformed\jetified-firebase-auth-23.0.0\AndroidManifest.xml:25:5-67
-MERGED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\3b0de67e61ae90c4ef46fadefe89a552\transformed\jetified-firebase-firestore-25.0.0\AndroidManifest.xml:11:5-67
-MERGED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\3b0de67e61ae90c4ef46fadefe89a552\transformed\jetified-firebase-firestore-25.0.0\AndroidManifest.xml:11:5-67
+MERGED from [com.google.firebase:firebase-firestore:25.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\b630cce113763ce6a95ddea1c25c9145\transformed\jetified-firebase-firestore-25.1.0\AndroidManifest.xml:11:5-67
+MERGED from [com.google.firebase:firebase-firestore:25.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\b630cce113763ce6a95ddea1c25c9145\transformed\jetified-firebase-firestore-25.1.0\AndroidManifest.xml:11:5-67
 MERGED from [com.google.firebase:firebase-storage:21.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\c980dfdd5144c6ffcd24322c37f2c9f6\transformed\jetified-firebase-storage-21.0.0\AndroidManifest.xml:24:5-67
 MERGED from [com.google.firebase:firebase-storage:21.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\c980dfdd5144c6ffcd24322c37f2c9f6\transformed\jetified-firebase-storage-21.0.0\AndroidManifest.xml:24:5-67
 MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\7f9489830a785d88ba51426b66279013\transformed\jetified-recaptcha-18.4.0\AndroidManifest.xml:7:5-67
@@ -298,17 +315,21 @@ MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\FATIMA ENRI
 	android:name
 		ADDED from C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\src\debug\AndroidManifest.xml:6:22-64
 service#com.google.firebase.components.ComponentDiscoveryService
-ADDED from [:cloud_firestore] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore-5.4.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
-MERGED from [:firebase_auth] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-5.2.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
-MERGED from [:firebase_auth] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-5.2.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
-MERGED from [:firebase_storage] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_storage-12.3.0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
-MERGED from [:firebase_storage] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_storage-12.3.0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
-MERGED from [:firebase_core] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-3.4.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
-MERGED from [:firebase_core] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-3.4.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
+ADDED from [:cloud_firestore] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore-5.4.4\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
+MERGED from [:firebase_auth] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-5.3.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
+MERGED from [:firebase_auth] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-5.3.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
+MERGED from [:firebase_dynamic_links] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_dynamic_links-6.0.8\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:12:9-16:19
+MERGED from [:firebase_dynamic_links] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_dynamic_links-6.0.8\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:12:9-16:19
+MERGED from [:firebase_storage] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_storage-12.3.2\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
+MERGED from [:firebase_storage] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_storage-12.3.2\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
+MERGED from [:firebase_core] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-3.6.0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
+MERGED from [:firebase_core] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-3.6.0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
 MERGED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\69e628b70da89946d196a4d7869d6805\transformed\jetified-firebase-auth-23.0.0\AndroidManifest.xml:66:9-72:19
 MERGED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\69e628b70da89946d196a4d7869d6805\transformed\jetified-firebase-auth-23.0.0\AndroidManifest.xml:66:9-72:19
-MERGED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\3b0de67e61ae90c4ef46fadefe89a552\transformed\jetified-firebase-firestore-25.0.0\AndroidManifest.xml:14:9-23:19
-MERGED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\3b0de67e61ae90c4ef46fadefe89a552\transformed\jetified-firebase-firestore-25.0.0\AndroidManifest.xml:14:9-23:19
+MERGED from [com.google.firebase:firebase-firestore:25.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\b630cce113763ce6a95ddea1c25c9145\transformed\jetified-firebase-firestore-25.1.0\AndroidManifest.xml:14:9-23:19
+MERGED from [com.google.firebase:firebase-firestore:25.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\b630cce113763ce6a95ddea1c25c9145\transformed\jetified-firebase-firestore-25.1.0\AndroidManifest.xml:14:9-23:19
+MERGED from [com.google.firebase:firebase-dynamic-links:22.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\d2574b9c733e28f4515653243cac87ad\transformed\jetified-firebase-dynamic-links-22.1.0\AndroidManifest.xml:21:9-30:19
+MERGED from [com.google.firebase:firebase-dynamic-links:22.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\d2574b9c733e28f4515653243cac87ad\transformed\jetified-firebase-dynamic-links-22.1.0\AndroidManifest.xml:21:9-30:19
 MERGED from [com.google.firebase:firebase-storage:21.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\c980dfdd5144c6ffcd24322c37f2c9f6\transformed\jetified-firebase-storage-21.0.0\AndroidManifest.xml:27:9-36:19
 MERGED from [com.google.firebase:firebase-storage:21.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\c980dfdd5144c6ffcd24322c37f2c9f6\transformed\jetified-firebase-storage-21.0.0\AndroidManifest.xml:27:9-36:19
 MERGED from [com.google.firebase:firebase-appcheck:18.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\94ea371286469bddf735ced11fee466d\transformed\jetified-firebase-appcheck-18.0.0\AndroidManifest.xml:22:9-31:19
@@ -324,13 +345,13 @@ MERGED from [com.google.firebase:firebase-common:21.0.0] C:\Users\FATIMA ENRICOS
 	android:directBootAware
 		ADDED from [com.google.firebase:firebase-common:21.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\8d4b1cb8fedd76dd523fcaf35fd2618c\transformed\jetified-firebase-common-21.0.0\AndroidManifest.xml:32:13-43
 	android:name
-		ADDED from [:cloud_firestore] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore-5.4.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:18-89
+		ADDED from [:cloud_firestore] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore-5.4.4\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:18-89
 meta-data#com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar
-ADDED from [:cloud_firestore] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore-5.4.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
+ADDED from [:cloud_firestore] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore-5.4.4\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
 	android:value
-		ADDED from [:cloud_firestore] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore-5.4.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
+		ADDED from [:cloud_firestore] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore-5.4.4\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
 	android:name
-		ADDED from [:cloud_firestore] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore-5.4.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-134
+		ADDED from [:cloud_firestore] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore-5.4.4\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-134
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
 ADDED from [:file_picker] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\file_picker-5.5.0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-80
 	android:name
@@ -342,71 +363,77 @@ ADDED from [:file_picker] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hoste
 	android:name
 		ADDED from [:file_picker] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\file_picker-5.5.0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:13:21-69
 meta-data#com.google.firebase.components:io.flutter.plugins.firebase.auth.FlutterFirebaseAuthRegistrar
-ADDED from [:firebase_auth] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-5.2.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
+ADDED from [:firebase_auth] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-5.3.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
 	android:value
-		ADDED from [:firebase_auth] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-5.2.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
+		ADDED from [:firebase_auth] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-5.3.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
 	android:name
-		ADDED from [:firebase_auth] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-5.2.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-124
+		ADDED from [:firebase_auth] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-5.3.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-124
+meta-data#com.google.firebase.components:io.flutter.plugins.firebase.dynamiclinks.FlutterFirebaseAppRegistrar
+ADDED from [:firebase_dynamic_links] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_dynamic_links-6.0.8\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-15:85
+	android:value
+		ADDED from [:firebase_dynamic_links] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_dynamic_links-6.0.8\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:15:17-82
+	android:name
+		ADDED from [:firebase_dynamic_links] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_dynamic_links-6.0.8\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:14:17-131
 meta-data#com.google.firebase.components:io.flutter.plugins.firebase.storage.FlutterFirebaseAppRegistrar
-ADDED from [:firebase_storage] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_storage-12.3.0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
+ADDED from [:firebase_storage] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_storage-12.3.2\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
 	android:value
-		ADDED from [:firebase_storage] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_storage-12.3.0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
+		ADDED from [:firebase_storage] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_storage-12.3.2\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
 	android:name
-		ADDED from [:firebase_storage] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_storage-12.3.0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-126
+		ADDED from [:firebase_storage] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_storage-12.3.2\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-126
 meta-data#com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar
-ADDED from [:firebase_core] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-3.4.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
+ADDED from [:firebase_core] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-3.6.0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
 	android:value
-		ADDED from [:firebase_core] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-3.4.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
+		ADDED from [:firebase_core] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-3.6.0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
 	android:name
-		ADDED from [:firebase_core] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-3.4.1\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-124
+		ADDED from [:firebase_core] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-3.6.0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-124
 provider#io.flutter.plugins.imagepicker.ImagePickerFileProvider
-ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+13\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:9-19:20
+ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+14\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:9-19:20
 	android:grantUriPermissions
-		ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+13\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-47
+		ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+14\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-47
 	android:authorities
-		ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+13\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-74
+		ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+14\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-74
 	android:exported
-		ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+13\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-37
+		ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+14\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-37
 	android:name
-		ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+13\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-82
+		ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+14\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-82
 meta-data#android.support.FILE_PROVIDER_PATHS
-ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+13\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:16:13-18:75
+ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+14\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:16:13-18:75
 	android:resource
-		ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+13\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:18:17-72
+		ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+14\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:18:17-72
 	android:name
-		ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+13\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:17:17-67
+		ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+14\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:17:17-67
 service#com.google.android.gms.metadata.ModuleDependencies
-ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+13\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:21:9-33:19
+ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+14\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:21:9-33:19
 	android:enabled
-		ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+13\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:23:13-36
+		ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+14\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:23:13-36
 	android:exported
-		ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+13\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:24:13-37
+		ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+14\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:24:13-37
 	tools:ignore
-		ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+13\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:25:13-40
+		ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+14\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:25:13-40
 	android:name
-		ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+13\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:22:13-78
+		ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+14\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:22:13-78
 intent-filter#action:name:com.google.android.gms.metadata.MODULE_DEPENDENCIES
-ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+13\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:26:13-28:29
+ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+14\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:26:13-28:29
 action#com.google.android.gms.metadata.MODULE_DEPENDENCIES
-ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+13\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:27:17-94
+ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+14\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:27:17-94
 	android:name
-		ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+13\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:27:25-91
+		ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+14\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:27:25-91
 meta-data#photopicker_activity:0:required
-ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+13\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:30:13-32:36
+ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+14\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:30:13-32:36
 	android:value
-		ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+13\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:32:17-33
+		ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+14\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:32:17-33
 	android:name
-		ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+13\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:31:17-63
+		ADDED from [:image_picker_android] C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+14\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:31:17-63
 uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\69e628b70da89946d196a4d7869d6805\transformed\jetified-firebase-auth-23.0.0\AndroidManifest.xml:26:5-79
-MERGED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\3b0de67e61ae90c4ef46fadefe89a552\transformed\jetified-firebase-firestore-25.0.0\AndroidManifest.xml:10:5-79
-MERGED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\3b0de67e61ae90c4ef46fadefe89a552\transformed\jetified-firebase-firestore-25.0.0\AndroidManifest.xml:10:5-79
+MERGED from [com.google.firebase:firebase-firestore:25.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\b630cce113763ce6a95ddea1c25c9145\transformed\jetified-firebase-firestore-25.1.0\AndroidManifest.xml:10:5-79
+MERGED from [com.google.firebase:firebase-firestore:25.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\b630cce113763ce6a95ddea1c25c9145\transformed\jetified-firebase-firestore-25.1.0\AndroidManifest.xml:10:5-79
 MERGED from [com.google.firebase:firebase-storage:21.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\c980dfdd5144c6ffcd24322c37f2c9f6\transformed\jetified-firebase-storage-21.0.0\AndroidManifest.xml:23:5-79
 MERGED from [com.google.firebase:firebase-storage:21.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\c980dfdd5144c6ffcd24322c37f2c9f6\transformed\jetified-firebase-storage-21.0.0\AndroidManifest.xml:23:5-79
 MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\7f9489830a785d88ba51426b66279013\transformed\jetified-recaptcha-18.4.0\AndroidManifest.xml:8:5-79
 MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\7f9489830a785d88ba51426b66279013\transformed\jetified-recaptcha-18.4.0\AndroidManifest.xml:8:5-79
-MERGED from [io.grpc:grpc-android:1.57.2] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\a1403e62592e82603440d6bbe0142b07\transformed\jetified-grpc-android-1.57.2\AndroidManifest.xml:7:5-79
-MERGED from [io.grpc:grpc-android:1.57.2] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\a1403e62592e82603440d6bbe0142b07\transformed\jetified-grpc-android-1.57.2\AndroidManifest.xml:7:5-79
+MERGED from [io.grpc:grpc-android:1.62.2] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\fa21b09cec07b486b6b2cb4804a4b669\transformed\jetified-grpc-android-1.62.2\AndroidManifest.xml:7:5-79
+MERGED from [io.grpc:grpc-android:1.62.2] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\fa21b09cec07b486b6b2cb4804a4b669\transformed\jetified-grpc-android-1.62.2\AndroidManifest.xml:7:5-79
 	android:name
 		ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\69e628b70da89946d196a4d7869d6805\transformed\jetified-firebase-auth-23.0.0\AndroidManifest.xml:26:22-76
 activity#com.google.firebase.auth.internal.GenericIdpActivity
@@ -456,17 +483,29 @@ ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\FATIMA ENRICOSO\.
 	android:name
 		ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\69e628b70da89946d196a4d7869d6805\transformed\jetified-firebase-auth-23.0.0\AndroidManifest.xml:70:17-109
 meta-data#com.google.firebase.components:com.google.firebase.firestore.FirebaseFirestoreKtxRegistrar
-ADDED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\3b0de67e61ae90c4ef46fadefe89a552\transformed\jetified-firebase-firestore-25.0.0\AndroidManifest.xml:17:13-19:85
+ADDED from [com.google.firebase:firebase-firestore:25.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\b630cce113763ce6a95ddea1c25c9145\transformed\jetified-firebase-firestore-25.1.0\AndroidManifest.xml:17:13-19:85
 	android:value
-		ADDED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\3b0de67e61ae90c4ef46fadefe89a552\transformed\jetified-firebase-firestore-25.0.0\AndroidManifest.xml:19:17-82
+		ADDED from [com.google.firebase:firebase-firestore:25.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\b630cce113763ce6a95ddea1c25c9145\transformed\jetified-firebase-firestore-25.1.0\AndroidManifest.xml:19:17-82
 	android:name
-		ADDED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\3b0de67e61ae90c4ef46fadefe89a552\transformed\jetified-firebase-firestore-25.0.0\AndroidManifest.xml:18:17-122
+		ADDED from [com.google.firebase:firebase-firestore:25.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\b630cce113763ce6a95ddea1c25c9145\transformed\jetified-firebase-firestore-25.1.0\AndroidManifest.xml:18:17-122
 meta-data#com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar
-ADDED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\3b0de67e61ae90c4ef46fadefe89a552\transformed\jetified-firebase-firestore-25.0.0\AndroidManifest.xml:20:13-22:85
+ADDED from [com.google.firebase:firebase-firestore:25.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\b630cce113763ce6a95ddea1c25c9145\transformed\jetified-firebase-firestore-25.1.0\AndroidManifest.xml:20:13-22:85
 	android:value
-		ADDED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\3b0de67e61ae90c4ef46fadefe89a552\transformed\jetified-firebase-firestore-25.0.0\AndroidManifest.xml:22:17-82
+		ADDED from [com.google.firebase:firebase-firestore:25.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\b630cce113763ce6a95ddea1c25c9145\transformed\jetified-firebase-firestore-25.1.0\AndroidManifest.xml:22:17-82
 	android:name
-		ADDED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\3b0de67e61ae90c4ef46fadefe89a552\transformed\jetified-firebase-firestore-25.0.0\AndroidManifest.xml:21:17-111
+		ADDED from [com.google.firebase:firebase-firestore:25.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\b630cce113763ce6a95ddea1c25c9145\transformed\jetified-firebase-firestore-25.1.0\AndroidManifest.xml:21:17-111
+meta-data#com.google.firebase.components:com.google.firebase.dynamiclinks.FirebaseDynamicLinksKtxRegistrar
+ADDED from [com.google.firebase:firebase-dynamic-links:22.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\d2574b9c733e28f4515653243cac87ad\transformed\jetified-firebase-dynamic-links-22.1.0\AndroidManifest.xml:24:13-26:85
+	android:value
+		ADDED from [com.google.firebase:firebase-dynamic-links:22.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\d2574b9c733e28f4515653243cac87ad\transformed\jetified-firebase-dynamic-links-22.1.0\AndroidManifest.xml:26:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-dynamic-links:22.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\d2574b9c733e28f4515653243cac87ad\transformed\jetified-firebase-dynamic-links-22.1.0\AndroidManifest.xml:25:17-128
+meta-data#com.google.firebase.components:com.google.firebase.dynamiclinks.internal.FirebaseDynamicLinkRegistrar
+ADDED from [com.google.firebase:firebase-dynamic-links:22.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\d2574b9c733e28f4515653243cac87ad\transformed\jetified-firebase-dynamic-links-22.1.0\AndroidManifest.xml:27:13-29:85
+	android:value
+		ADDED from [com.google.firebase:firebase-dynamic-links:22.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\d2574b9c733e28f4515653243cac87ad\transformed\jetified-firebase-dynamic-links-22.1.0\AndroidManifest.xml:29:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-dynamic-links:22.1.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\d2574b9c733e28f4515653243cac87ad\transformed\jetified-firebase-dynamic-links-22.1.0\AndroidManifest.xml:28:17-133
 meta-data#com.google.firebase.components:com.google.firebase.storage.FirebaseStorageKtxRegistrar
 ADDED from [com.google.firebase:firebase-storage:21.0.0] C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\c980dfdd5144c6ffcd24322c37f2c9f6\transformed\jetified-firebase-storage-21.0.0\AndroidManifest.xml:30:13-32:85
 	android:value

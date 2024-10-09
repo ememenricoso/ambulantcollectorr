@@ -5,9 +5,9 @@
       resolved="__local_aars__:C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android\app\build\intermediates\flutter\release\libs.jar:unspecified"/>
   <library
       name="C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android@@:cloud_firestore::release"
-      jars="C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore-5.4.1\android\build\.transforms\e5f0119d2838c2d8a72f6b2569523177\transformed\out\jars\classes.jar;C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore-5.4.1\android\build\.transforms\e5f0119d2838c2d8a72f6b2569523177\transformed\out\jars\libs\R.jar"
+      jars="C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore-5.4.4\android\build\.transforms\94feec6a7a33a8a0b47f3d8ed2262f4f\transformed\out\jars\classes.jar;C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore-5.4.4\android\build\.transforms\94feec6a7a33a8a0b47f3d8ed2262f4f\transformed\out\jars\libs\R.jar"
       resolved="io.flutter.plugins.firebase.cloudfirestore:cloud_firestore:unspecified"
-      folder="C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore-5.4.1\android\build\.transforms\e5f0119d2838c2d8a72f6b2569523177\transformed\out"
+      folder="C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore-5.4.4\android\build\.transforms\94feec6a7a33a8a0b47f3d8ed2262f4f\transformed\out"
       manifest="AndroidManifest.xml"
       resFolder="res"
       assetsFolder="assets"
@@ -31,9 +31,9 @@
       proguardRules="proguard.txt"/>
   <library
       name="C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android@@:firebase_auth::release"
-      jars="C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-5.2.1\android\build\.transforms\aef6e983afc88b9f36cb51ee55fa584a\transformed\out\jars\classes.jar;C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-5.2.1\android\build\.transforms\aef6e983afc88b9f36cb51ee55fa584a\transformed\out\jars\libs\R.jar"
+      jars="C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-5.3.1\android\build\.transforms\c4866f2230d6438a7ff7c0e7029d84e5\transformed\out\jars\classes.jar;C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-5.3.1\android\build\.transforms\c4866f2230d6438a7ff7c0e7029d84e5\transformed\out\jars\libs\R.jar"
       resolved="io.flutter.plugins.firebase.auth:firebase_auth:unspecified"
-      folder="C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-5.2.1\android\build\.transforms\aef6e983afc88b9f36cb51ee55fa584a\transformed\out"
+      folder="C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-5.3.1\android\build\.transforms\c4866f2230d6438a7ff7c0e7029d84e5\transformed\out"
       manifest="AndroidManifest.xml"
       resFolder="res"
       assetsFolder="assets"
@@ -57,9 +57,9 @@
       proguardRules="proguard.txt"/>
   <library
       name="C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android@@:firebase_storage::release"
-      jars="C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_storage-12.3.0\android\build\.transforms\618689bfb448e7d4d57efc55caebe145\transformed\out\jars\classes.jar;C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_storage-12.3.0\android\build\.transforms\618689bfb448e7d4d57efc55caebe145\transformed\out\jars\libs\R.jar"
+      jars="C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_storage-12.3.2\android\build\.transforms\7296ed555239f2d99fc5f9c324052847\transformed\out\jars\classes.jar;C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_storage-12.3.2\android\build\.transforms\7296ed555239f2d99fc5f9c324052847\transformed\out\jars\libs\R.jar"
       resolved="io.flutter.plugins.firebase.storage:firebase_storage:unspecified"
-      folder="C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_storage-12.3.0\android\build\.transforms\618689bfb448e7d4d57efc55caebe145\transformed\out"
+      folder="C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_storage-12.3.2\android\build\.transforms\7296ed555239f2d99fc5f9c324052847\transformed\out"
       manifest="AndroidManifest.xml"
       resFolder="res"
       assetsFolder="assets"
@@ -96,9 +96,9 @@
       proguardRules="proguard.txt"/>
   <library
       name="C:\Users\FATIMA ENRICOSO\Desktop\capstone\ambulantcollector\android@@:image_picker_android::release"
-      jars="C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+13\android\build\.transforms\4b25d25227dae43e06c045b2a678315f\transformed\out\jars\classes.jar;C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+13\android\build\.transforms\4b25d25227dae43e06c045b2a678315f\transformed\out\jars\libs\R.jar"
+      jars="C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+14\android\build\.transforms\b6f6a25bec50635ca8da30fd1ecaf928\transformed\out\jars\classes.jar;C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+14\android\build\.transforms\b6f6a25bec50635ca8da30fd1ecaf928\transformed\out\jars\libs\R.jar"
       resolved="io.flutter.plugins.imagepicker:image_picker_android:unspecified"
-      folder="C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+13\android\build\.transforms\4b25d25227dae43e06c045b2a678315f\transformed\out"
+      folder="C:\Users\FATIMA ENRICOSO\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+14\android\build\.transforms\b6f6a25bec50635ca8da30fd1ecaf928\transformed\out"
       manifest="AndroidManifest.xml"
       resFolder="res"
       assetsFolder="assets"
@@ -125,10 +125,10 @@
       externalAnnotations="annotations.zip"
       proguardRules="proguard.txt"/>
   <library
-      name="androidx.activity:activity:1.9.1@aar"
-      jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\e99aaa533986770560e7076b53030d47\transformed\jetified-activity-1.9.1\jars\classes.jar"
-      resolved="androidx.activity:activity:1.9.1"
-      folder="C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\e99aaa533986770560e7076b53030d47\transformed\jetified-activity-1.9.1"
+      name="androidx.activity:activity:1.9.2@aar"
+      jars="C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\f95e8154345df6e3480c4c37381d2154\transformed\jetified-activity-1.9.2\jars\classes.jar"
+      resolved="androidx.activity:activity:1.9.2"
+      folder="C:\Users\FATIMA ENRICOSO\.gradle\caches\transforms-3\f95e8154345df6e3480c4c37381d2154\transformed\jetified-activity-1.9.2"
       manifest="AndroidManifest.xml"
       resFolder="res"
       assetsFolder="assets"

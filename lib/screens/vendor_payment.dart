@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class SelectVendorsScreen extends StatefulWidget {
   final String payor;
@@ -45,35 +48,36 @@ class _SelectVendorsScreenState extends State<SelectVendorsScreen> {
     });
   }
 
+  String cleanAmount(String amount) {
+    // Remove the currency symbol and any commas or spaces
+    return amount.replaceAll(RegExp(r'[^\d.]'), '');
+  }
 
-  /* Future<void> _fetchApprovedVendors() async {
-    setState(() {
-      _isLoading = true;
-    });
-
+  Future<void> _undoLastPayment(String docId) async {
     try {
-      QuerySnapshot snapshot = await FirebaseFirestore.instance
-          .collection('approved_vendors')
-          .where('status', isEqualTo: 'Approved')
-          .get();
+      await FirebaseFirestore.instance.collection('payments').doc(docId).delete(); // Remove from Firestore
+      _savedPayments.removeWhere((payment) => payment['id'] == docId); // Remove from local list
 
-      setState(() {
-        _vendors = snapshot.docs.map((doc) {
-          var data = doc.data() as Map<String, dynamic>;
-          return {
-            'id': doc.id,
-            'full_name': '${data['first_name']} ${data['last_name']}',
-          };
-        }).toList();
-        _isLoading = false;
-      });
+      // Show confirmation message after deletion
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Payment details removed successfully!')),
+      );
+
+      // Refresh the UI
+      setState(() {});
     } catch (e) {
-      setState(() {
-        _isLoading = false;
-      });
-      print("Error fetching vendors: $e");
+      print("Error undoing payment: $e");
     }
-  } */
+  }
+
+   void _toggleSelectAll(bool? value) {
+    setState(() {
+      selectAll = value ?? false;
+      selectedVendors = selectAll
+          ? _vendors.map((vendor) => vendor['id'] as String).toList() // Cast to String
+          : [];
+    });
+  }
 
 Future<void> _fetchApprovedVendors() async {
   setState(() {
@@ -134,64 +138,142 @@ Future<void> _fetchApprovedVendors() async {
     });
   }
 
-  Future<void> _savePaymentDetails(String vendorId, String vendorName) async {
-    // Prepare payment data
-    final paymentData = {
-      'vendor_id': vendorId,
-      'vendor_name': vendorName,
-      'payor': widget.payor,
-      'payment_date': widget.paymentDate,
-      'total_fees': widget.totalFees,
-      'fee_summary': widget.feeSummary,
-      'number_of_tickets': widget.numberOfTickets,
-      'total_amount': widget.totalAmount,
-    };
+Future<String?> _processPayment(BuildContext context, String vendorId, String totalAmount) async {
+  final url = Uri.parse('https://api.paymongo.com/v1/payment_intents');
+  const String apiKey = 'sk_test_q3WRFYQ1ohgaB2v4A6TMbw3P'; // Ensure this is the correct key
 
-    // Save to Firestore and add to local saved payments list
-    DocumentReference docRef = await FirebaseFirestore.instance.collection('payments').add(paymentData);
-    _savedPayments.add({'id': docRef.id, ...paymentData}); // Store payment details with document ID
+  // Clean the totalAmount before parsing
+  final cleanedAmount = cleanAmount(totalAmount);
 
-    // Show confirmation message after saving
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Payment details saved successfully!')),
+  // Prepare the payment link data
+  final paymentData = {
+    'data': {
+      'attributes': {
+        'amount': (double.parse(cleanedAmount) * 100).toInt(), // Convert to centavos
+        'currency': 'PHP',
+        'payment_method_allowed': [
+          "gcash" // Only GCash as the allowed payment method
+        ],
+        'description': 'Payment for Vendor: $vendorId',
+        'client_key': 'pi_hEY8hWkTQESK29RMjgzNYdRd_client_t84aPg4SJBdq8FTn2Bo3KMaw' // Include your client key here
+      },
+    },
+  };
+
+  try {
+    // Make the request to PayMongo API
+    final response = await http.post(
+      url,
+      headers: {
+        'Authorization': 'Basic ${base64Encode(utf8.encode('$apiKey:'))}',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(paymentData),
     );
 
-    // Enable Undo action after saving
-    setState(() {});
-  }
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
 
-  Future<void> _undoLastPayment(String docId) async {
-    try {
-      await FirebaseFirestore.instance.collection('payments').doc(docId).delete(); // Remove from Firestore
-      _savedPayments.removeWhere((payment) => payment['id'] == docId); // Remove from local list
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      String? paymentUrl;
 
-      // Show confirmation message after deletion
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Payment details removed successfully!')),
-      );
+      // Check if checkout_url is available
+      if (responseData['data']['attributes'].containsKey('checkout_url')) {
+        paymentUrl = responseData['data']['attributes']['checkout_url'];
+      } else {
+        // Handle case where checkout_url is not available
+        String status = responseData['data']['attributes']['status'];
+        if (status == "awaiting_payment_method") {
+          // You might need to prompt the user to complete payment using GCash
+          // Here, handle your logic for awaiting payment method
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Awaiting payment method confirmation.')),
+          );
+        }
+      }
 
-      // Refresh the UI
-      setState(() {});
-    } catch (e) {
-      print("Error undoing payment: $e");
+      // Save payment details to Firestore
+      await _savePaymentDetails(vendorId, paymentUrl);
+
+      return paymentUrl; // Return the payment URL
+    } else {
+      throw Exception('Failed to create payment link: ${response.body}');
     }
+  } catch (e) {
+    print('Error processing payment: $e');
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Payment processing failed!')),
+    );
+    return null; // Return null if there's an error
   }
+}
 
-   void _toggleSelectAll(bool? value) {
-    setState(() {
-      selectAll = value ?? false;
-      selectedVendors = selectAll
-          ? _vendors.map((vendor) => vendor['id'] as String).toList() // Cast to String
-          : [];
-    });
-  }
+Future<void> _savePaymentDetails(String vendorId, String? paymentUrl) async {
+  // Prepare payment data
+  final paymentData = {
+    'vendor_id': vendorId,
+    'payor': widget.payor,
+    'payment_date': widget.paymentDate,
+    'total_fees': widget.totalFees,
+    'fee_summary': widget.feeSummary,
+    'number_of_tickets': widget.numberOfTickets,
+    'total_amount': widget.totalAmount,
+    'payment_url': paymentUrl ?? '', // Save payment URL if available
+    'status': 'Pending', // Initial status of the payment
+  };
 
-  void _saveSelectedVendors() {
+  // Save to Firestore and add to local saved payments list
+  DocumentReference docRef = await FirebaseFirestore.instance.collection('payments').add(paymentData);
+  _savedPayments.add({'id': docRef.id, ...paymentData}); // Store payment details with document ID
+
+  // Show confirmation message after saving
+  ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(content: Text('Payment details saved successfully!')),
+  );
+
+  // Enable Undo action after saving
+  setState(() {});
+}
+
+void _saveSelectedVendors(BuildContext context) async {
+  // Show a loading indicator while processing
+  setState(() {
+    _isLoading = true;
+  });
+
+  try {
     for (var vendorId in selectedVendors) {
       final vendor = _vendors.firstWhere((vendor) => vendor['id'] == vendorId);
-      _savePaymentDetails(vendor['id'], vendor['full_name']);
+      
+      // Process the payment and get the payment link
+      String? paymentUrl = await _processPayment(context, vendor['id'], widget.totalAmount);
+      
+      if (paymentUrl != null) {
+        // Show success message for each vendor
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Payment initiated successfully for ${vendor['full_name']}!')),
+        );
+      } else {
+        // Handle the case where payment processing failed
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Payment failed for vendor: ${vendor['full_name']}')),
+        );
+      }
     }
+  } catch (e) {
+    print('Error saving selected vendors: $e');
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('An error occurred while saving payments.')),
+    );
+  } finally {
+    // Hide loading indicator
+    setState(() {
+      _isLoading = false;
+    });
   }
+}
+
 
   
   @override
@@ -461,7 +543,7 @@ Future<void> _fetchApprovedVendors() async {
                     onPressed: selectedVendors.isEmpty
                         ? null
                         : () {
-                            _saveSelectedVendors();
+                            _saveSelectedVendors(context);
                           },
                     child: const Text('Send to All'),
                   ),
@@ -532,9 +614,9 @@ Future<void> _fetchApprovedVendors() async {
                   ],
                 ),
               ),
-      )
-            );
-  }
+           )
+         );
+       }
 }
 
       List<TextSpan> _highlightMatches(String text, String query) {

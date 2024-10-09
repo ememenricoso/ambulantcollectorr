@@ -25,35 +25,35 @@ class _VendorState extends State<Vendor> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white), // Back icon with white color
-            onPressed: () {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => Dashboard()), // Navigate to Dashboard
-              );
-            },
-          ),
-          title: const Text(""), // Empty title to avoid spacing issues
-          flexibleSpace: const Center( // Center the content
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center, // Center the text and icon
-              mainAxisSize: MainAxisSize.min, // Minimize the space taken by the Row
-              children: [
-                Icon(Icons.people, color: Colors.white), // Icon next to the text
-                SizedBox(width: 8), // Space between icon and text
-                Text(
-                  "Vendors",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20, // Set text color to white
-                  ),
-                ),
-              ],
-            ),
-          ),
-          backgroundColor: const Color.fromARGB(255, 31, 232, 37), // Set background color to green
-          elevation: 1.0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white), // Back icon with white color
+          onPressed: () {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const Dashboard()), // Navigate to Dashboard
+            );
+          },
         ),
+        title: const Text(""), // Empty title to avoid spacing issues
+        flexibleSpace: const Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center, // Center the text and icon
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.add, color: Colors.white), // Icon next to the text
+              SizedBox(width: 8),
+              Text(
+                "Add Vendors",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                ),
+              ),
+            ],
+          ),
+        ),
+        backgroundColor: Colors.green,
+        elevation: 1.0,
+      ),
       drawer: Drawer(
         child: Column(
           children: <Widget>[

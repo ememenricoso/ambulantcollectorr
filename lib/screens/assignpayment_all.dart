@@ -39,24 +39,7 @@ class _AssignPaymentScreenState extends State<AssignPaymentAllScreen> {
     numberOfTicketsController.text = numberOfTickets.toString();
     _calculateTotalAmount(); // Calculate the total amount when initializing
     _loadFees();  }
-
-/*   Future<void> _loadPayorData() async {
-    DocumentSnapshot payorSnapshot = await FirebaseFirestore.instance
-        .collection('user_ambulant')
-        .doc('payor')
-        .get();
-
-    if (payorSnapshot.exists) {
-      setState(() {
-        var firstName = payorSnapshot.get('firstname');
-        var lastName = payorSnapshot.get('lastname');
-        payorController.text = '$firstName $lastName';
-      });
-    }
-  } */
-
- // For accessing the currently logged-in user
-
+    
 Future<void> _loadPayorData() async {
   // Get the currently logged-in user's email
   User? currentUser = FirebaseAuth.instance.currentUser;
@@ -157,8 +140,7 @@ String _calculateTotalFees() {
   return _calculateTotalFees;
 }
 
-
- Future<void> _loadFees() async {
+Future<void> _loadFees() async {
   QuerySnapshot rateSnapshot = await FirebaseFirestore.instance.collection('rate').get();
   List<QueryDocumentSnapshot> rateDocuments = rateSnapshot.docs;
 
@@ -167,7 +149,9 @@ String _calculateTotalFees() {
   setState(() {
     for (var doc in rateDocuments) {
       String feeName = doc.get('name');
-      double feeRate = doc.get('rate'); // Fetching the rate as double
+      
+      // Ensure the rate is cast to double regardless of its Firestore type (int or double)
+      double feeRate = (doc.get('rate') as num).toDouble(); 
 
       // Directly use the feeRate from Firestore without parsing multiple times
       tempFees[feeName] = feeRate.toString();
@@ -189,6 +173,7 @@ String _calculateTotalFees() {
 
   _calculateTotalAmount(); // Recalculate total amount after loading fees
 }
+
 
  void _showAddFeeDialog(BuildContext context) {
   showDialog(

@@ -314,10 +314,10 @@ library {
   maven_library {
     groupId: "androidx.activity"
     artifactId: "activity"
-    version: "1.9.1"
+    version: "1.9.2"
   }
   digests {
-    sha256: "9S\f\374\v\217\363\245\223\266\311KB\261\'\200\273\256*\217Z\307\016v\230\30474\206\035\347\365"
+    sha256: "ru\036X\225\266\375`\017\257>\275\375<\233/\257p\350\321{A<\vf\332\331\214\246K*w"
   }
   repo_index {
   }
@@ -1200,7 +1200,7 @@ library {
 }
 library {
   digests {
-    sha256: "\324\375\3133\020o J\340V\243\215\216\357eT\376E\360\273^>\025\303\2756]\233\t\314<\320"
+    sha256: "\250c\031\a!q i\230\350~\214\036\263P\325T{P\212\343\355O\030ne9\323F\330\f\322"
   }
 }
 library_dependencies {

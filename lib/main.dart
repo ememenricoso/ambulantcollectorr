@@ -1,18 +1,38 @@
+import 'package:ambulantcollector/firebase_option.dart';
 import 'package:ambulantcollector/screens/login_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 
-import 'firebase_options.dart';
+const bool USE_EMULATOR = false;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // Connect to Firebase Emulator if USE_EMULATOR is true
+  if (USE_EMULATOR) {
+    await _connectToFirebaseEmulator();
+  }
+
   runApp(const MyApp());
 }
+
+Future<void> _connectToFirebaseEmulator() async {
+  const String localHostString = '10.0.2.2'; // Use this for Android Emulator
+  FirebaseFirestore.instance.settings = const Settings(
+    host: '$localHostString:8080',
+    sslEnabled: false,
+    persistenceEnabled: false,
+  );
+
+  FirebaseAuth.instance.useAuthEmulator(localHostString, 9099); // Updated method
+}
+
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -20,6 +40,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false, // Disable the debug banner
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -65,7 +86,7 @@ class _ResetPasswordState extends State<ResetPassword> {
       // Complete sign-in
       try {
         await _auth.signInWithEmailLink(email: email, emailLink: deepLink.toString());
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Successfully signed in!')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Successfully signed in!')));
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error signing in: $e')));
       }
@@ -75,19 +96,19 @@ class _ResetPasswordState extends State<ResetPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Reset Password')),
+      appBar: AppBar(title: const Text('Reset Password')),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             TextField(
               controller: _emailController,
-              decoration: InputDecoration(labelText: 'Email'),
+              decoration: const InputDecoration(labelText: 'Email'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _sendSignInLink,
-              child: Text('Send Sign-In Link'),
+              child: const Text('Send Sign-In Link'),
             ),
           ],
         ),

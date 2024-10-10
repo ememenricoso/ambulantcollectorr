@@ -150,7 +150,7 @@ Future<void> _uploadProfileImage() async {
         ),
         title: const Text(""), // Empty title to avoid spacing issues
         centerTitle: true, // Center the title content
-        backgroundColor: const Color.fromARGB(255, 31, 232, 37), // Set background color to green
+        backgroundColor: Colors.green, // Set background color to green
         elevation: 1.0,
         actions: [
           IconButton(

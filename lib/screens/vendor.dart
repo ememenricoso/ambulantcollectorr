@@ -39,7 +39,7 @@ class _VendorState extends State<Vendor> {
             mainAxisAlignment: MainAxisAlignment.center, // Center the text and icon
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.add, color: Colors.white), // Icon next to the text
+              Icon(Icons.person_add, color: Colors.white), // Icon next to the text
               SizedBox(width: 8),
               Text(
                 "Add Vendors",

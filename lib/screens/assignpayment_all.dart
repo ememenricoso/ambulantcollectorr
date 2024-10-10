@@ -318,7 +318,7 @@ Future<void> _loadFees() async {
               ],
             ),
           ),
-          backgroundColor: const Color.fromARGB(255, 31, 232, 37), // Set background color to green
+          backgroundColor: Colors.green, // Set background color to green
           elevation: 1.0,
         ),
       body: SingleChildScrollView(

@@ -10,7 +10,7 @@ const port = 55901; // Change this to your preferred port
 
 
 // Initialize PayMongo client
-const paymongo = new Paymongo(process.env.PAYMONGO_SECRET_KEY || 'sk_test_q3WRFYQ1ohgaB2v4A6TMbw3P');
+const paymongo = new Paymongo(process.env.PAYMONGO_SECRET_KEY || 'sk_test_UWP3hXVRoBAk4GuH8Q85Dvrk');
 
 app.use(bodyParser.json());
 

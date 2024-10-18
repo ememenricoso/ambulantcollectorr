@@ -138,9 +138,14 @@ Future<void> _fetchApprovedVendors() async {
     });
   }
 
-Future<String?> _processPayment(BuildContext context, String vendorId, String totalAmount) async {
+   Future<String?> _processPayment(
+  BuildContext context,
+  String vendorId,
+  String totalAmount,
+) async {
   final url = Uri.parse('https://api.paymongo.com/v1/payment_intents');
-  const String apiKey = 'sk_test_q3WRFYQ1ohgaB2v4A6TMbw3P'; // Ensure this is the correct key
+  final String secretApiKey = 'sk_test_UWP3hXVRoBAk4GuH8Q85Dvrk'; // Your secret key
+  final String clientKey = 'pk_test_1m9SJyLLxoSTupHBjY1KXoVf'; // Replace with your client key
 
   // Clean the totalAmount before parsing
   final cleanedAmount = cleanAmount(totalAmount);
@@ -155,7 +160,7 @@ Future<String?> _processPayment(BuildContext context, String vendorId, String to
           "gcash" // Only GCash as the allowed payment method
         ],
         'description': 'Payment for Vendor: $vendorId',
-        'client_key': 'pi_hEY8hWkTQESK29RMjgzNYdRd_client_t84aPg4SJBdq8FTn2Bo3KMaw' // Include your client key here
+        'client_key': clientKey // Use your client key here for client-side operations
       },
     },
   };
@@ -165,40 +170,35 @@ Future<String?> _processPayment(BuildContext context, String vendorId, String to
     final response = await http.post(
       url,
       headers: {
-        'Authorization': 'Basic ${base64Encode(utf8.encode('$apiKey:'))}',
+        'Authorization': 'Basic ${base64Encode(utf8.encode('$secretApiKey:'))}', // Use secret key for auth
         'Content-Type': 'application/json',
       },
       body: jsonEncode(paymentData),
     );
 
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
-
+    // Check if the request was successful
     if (response.statusCode == 200) {
+      // Parse the response
       final responseData = json.decode(response.body);
-      String? paymentUrl;
-
-      // Check if checkout_url is available
+      
+      // Check if checkout_url is available in the response
       if (responseData['data']['attributes'].containsKey('checkout_url')) {
-        paymentUrl = responseData['data']['attributes']['checkout_url'];
+        String paymentUrl = responseData['data']['attributes']['checkout_url'];
+        
+        // You can also handle other statuses here if needed
+        return paymentUrl; // Return the checkout URL
       } else {
         // Handle case where checkout_url is not available
-        String status = responseData['data']['attributes']['status'];
-        if (status == "awaiting_payment_method") {
-          // You might need to prompt the user to complete payment using GCash
-          // Here, handle your logic for awaiting payment method
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Awaiting payment method confirmation.')),
-          );
-        }
+        print('Checkout URL not found in the response.');
+        return null;
       }
-
-      // Save payment details to Firestore
-      await _savePaymentDetails(vendorId, paymentUrl);
-
-      return paymentUrl; // Return the payment URL
     } else {
-      throw Exception('Failed to create payment link: ${response.body}');
+      // Handle error based on the status code
+      print('Failed to create payment intent: ${response.statusCode} ${response.body}');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: ${response.body}')),
+      );
+      return null;
     }
   } catch (e) {
     print('Error processing payment: $e');
@@ -208,6 +208,7 @@ Future<String?> _processPayment(BuildContext context, String vendorId, String to
     return null; // Return null if there's an error
   }
 }
+
 
 Future<void> _savePaymentDetails(String vendorId, String? paymentUrl) async {
   // Prepare payment data
@@ -647,5 +648,3 @@ void _saveSelectedVendors(BuildContext context) async {
 
           return spans;
         }
-
-

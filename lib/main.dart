@@ -1,19 +1,38 @@
 import 'package:ambulantcollector/firebase_option.dart';
-import 'package:ambulantcollector/screens/login_screen.dart';
+import 'package:ambulantcollector/screens/unifiedloginscreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 const bool USE_EMULATOR = false;
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Load the .env file
+  try {
+    await dotenv.load(fileName: ".env"); // Load your .env file
+  } catch (e) {
+    print('Error loading .env file: $e');
+  }
+
+  // Initialize Firebase
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  runApp(MyApp());
+
+/* void main() async {
+/*   await dotenv.load(fileName: ".env"); // Load your .env file
+ */  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+ */
   // Connect to Firebase Emulator if USE_EMULATOR is true
   if (USE_EMULATOR) {
     await _connectToFirebaseEmulator();
@@ -45,7 +64,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LogInScreen(),
+      home: const UnifiedLoginScreen(),
     );
   }
 }

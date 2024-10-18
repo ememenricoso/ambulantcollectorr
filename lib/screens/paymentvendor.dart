@@ -42,7 +42,8 @@ class _PaymentInfoScreenState extends State<PaymentInfoScreen> {
         if (paymentSnapshot.docs.isNotEmpty) {
           print('Payment found for vendor ID: $vendorId');
           setState(() {
-            paymentInfo = paymentSnapshot.docs.first.data() as Map<String, dynamic>?;
+            paymentInfo =
+                paymentSnapshot.docs.first.data() as Map<String, dynamic>?;
             isLoading = false;
           });
         } else {
@@ -69,7 +70,8 @@ class _PaymentInfoScreenState extends State<PaymentInfoScreen> {
     try {
       // Construct the PayMongo payment URL for GCash
       final url = Uri.parse('https://api.paymongo.com/v1/payment_methods');
-      const String apiKey = 'sk_test_UWP3hXVRoBAk4GuH8Q85Dvrk'; // Replace with your actual PayMongo API key
+      const String apiKey =
+          'sk_test_UWP3hXVRoBAk4GuH8Q85Dvrk'; // Replace with your actual PayMongo API key
 
       final response = await http.post(
         url,
@@ -85,7 +87,8 @@ class _PaymentInfoScreenState extends State<PaymentInfoScreen> {
                 'amount': paymentInfo!['total_amount'],
                 'currency': 'PHP',
               },
-              'client_key': clientKey, // Use the client_key from the payment intent
+              'client_key':
+                  clientKey, // Use the client_key from the payment intent
             },
           },
         }),
@@ -95,18 +98,22 @@ class _PaymentInfoScreenState extends State<PaymentInfoScreen> {
 
       if (response.statusCode == 200) {
         // Redirect to GCash payment page
-        final paymentUrl = responseData['data']['attributes']['redirect']['checkout_url'];
+        final paymentUrl =
+            responseData['data']['attributes']['redirect']['checkout_url'];
         if (paymentUrl != null) {
           // Open the GCash payment page in a browser
           await launch(paymentUrl);
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Payment processing error: No redirect URL.')),
+            SnackBar(
+                content: Text('Payment processing error: No redirect URL.')),
           );
         }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Payment failed: ${responseData['errors'][0]['detail']}')),
+          SnackBar(
+              content: Text(
+                  'Payment failed: ${responseData['errors'][0]['detail']}')),
         );
       }
     } catch (e) {
@@ -128,7 +135,8 @@ class _PaymentInfoScreenState extends State<PaymentInfoScreen> {
             onPressed: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const UnifiedLoginScreen()),
+                MaterialPageRoute(
+                    builder: (context) => const UnifiedLoginScreen()),
               );
             },
           ),
@@ -144,11 +152,14 @@ class _PaymentInfoScreenState extends State<PaymentInfoScreen> {
                     children: [
                       Text('Payor: ${paymentInfo!['payor']}'),
                       SizedBox(height: 10),
-                      Text('Garbage Fee: ${paymentInfo!['fee_summary']['Garbage Fee']}'),
+                      Text(
+                          'Garbage Fee: ${paymentInfo!['fee_summary']['Garbage Fee']}'),
                       SizedBox(height: 10),
-                      Text('Ticket Rate: ${paymentInfo!['fee_summary']['Ticket Rate']}'),
+                      Text(
+                          'Ticket Rate: ${paymentInfo!['fee_summary']['Ticket Rate']}'),
                       SizedBox(height: 10),
-                      Text('Number of Tickets: ${paymentInfo!['number_of_tickets']}'),
+                      Text(
+                          'Number of Tickets: ${paymentInfo!['number_of_tickets']}'),
                       SizedBox(height: 10),
                       Text('Total Fees: ${paymentInfo!['total_fees']}'),
                       SizedBox(height: 10),
@@ -161,7 +172,9 @@ class _PaymentInfoScreenState extends State<PaymentInfoScreen> {
                       ElevatedButton(
                         onPressed: paymentInfo!['status'] == 'Pending'
                             ? () {
-                                processPayment(paymentInfo!['payment_intent_client_key']);
+                                paymentCheckout();
+                                // processPayment(
+                                //     paymentInfo!['payment_intent_client_key']);
                               }
                             : null, // Disable if the status is not 'Pending'
                         child: Text('Pay Now'),
@@ -171,5 +184,108 @@ class _PaymentInfoScreenState extends State<PaymentInfoScreen> {
                 )
               : Center(child: Text('No payment information found.')),
     );
+  }
+
+  void paymentCheckout() async {
+    // _violationFinesList.violationFines.forEach((item) {
+    //   violationList.add({
+    //     'name': item.name,
+    //     'quantity': item.quantity,
+    //     'amount': int.parse(item.amountInCentavos + '00'),
+    //     'currency': item.currency,
+    //     'description': item.description,
+    //   });
+    // });
+    final url = Uri.parse('https://api.paymongo.com/v1/checkout_sessions');
+    const credentials =
+        'Basic c2tfdGVzdF9VV1AzaFhWUm9CQWs0R3VIOFE4NUR2cms6YzJ0ZmRHVnpkRjlWVjFBemFGaFdVbTlDUVdzMFIzVklPRkU0TlVSMmNtczY='; // Replace with actual credentials
+    final body = {
+      'data': {
+        'type': 'checkout_session',
+        'attributes': {
+          'success_url':
+              'https://redirecting-flutter-checkout-paymongo.netlify.app/',
+          'cancel_url':
+              'https://redirecting-flutter-checkout-paymongo.netlify.app/',
+          'payment_method_allowed': ['card', 'gcash', 'grab_pay', 'paymaya'],
+          'payment_method_options': {
+            'card': {'request_three_d_secure': 'any'}
+          },
+          'payment_method_types': [
+            // 'card',
+            'gcash',
+            // 'grab_pay',
+            // 'paymaya',
+          ],
+          'description': 'Traffic Vioations',
+          'line_items': [
+            {
+              'name': 'Test Item',
+              'quantity': 1,
+              'amount': (double.parse(paymentInfo!['total_fees']
+                          .replaceAll(RegExp(r'[^\d.]'), '')) *
+                      100)
+                  .toInt(),
+              'currency': 'PHP',
+              // 'description': 'J-walking',
+            },
+            // {
+            //   'name': 'No Stopping',
+            //   'quantity': 1,
+            //   'amount':
+            //       3000, // Amount in centavos (2000 centavo = 20 pesos) CANNOT RBE LESS THAN 2000
+            //   'currency': 'PHP',
+            //   'description': 'No Stopping',
+            // }
+          ],
+          'billing': {
+            'name': paymentInfo!['payor'],
+            // 'email': 'edilbertjagimit02@gmail.com',
+            // 'phone': '9703583334',
+            // 'address': {
+            //   'line1': 'Tungkil',
+            //   'line2': 'Deca Homes',
+            //   'city': 'Minglanilla',
+            //   'state': 'Cebu',
+            //   'postal_code': '6046',
+            //   'country': 'PH',
+            // },
+          },
+          'statement_descriptor':
+              'string', // Replace with your desired statement descriptor
+        }
+      }
+    };
+
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': credentials,
+    };
+
+    final response =
+        await http.post(url, headers: headers, body: jsonEncode(body));
+
+    if (response.statusCode == 200) {
+      print(response.body);
+      var responseBody = jsonDecode(response.body);
+      print(responseBody);
+      print('Checkout Session ID: ${responseBody['data']['id']}');
+      var checkoutURL =
+          Uri.parse(responseBody['data']['attributes']['checkout_url']);
+      // Using the checkout_session.payment.paid webhooks = ['data']['attributes']['data']['attributes']['payments']['attributes']['status']
+      print(checkoutURL);
+      if (await canLaunchUrl(checkoutURL)) {
+        await launchUrl(
+          checkoutURL,
+          mode: LaunchMode.externalApplication,
+          // mode: LaunchMode.inAppWebView,
+        );
+      } else {
+        throw 'Could not launch $checkoutURL';
+      }
+    } else {
+      print('Error: ${response.body}');
+    }
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:ambulantcollector/screens/unifiedloginscreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -22,48 +23,47 @@ class _PaymentInfoScreenState extends State<PaymentInfoScreen> {
     getUserPaymentInfo();
   }
 
-Future<void> getUserPaymentInfo() async {
-  try {
-    // Get the current user
-    currentUser = FirebaseAuth.instance.currentUser;
+  Future<void> getUserPaymentInfo() async {
+    try {
+      // Get the current user
+      currentUser = FirebaseAuth.instance.currentUser;
 
-    if (currentUser != null) {
-      // Use the current user's UID as the vendor ID (document ID in approved_vendors)
-      String vendorId = currentUser!.uid;
-      print('Vendor ID (document ID): $vendorId');
+      if (currentUser != null) {
+        // Use the current user's UID as the vendor ID (document ID in approved_vendors)
+        String vendorId = currentUser!.uid;
+        print('Vendor ID (document ID): $vendorId');
 
-      // Fetch payment information from the 'payments' collection using the vendor ID (which is the document ID in approved_vendors)
-      QuerySnapshot paymentSnapshot = await FirebaseFirestore.instance
-          .collection('payments')
-          .where('vendor_id', isEqualTo: vendorId)
-          .get();
+        // Fetch payment information from the 'payments' collection using the vendor ID (which is the document ID in approved_vendors)
+        QuerySnapshot paymentSnapshot = await FirebaseFirestore.instance
+            .collection('payments')
+            .where('vendor_id', isEqualTo: vendorId)
+            .get();
 
-      if (paymentSnapshot.docs.isNotEmpty) {
-        print('Payment found for vendor ID: $vendorId');
-        setState(() {
-          paymentInfo = paymentSnapshot.docs.first.data() as Map<String, dynamic>?;
-          isLoading = false;
-        });
+        if (paymentSnapshot.docs.isNotEmpty) {
+          print('Payment found for vendor ID: $vendorId');
+          setState(() {
+            paymentInfo = paymentSnapshot.docs.first.data() as Map<String, dynamic>?;
+            isLoading = false;
+          });
+        } else {
+          print('No payment information found for vendor ID: $vendorId');
+          setState(() {
+            isLoading = false;
+          });
+        }
       } else {
-        print('No payment information found for vendor ID: $vendorId');
+        print('No user logged in');
         setState(() {
           isLoading = false;
         });
       }
-    } else {
-      print('No user logged in');
+    } catch (e) {
+      print('Error fetching payment info: $e');
       setState(() {
         isLoading = false;
       });
     }
-  } catch (e) {
-    print('Error fetching payment info: $e');
-    setState(() {
-      isLoading = false;
-    });
   }
-}
-
 
   Future<void> processPayment(String clientKey) async {
     try {
@@ -122,6 +122,17 @@ Future<void> getUserPaymentInfo() async {
     return Scaffold(
       appBar: AppBar(
         title: Text('Payment Information'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const UnifiedLoginScreen()),
+              );
+            },
+          ),
+        ],
       ),
       body: isLoading
           ? Center(child: CircularProgressIndicator())

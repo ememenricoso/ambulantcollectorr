@@ -183,14 +183,14 @@ Widget build(BuildContext context) {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
+                      const Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
+                          Text(
                             'WELCOME to,',
                             style: TextStyle(fontSize: 24),
                           ),
-                          const Text(
+                          Text(
                             'CarbonRent',
                             style: TextStyle(
                               fontSize: 24,

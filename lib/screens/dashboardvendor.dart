@@ -1,4 +1,7 @@
+import 'package:ambulantcollector/screens/historyvendor.dart';
+import 'package:ambulantcollector/screens/notificationsvendor.dart';
 import 'package:ambulantcollector/screens/paymentvendor.dart';
+import 'package:ambulantcollector/screens/profilevendor.dart';
 import 'package:flutter/material.dart';
 
 class DashboardVendor extends StatefulWidget {
@@ -9,6 +12,56 @@ class DashboardVendor extends StatefulWidget {
 }
 
 class _DashboardVendorState extends State<DashboardVendor> {
+  int _selectedIndex = 2; // Default to Dashboard
+
+  final List<Widget> _screens = [
+    const HistoryVendorScreen(),
+    PaymentInfoScreen(),
+    const Center(child: Text('Dashboard Content')), // Placeholder for the dashboard content
+    const NotificationsVendorScreen(),
+    const ProfileVendorScreen(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  Widget bottomNavigationBar() {
+    return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
+      backgroundColor: Colors.green,
+      selectedItemColor: Colors.black,
+      unselectedItemColor: Colors.white,
+      currentIndex: _selectedIndex,
+      onTap: _onItemTapped,
+      iconSize: 20,
+      items: const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          icon: Icon(Icons.history),
+          label: 'History',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.payment),
+          label: 'Payment',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.dashboard),
+          label: 'Dashboard',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.notifications),
+          label: 'Notifications',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.person_outline),
+          label: 'Profile',
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,95 +69,8 @@ class _DashboardVendorState extends State<DashboardVendor> {
         title: const Text("Dashboard"),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: GridView.count(
-          crossAxisCount: 2,
-          crossAxisSpacing: 16.0,
-          mainAxisSpacing: 16.0,
-          children: <Widget>[
-            DashboardCard(
-              icon: Icons.person,
-              title: 'Profile',
-              onTap: () {
-    // Navigate to PaymentInfoScreen when the Profile option is tapped
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => PaymentInfoScreen()),
-    );
-              }
-            ),
-        
-            DashboardCard(
-              icon: Icons.shopping_cart,
-              title: 'Orders',
-              onTap: () {
-                // Navigate to Orders screen
-              },
-            ),
-            DashboardCard(
-              icon: Icons.message,
-              title: 'Messages',
-              onTap: () {
-                // Navigate to Messages screen
-              },
-            ),
-            DashboardCard(
-              icon: Icons.settings,
-              title: 'Settings',
-              onTap: () {
-                // Navigate to Settings screen
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class DashboardCard extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final VoidCallback onTap;
-
-  const DashboardCard({super.key, 
-    required this.icon,
-    required this.title,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Card(
-        elevation: 4.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16.0),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Icon(
-                icon,
-                size: 20.0,
-                color: Theme.of(context).primaryColor,
-              ),
-              const SizedBox(height: 10.0),
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+      body: _screens[_selectedIndex], // Switches between screens
+      bottomNavigationBar: bottomNavigationBar(), // Custom bottom nav bar
     );
   }
 }

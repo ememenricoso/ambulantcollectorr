@@ -10,6 +10,7 @@ import 'package:ambulantcollector/screens/assignpayment_all.dart';
 import 'package:ambulantcollector/screens/monday.dart';
 import 'package:ambulantcollector/screens/notifications.dart';
 import 'package:ambulantcollector/screens/profile_screen.dart';
+import 'package:ambulantcollector/screens/unifiedloginscreen.dart';
 import 'package:ambulantcollector/screens/vendor.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -145,237 +146,258 @@ Future<Map<String, int>> _getVendorCounts() async {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _selectedIndex == 2
-          ? AppBar(
-              title: const Text(""),
-              flexibleSpace: const Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.dashboard, color: Colors.white),
-                    SizedBox(width: 8),
-                    Text(
-                      "Dashboard",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                      ),
+ @override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: _selectedIndex == 2
+        ? AppBar(
+            title: const Text(""),
+            flexibleSpace: const Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.dashboard, color: Colors.white),
+                  SizedBox(width: 8),
+                  Text(
+                    "Dashboard",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              backgroundColor: Colors.green,
-              elevation: 1.0,
-            )
-          : null,
-      body: _selectedIndex == 2
-          ? SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'WELCOME to,',
-                      style: TextStyle(fontSize: 24),
-                    ),
-                    const Text(
-                      'CarbonRent',
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.green),
-                    ),
-                    const SizedBox(height: 100),
-                    const Text(
-                      'Schedule',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    const SizedBox(height: 8),
-                    // Horizontal Scroll for All Vendors and Days of the Week
-                    SizedBox(
-                      height: 130,
-                      child: FutureBuilder<Map<String, int>>(
-                        future: _getVendorCounts(),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState == ConnectionState.waiting) {
-                            return const Center(child: CircularProgressIndicator());
-                          }
-                          final vendorCounts = snapshot.data ?? {};
-
-                  return ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 9, // 8 days + 1 for Daily
-                        separatorBuilder: (context, index) => const SizedBox(width: 10),
-                        itemBuilder: (context, index) {
-                          String title;
-                          Color textColor = Colors.white;
-                          Color iconColor = Colors.white;
-
-                          if (index == 0) {
-                            title = 'ALL';
-                          } else if (index == 1) {
-                            title = 'Daily';
-                          } else {
-                            title = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'][index - 2];
-                          }
-
-                          return DashboardCard(
-                            icon: Icons.calendar_today,
-                            title: title,
-                            vendorText: '${vendorCounts[title] ?? 0} ${vendorCounts[title] == 1 ? 'vendor' : 'vendors'}', // Display vendor count
-                            color: const Color.fromARGB(255, 38, 108, 41),
-                            textColor: textColor,
-                            iconColor: iconColor,
-                            onTap: () {
-                              if (index == 0) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const ApproveVendor(),
-                                  ),
-                                );
-                              } else if (index == 1) { // Check if the tapped index is for "DAILY"
-                                // Navigate to the Daily screen
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DailyPage(), // Replace with your actual DailyPage
-                                  ),
-                                ); 
-                              }
-                                else if (index == 2) { // Check if the tapped index is for "DAILY"
-                                // Navigate to the Daily screen
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => MondayPage(), // Replace with your actual DailyPage
-                                  ),
-                                ); 
-                              } 
-                               else if (index == 3) { // Check if the tapped index is for "DAILY"
-                                // Navigate to the Daily screen
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => TuesdayPage(), // Replace with your actual DailyPage
-                                  ),
-                                ); 
-                              } 
-                               else if (index == 4) { // Check if the tapped index is for "DAILY"
-                                // Navigate to the Daily screen
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Wednesday(), // Replace with your actual DailyPage
-                                  ),
-                                ); 
-                              } 
-                               else if (index == 5) { // Check if the tapped index is for "DAILY"
-                                // Navigate to the Daily screen
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Thursday(), // Replace with your actual DailyPage
-                                  ),
-                                ); 
-                              } 
-                               else if (index == 6) { // Check if the tapped index is for "DAILY"
-                                // Navigate to the Daily screen
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Friday(), // Replace with your actual DailyPage
-                                  ),
-                                ); 
-                              } 
-                               else if (index == 7) { // Check if the tapped index is for "DAILY"
-                                // Navigate to the Daily screen
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Saturday(), // Replace with your actual DailyPage
-                                  ),
-                                ); 
-                              } 
-                               else if (index == 8) { // Check if the tapped index is for "DAILY"
-                                // Navigate to the Daily screen
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Sunday(), // Replace with your actual DailyPage
-                                  ),
-                                ); 
-                              } 
-                              else {
-                                  }
-                                },
-                              );
-                            },
-                          );
-                        },
-                      ),
-                    ),
-
-                    const SizedBox(height: 20.0),
-                    // Two cards for Paid and Unpaid with text above
-                    const Text(
-                      'Payment Status',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    const SizedBox(height: 10),
-                    SizedBox(
-                      height: 300,
-                      child: GridView.count(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 10.0,
-                        mainAxisSpacing: 10.0,
-                        childAspectRatio: 1.5,
-                        children: <Widget>[
-                          DashboardCard(
-                            icon: Icons.check_circle,
-                            title: 'PAID',
-                            vendorText: '100 vendors',
-                            color: const Color.fromARGB(255, 249, 251, 247),
-                            textColor: Colors.green,
-                            iconColor: Colors.green,
-                            onTap: () {
-                             /*  Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const PaidVendorsPage(),
-                                ),
-                              ); */
-                            },
+            ),
+            backgroundColor: Colors.green,
+            elevation: 1.0,
+          )
+        : null,
+    body: _selectedIndex == 2
+        ? SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'WELCOME to,',
+                            style: TextStyle(fontSize: 24),
                           ),
-                          DashboardCard(
-                            icon: Icons.cancel,
-                            title: 'UNPAID',
-                            vendorText: '50 vendors',
-                            color: const Color.fromARGB(255, 249, 251, 247),
-                            textColor: Colors.red,
-                            iconColor: Colors.red,
-                            onTap: () {
-                              /* Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const UnpaidVendorsPage(),
-                                ),
-                              ); */
-                            },
+                          const Text(
+                            'CarbonRent',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.green,
+                            ),
                           ),
                         ],
                       ),
+                      // Logout Button
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const UnifiedLoginScreen(),
+                            ),
+                          );
+                        },
+                        child: const Row(
+                          children: [
+                            Icon(Icons.logout, color: Colors.green), // Logout Icon
+                            SizedBox(width: 4),
+                            Text(
+                              "Logout",
+                              style: TextStyle(
+                                color: Colors.green,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 30), // Added spacing after Logout
+                  const Text(
+                    'Schedule',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  const SizedBox(height: 8),
+                  // Horizontal Scroll for All Vendors and Days of the Week
+                  SizedBox(
+                    height: 130,
+                    child: FutureBuilder<Map<String, int>>(
+                      future: _getVendorCounts(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const Center(child: CircularProgressIndicator());
+                        }
+                        final vendorCounts = snapshot.data ?? {};
+
+                        return ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: 9, // 8 days + 1 for Daily
+                          separatorBuilder: (context, index) => const SizedBox(width: 10),
+                          itemBuilder: (context, index) {
+                            String title;
+                            Color textColor = Colors.white;
+                            Color iconColor = Colors.white;
+
+                            if (index == 0) {
+                              title = 'ALL';
+                            } else if (index == 1) {
+                              title = 'Daily';
+                            } else {
+                              title = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'][index - 2];
+                            }
+
+                            return DashboardCard(
+                              icon: Icons.calendar_today,
+                              title: title,
+                              vendorText: '${vendorCounts[title] ?? 0} ${vendorCounts[title] == 1 ? 'vendor' : 'vendors'}', // Display vendor count
+                              color: const Color.fromARGB(255, 38, 108, 41),
+                              textColor: textColor,
+                              iconColor: iconColor,
+                              onTap: () {
+                                if (index == 0) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const ApproveVendor(),
+                                    ),
+                                  );
+                                } else if (index == 1) { // Check if the tapped index is for "DAILY"
+                                  // Navigate to the Daily screen
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => DailyPage(), // Replace with your actual DailyPage
+                                    ),
+                                  ); 
+                                } else if (index == 2) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MondayPage(),
+                                    ),
+                                  );
+                                } else if (index == 3) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => TuesdayPage(),
+                                    ),
+                                  );
+                                } else if (index == 4) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Wednesday(),
+                                    ),
+                                  );
+                                } else if (index == 5) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Thursday(),
+                                    ),
+                                  );
+                                } else if (index == 6) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Friday(),
+                                    ),
+                                  );
+                                } else if (index == 7) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Saturday(),
+                                    ),
+                                  );
+                                } else if (index == 8) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Sunday(),
+                                    ),
+                                  );
+                                }
+                              },
+                            );
+                          },
+                        );
+                      },
                     ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 20.0),
+                  // Two cards for Paid and Unpaid with text above
+                  const Text(
+                    'Payment Status',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    height: 300,
+                    child: GridView.count(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10.0,
+                      mainAxisSpacing: 10.0,
+                      childAspectRatio: 1.5,
+                      children: <Widget>[
+                        DashboardCard(
+                          icon: Icons.check_circle,
+                          title: 'PAID',
+                          vendorText: '100 vendors',
+                          color: const Color.fromARGB(255, 249, 251, 247),
+                          textColor: Colors.green,
+                          iconColor: Colors.green,
+                          onTap: () {
+                            /* Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const PaidVendorsPage(),
+                              ),
+                            ); */
+                          },
+                        ),
+                        DashboardCard(
+                          icon: Icons.cancel,
+                          title: 'UNPAID',
+                          vendorText: '50 vendors',
+                          color: const Color.fromARGB(255, 249, 251, 247),
+                          textColor: Colors.red,
+                          iconColor: Colors.red,
+                          onTap: () {
+                            /* Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const UnpaidVendorsPage(),
+                              ),
+                            ); */
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            )
-          : _screens[_selectedIndex],
-      bottomNavigationBar: bottomNavigationBar(),
-    );
-  }
+            ),
+          )
+        : _screens[_selectedIndex],
+    bottomNavigationBar: bottomNavigationBar(),
+  );
+}
 }
 
 // Updated DashboardCard class

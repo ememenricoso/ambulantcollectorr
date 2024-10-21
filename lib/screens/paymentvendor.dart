@@ -16,6 +16,7 @@ class _PaymentInfoScreenState extends State<PaymentInfoScreen> {
   User? currentUser;
   Map<String, dynamic>? paymentInfo;
   bool isLoading = true;
+  String? documentIDasReferenceID;
 
   @override
   void initState() {
@@ -41,6 +42,10 @@ class _PaymentInfoScreenState extends State<PaymentInfoScreen> {
 
         if (paymentSnapshot.docs.isNotEmpty) {
           print('Payment found for vendor ID: $vendorId');
+          DocumentSnapshot paymentDocument = paymentSnapshot.docs.first;
+          documentIDasReferenceID = paymentDocument.id; // Get the document ID
+          print('Document ID as reference ID: $documentIDasReferenceID');
+
           setState(() {
             paymentInfo =
                 paymentSnapshot.docs.first.data() as Map<String, dynamic>?;
@@ -251,6 +256,7 @@ class _PaymentInfoScreenState extends State<PaymentInfoScreen> {
             //   'country': 'PH',
             // },
           },
+          "reference_number": documentIDasReferenceID,
           'statement_descriptor':
               'string', // Replace with your desired statement descriptor
         }

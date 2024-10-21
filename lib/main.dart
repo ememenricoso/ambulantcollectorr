@@ -1,4 +1,5 @@
 import 'package:ambulantcollector/firebase_option.dart';
+import 'package:ambulantcollector/screens/dashboardvendor.dart';
 import 'package:ambulantcollector/screens/unifiedloginscreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -49,9 +50,9 @@ Future<void> _connectToFirebaseEmulator() async {
     persistenceEnabled: false,
   );
 
-  FirebaseAuth.instance.useAuthEmulator(localHostString, 9099); // Updated method
+  FirebaseAuth.instance
+      .useAuthEmulator(localHostString, 9099); // Updated method
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -65,6 +66,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const UnifiedLoginScreen(),
+      routes: {
+        '/dashboardVendor': (_) => DashboardVendor(),
+      },
     );
   }
 }
@@ -85,10 +89,12 @@ class _ResetPasswordState extends State<ResetPassword> {
   }
 
   void _handleIncomingLink() async {
-    final PendingDynamicLinkData? data = await FirebaseDynamicLinks.instance.getInitialLink();
+    final PendingDynamicLinkData? data =
+        await FirebaseDynamicLinks.instance.getInitialLink();
     _processDynamicLink(data);
 
-    FirebaseDynamicLinks.instance.onLink.listen((PendingDynamicLinkData dynamicLink) {
+    FirebaseDynamicLinks.instance.onLink
+        .listen((PendingDynamicLinkData dynamicLink) {
       _processDynamicLink(dynamicLink);
     }).onError((error) {
       print('onLink error: $error');
@@ -100,14 +106,18 @@ class _ResetPasswordState extends State<ResetPassword> {
 
     if (deepLink != null && _auth.isSignInWithEmailLink(deepLink.toString())) {
       // Get the email from SharedPreferences or other local storage
-      final String email = 'your_stored_email@example.com'; // Replace with your logic to retrieve the stored email
+      final String email =
+          'your_stored_email@example.com'; // Replace with your logic to retrieve the stored email
 
       // Complete sign-in
       try {
-        await _auth.signInWithEmailLink(email: email, emailLink: deepLink.toString());
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Successfully signed in!')));
+        await _auth.signInWithEmailLink(
+            email: email, emailLink: deepLink.toString());
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Successfully signed in!')));
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error signing in: $e')));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Error signing in: $e')));
       }
     }
   }
@@ -152,13 +162,16 @@ class _ResetPasswordState extends State<ResetPassword> {
       try {
         await _auth.sendSignInLinkToEmail(
           email: email, // Provide the email as a named argument
-          actionCodeSettings: actionCodeSettings, // Provide ActionCodeSettings as a named argument
+          actionCodeSettings:
+              actionCodeSettings, // Provide ActionCodeSettings as a named argument
         );
 
         // Show confirmation message
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Sign-in link sent to $email.')));
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Sign-in link sent to $email.')));
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Error: $e')));
       }
     }
   }

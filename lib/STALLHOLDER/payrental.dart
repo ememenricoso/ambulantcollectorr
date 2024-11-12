@@ -717,7 +717,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         },
                         child: Text(
                           'Pay Now',
-                          style: TextStyle(color: Colors.white, fontSize: 16),
+                          style: TextStyle(
+                              color: const Color.fromARGB(255, 184, 37, 37),
+                              fontSize: 16),
                         ),
                       ),
                     ),

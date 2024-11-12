@@ -405,7 +405,7 @@ class _RegistrationPendingPageState extends State<RegistrationPendingPage> {
                   ),
                 ),
                 child: const Text('Upload Supporting Document',
-                    style: TextStyle(color: Colors.white)),
+                    style: TextStyle(color: Color.fromARGB(255, 123, 13, 13))),
               ),
             const SizedBox(height: 10),
             _buildFilePreviews(),

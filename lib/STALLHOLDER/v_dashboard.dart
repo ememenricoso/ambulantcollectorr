@@ -124,7 +124,8 @@ class _HomePageState extends State<HomePage> {
         children: [
           Text(
             label,
-            style: TextStyle(fontSize: 16, color: Colors.white70),
+            style: TextStyle(
+                fontSize: 16, color: const Color.fromARGB(179, 142, 89, 89)),
           ),
           SizedBox(height: 10),
           Text(

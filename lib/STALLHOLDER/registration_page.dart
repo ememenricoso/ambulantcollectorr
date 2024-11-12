@@ -260,7 +260,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         style: GoogleFonts.kanit(
                           fontSize:
                               26, // Reduced font size to fit on smaller screens
-                          color: Colors.white,
+                          color: const Color.fromARGB(255, 129, 32, 32),
                           fontWeight: FontWeight.bold,
                         ),
                         maxLines: 1,

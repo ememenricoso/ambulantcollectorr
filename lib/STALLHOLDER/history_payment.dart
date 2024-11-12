@@ -10,6 +10,7 @@ class PaymentHistoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.green,
         title: Text('Payment History'),
       ),
       body: StreamBuilder<QuerySnapshot>(

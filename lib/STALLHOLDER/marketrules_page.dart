@@ -10,7 +10,7 @@ class MarketRulesPage extends StatelessWidget {
         backgroundColor: Colors.green,
         title: Row(
           children: [
-            Icon(Icons.payment, color: Colors.white),
+            Icon(Icons.payment, color: const Color.fromARGB(255, 224, 53, 53)),
             SizedBox(width: 8),
             Text(
               'Market Rules',

@@ -133,7 +133,7 @@ class _MainScaffoldState extends State<MainScaffold> {
         backgroundColor: Colors.green,
         title: const Text(
           'CarbonRent',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Color.fromARGB(255, 103, 21, 21)),
         ),
       ),
       body: widget.child,

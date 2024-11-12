@@ -213,7 +213,7 @@ class DetailItem extends StatelessWidget {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: Colors.grey[800],
+              color: const Color.fromARGB(255, 255, 255, 255),
             ),
           ),
           Expanded(

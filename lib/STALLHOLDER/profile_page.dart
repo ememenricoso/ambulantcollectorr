@@ -184,7 +184,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       onTap: _showImageSourceSelection,
                       child: CircleAvatar(
                         radius: 60,
-                        backgroundColor: Colors.grey[200],
+                        backgroundColor: const Color.fromARGB(255, 129, 49, 49),
                         backgroundImage: _imageFile != null
                             ? FileImage(File(_imageFile!.path))
                             : (_uploadedImageUrl != null &&

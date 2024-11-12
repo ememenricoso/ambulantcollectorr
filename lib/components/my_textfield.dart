@@ -13,7 +13,7 @@ class MyTextfield extends StatefulWidget {
     required this.obscureText,
     required bool readOnly,
     required BorderRadius borderRadius,
-    required Color fillColor,
+    required Color fillColor, //fill Color
     this.icon,
   });
 

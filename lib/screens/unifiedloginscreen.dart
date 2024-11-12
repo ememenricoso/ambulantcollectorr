@@ -167,7 +167,7 @@ class _UnifiedLoginScreenState extends State<UnifiedLoginScreen> {
           return;
         }
 
-        // Check if user is in Vendorusers collection
+        // Check if user is in Vendorusers collection (for stallholder login)
         final vendorSnapshot = await FirebaseFirestore.instance
             .collection('Vendorusers')
             .where('email', isEqualTo: email)
@@ -183,7 +183,7 @@ class _UnifiedLoginScreenState extends State<UnifiedLoginScreen> {
                 MaterialPageRoute(
                     builder: (context) => const RegistrationPendingPage()));
           } else {
-            // Check approved vendors
+            // Check approved vendors (for stallholder login)
             final approvedVendorSnapshot = await FirebaseFirestore.instance
                 .collection('approvedVendors')
                 .where('email', isEqualTo: email)

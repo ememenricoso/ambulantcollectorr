@@ -471,7 +471,7 @@ class PaymentDetailsBottomSheet extends StatelessWidget {
             ),
             child: Text(
               'Close',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: const Color.fromARGB(255, 156, 46, 46)),
             ),
           ),
         ],

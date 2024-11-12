@@ -10,7 +10,7 @@ class NotificationPage extends StatelessWidget {
         backgroundColor: Colors.green,
         title: Row(
           children: [
-            Icon(Icons.payment, color: Colors.white),
+            Icon(Icons.payment, color: const Color.fromARGB(255, 201, 45, 45)),
             SizedBox(width: 8),
             Text(
               'Notification',

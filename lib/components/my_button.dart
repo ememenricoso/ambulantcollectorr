@@ -34,7 +34,7 @@ class MyButton extends StatelessWidget {
           child: Text(
             buttonText,
             style: GoogleFonts.manrope(
-              color: textColor,
+              color: textColor, //text color
               fontWeight: FontWeight.bold,
               fontSize: 16,
             ),

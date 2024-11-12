@@ -14,7 +14,9 @@ class DocumentsPage extends StatelessWidget {
             SizedBox(width: 8),
             Text(
               'Documents',
-              style: TextStyle(fontSize: 17, color: Colors.white),
+              style: TextStyle(
+                  fontSize: 17,
+                  color: const Color.fromARGB(255, 248, 221, 221)),
             ),
           ],
         ),

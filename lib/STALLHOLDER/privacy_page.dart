@@ -36,7 +36,8 @@ class _PrivacyPageState extends State<PrivacyPage> {
             SizedBox(width: 8),
             Text(
               'Privacy',
-              style: TextStyle(fontSize: 17, color: Colors.white),
+              style: TextStyle(
+                  fontSize: 17, color: const Color.fromARGB(255, 234, 91, 91)),
             ),
           ],
         ),

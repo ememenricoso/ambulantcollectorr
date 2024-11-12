@@ -34,7 +34,7 @@ class _StallPageState extends State<StallPage> {
           child: Text(
             'Stalls',
             style: GoogleFonts.kanit(
-              color: Colors.white,
+              color: const Color.fromARGB(255, 41, 25, 25),
             ),
           ),
         ),

@@ -12,7 +12,7 @@ class SquareTile extends StatelessWidget {
     return Container(
       child: Image.asset(
         imagePath,
-        height: 100,
+        height: 100, // height
       ),
     );
   }

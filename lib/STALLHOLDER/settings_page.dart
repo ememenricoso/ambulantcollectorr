@@ -36,7 +36,8 @@ class SettingsPage extends StatelessWidget {
         backgroundColor: Colors.green,
         title: Row(
           children: [
-            Icon(Icons.settings, color: Colors.white),
+            Icon(Icons.settings,
+                color: const Color.fromARGB(255, 212, 119, 119)),
             SizedBox(width: 8),
             Text(
               'Settings',

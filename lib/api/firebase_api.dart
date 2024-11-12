@@ -9,7 +9,6 @@ class FirebaseApi {
     String? token = await _firebaseMessaging.getToken();
     print('Token: $token');
 
-    // Subscribe the user to the 'announcements' topic
     await _firebaseMessaging.subscribeToTopic('announcements');
 
     initPushNotifications();

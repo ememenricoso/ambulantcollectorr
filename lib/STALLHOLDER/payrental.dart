@@ -22,6 +22,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   Map<String, dynamic>? recentPendingPayment;
   List<Map<String, dynamic>> overduePayments = [];
   double totalOverdueAmount = 0.0;
+  String? documentIDasReferenceID;
 
   @override
   void initState() {
@@ -59,6 +60,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
           .get();
 
       if (paymentsQuery.docs.isNotEmpty) {
+        DocumentSnapshot paymentDocument = paymentsQuery.docs.first;
+        documentIDasReferenceID = paymentDocument.id; // Get the document ID
+        print('Document ID as reference ID: $documentIDasReferenceID');
         setState(() {
           recentPendingPayment =
               paymentsQuery.docs.first.data() as Map<String, dynamic>;
@@ -80,6 +84,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
           .get();
 
       if (paymentsQuery.docs.isNotEmpty) {
+        DocumentSnapshot paymentDocument = paymentsQuery.docs.first;
+        documentIDasReferenceID = paymentDocument.id; // Get the document ID
+        print('Document ID as reference ID: $documentIDasReferenceID');
         setState(() {
           overduePayments = paymentsQuery.docs
               .map((doc) => doc.data() as Map<String, dynamic>)
@@ -130,6 +137,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           'billing': {
             'name': 'Payor Name',
           },
+          "reference_number": documentIDasReferenceID,
           'statement_descriptor': 'string',
         }
       }

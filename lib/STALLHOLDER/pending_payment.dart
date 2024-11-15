@@ -41,6 +41,7 @@ class _PendingPaymentPageState extends State<PendingPaymentPage> {
       await fetchDailyRental();
       await fetchGarbageFee();
       await fetchPendingPayments();
+      await storePendingPayments();
     } catch (e) {
       print('Error initializing pending payment data: $e');
     } finally {
@@ -51,7 +52,7 @@ class _PendingPaymentPageState extends State<PendingPaymentPage> {
       }
     }
   }
-
+//updated
   Future<void> fetchBillingCycle() async {
     try {
       final vendorDoc = await FirebaseFirestore.instance
@@ -63,7 +64,7 @@ class _PendingPaymentPageState extends State<PendingPaymentPage> {
         final vendorData = vendorDoc.data() as Map<String, dynamic>;
         setState(() {
           billingCycle = vendorData['billingCycle'] ?? 'monthly';
-          approvedAt = vendorData['approvedAt'].toDate();
+          approvedAt = vendorData['approvedAt']?.toDate() ?? DateTime.now();
         });
       }
     } catch (e) {
@@ -86,9 +87,19 @@ class _PendingPaymentPageState extends State<PendingPaymentPage> {
             dailyRent = config['value1'] as double;
           });
         } else if (config['title'] == 'Penalty') {
-          setState(() {
-            penaltyPercentage = config['value1'] as double;
-          });
+          if (billingCycle.toLowerCase() == 'monthly') {
+            setState(() {
+              penaltyPercentage = config['value1'] as double;
+            });
+          } else if (billingCycle.toLowerCase() == 'weekly') {
+            setState(() {
+              penaltyPercentage = config['value2'] as double;
+            });
+          } else if (billingCycle.toLowerCase() == 'daily') {
+            setState(() {
+              penaltyPercentage = config['value3'] as double;
+            });
+          }
         } else if (config['title'] == 'Interest Rate') {
           setState(() {
             interestRate = config['value1'] as double;
@@ -192,6 +203,62 @@ class _PendingPaymentPageState extends State<PendingPaymentPage> {
     }
   }
 
+  Future<void> storePendingPayments() async {
+    try {
+      // Normalize the current date to midnight
+      DateTime normalizedCurrentDate = DateTime(
+        DateTime.now().year,
+        DateTime.now().month,
+        DateTime.now().day,
+      );
+
+      // Fetch existing payments for the current user
+      final existingPaymentsSnapshot = await FirebaseFirestore.instance
+          .collection('stall_payment')
+          .where('vendorId', isEqualTo: currentUser?.uid)
+          .get();
+
+      final existingPaymentPeriods = existingPaymentsSnapshot.docs.map((doc) {
+        final data = doc.data();
+        return {
+          'startDate': (data['startDate'] as Timestamp).toDate(),
+          'endDate': (data['endDate'] as Timestamp).toDate(),
+        };
+      }).toSet();
+
+      // Generate pending payments (including next payment)
+      List<Map<String, dynamic>> payments = calculatePendingPayments();
+
+      // Add today's and the next payment period
+      for (var payment in payments) {
+        final startDate = payment['startDate'];
+        final endDate = payment['endDate'];
+
+        if (existingPaymentPeriods.any((existing) {
+          final existingStartDate = existing['startDate'];
+          final existingEndDate = existing['endDate'];
+          return existingStartDate!.isAtSameMomentAs(startDate) &&
+              existingEndDate!.isAtSameMomentAs(endDate);
+        })) {
+          continue; // Skip if already exists
+        }
+
+        if (startDate.isAfter(normalizedCurrentDate)) {
+          payment['status'] =
+              'Pending'; // Ensure future payments are marked Pending
+        } else if (startDate.isAtSameMomentAs(normalizedCurrentDate)) {
+          payment['status'] = 'Pending'; // Ensure today's payment is Pending
+        }
+
+        await FirebaseFirestore.instance
+            .collection('stall_payment')
+            .add(payment);
+      }
+    } catch (e) {
+      print('Error storing pending payments: $e');
+    }
+  }
+
   String formatDate(DateTime date) {
     return DateFormat('MMMM d, y').format(date);
   }
@@ -200,124 +267,68 @@ class _PendingPaymentPageState extends State<PendingPaymentPage> {
     List<Map<String, dynamic>> payments = [];
     DateTime currentDate = DateTime.now();
     DateTime startDate = approvedAt;
-    DateTime endDate;
 
     switch (billingCycle.toLowerCase()) {
-      case 'monthly':
-        for (int month = 0; month < 12; month++) {
-          DateTime monthStartDate =
-              DateTime(startDate.year, startDate.month + month, 8);
-          DateTime monthEndDate =
-              DateTime(startDate.year, startDate.month + month + 1, 7, 23, 59);
-          int numOfDays = monthEndDate.difference(monthStartDate).inDays;
-          double amount = numOfDays * dailyRent;
-          double totalGarbageFee = numOfDays * dailyGarbageFee;
-          double surcharge = 0.0;
-          double interestAmount = 0.0;
-          double totalAmountDue =
-              amount + totalGarbageFee + surcharge + interestAmount;
+      case 'daily':
+        while (startDate.isBefore(currentDate) ||
+            startDate.isAtSameMomentAs(currentDate)) {
+          DateTime dayStartDate =
+              DateTime(startDate.year, startDate.month, startDate.day, 0, 0);
+          DateTime dayEndDate =
+              DateTime(startDate.year, startDate.month, startDate.day, 23, 59);
 
-          if (monthStartDate.isBefore(currentDate)) {
-            int daysLate = currentDate.difference(monthStartDate).inDays;
-            surcharge = (amount + totalGarbageFee) *
-                (penaltyPercentage / 100) *
-                daysLate;
-            if (billingCycle.toLowerCase() != 'daily') {
-              interestAmount = totalAmountDue * (interestRate / 100);
-            }
-            totalAmountDue =
-                amount + totalGarbageFee + surcharge + interestAmount;
-          }
-
-          payments.add({
-            'startDate': monthStartDate,
-            'endDate': monthEndDate,
-            'numOfDays': numOfDays,
-            'amount': amount,
-            'totalGarbageFee': totalGarbageFee,
-            'surcharge': surcharge,
-            'interestRate': interestRate,
-            'interestAmount': interestAmount,
-            'totalAmountDue': totalAmountDue,
-            'dailyRent': dailyRent, // Add dailyRent to the payment details
-          });
+          payments
+              .add(generatePaymentData(dayStartDate, dayEndDate, 1, 'daily'));
+          startDate = startDate.add(Duration(days: 1));
         }
+
+        // Include the next day's payment
+        DateTime nextDayStart = startDate;
+        DateTime nextDayEnd = startDate.add(Duration(hours: 23, minutes: 59));
+        payments.add(generatePaymentData(nextDayStart, nextDayEnd, 1, 'daily'));
         break;
 
       case 'weekly':
-        for (int week = 0; week < 52; week++) {
-          DateTime weekStartDate = startDate.add(Duration(days: week * 7));
-          DateTime weekEndDate = weekStartDate.add(Duration(days: 7));
-          int numOfDays = 7;
-          double amount = numOfDays * dailyRent;
-          double totalGarbageFee = numOfDays * dailyGarbageFee;
-          double surcharge = 0.0;
-          double interestAmount = 0.0;
-          double totalAmountDue =
-              amount + totalGarbageFee + surcharge + interestAmount;
+        while (startDate.isBefore(currentDate) ||
+            startDate.isAtSameMomentAs(currentDate)) {
+          DateTime weekStartDate = startDate;
+          DateTime weekEndDate =
+              weekStartDate.add(Duration(days: 6, hours: 23, minutes: 59));
 
-          if (weekStartDate.isBefore(currentDate)) {
-            int daysLate = currentDate.difference(weekStartDate).inDays;
-            surcharge = (amount + totalGarbageFee) *
-                (penaltyPercentage / 100) *
-                daysLate;
-            if (billingCycle.toLowerCase() != 'daily') {
-              interestAmount = totalAmountDue * (interestRate / 100);
-            }
-            totalAmountDue =
-                amount + totalGarbageFee + surcharge + interestAmount;
-          }
-
-          payments.add({
-            'startDate': weekStartDate,
-            'endDate': weekEndDate,
-            'numOfDays': numOfDays,
-            'amount': amount,
-            'totalGarbageFee': totalGarbageFee,
-            'surcharge': surcharge,
-            'interestRate': interestRate,
-            'interestAmount': interestAmount,
-            'totalAmountDue': totalAmountDue,
-            'dailyRent': dailyRent, // Add dailyRent to the payment details
-          });
+          payments.add(
+              generatePaymentData(weekStartDate, weekEndDate, 7, 'weekly'));
+          startDate = startDate.add(Duration(days: 7));
         }
+
+        // Include the next week's payment
+        DateTime nextWeekStart = startDate;
+        DateTime nextWeekEnd =
+            nextWeekStart.add(Duration(days: 6, hours: 23, minutes: 59));
+        payments
+            .add(generatePaymentData(nextWeekStart, nextWeekEnd, 7, 'weekly'));
         break;
 
-      case 'daily':
-        for (int day = 0; day < 365; day++) {
-          DateTime dayStartDate = startDate.add(Duration(days: day));
-          DateTime dayEndDate =
-              dayStartDate.add(Duration(days: 1, hours: 23, minutes: 59));
-          int numOfDays = 1;
-          double amount = numOfDays * dailyRent;
-          double totalGarbageFee = numOfDays * dailyGarbageFee;
-          double surcharge = 0.0;
-          double interestAmount = 0.0;
-          double totalAmountDue =
-              amount + totalGarbageFee + surcharge + interestAmount;
+      case 'monthly':
+        while (startDate.isBefore(currentDate) ||
+            startDate.isAtSameMomentAs(currentDate)) {
+          DateTime monthStartDate =
+              DateTime(startDate.year, startDate.month, 8);
+          DateTime monthEndDate =
+              DateTime(startDate.year, startDate.month + 1, 7, 23, 59);
 
-          if (dayStartDate.isBefore(currentDate)) {
-            int daysLate = currentDate.difference(dayStartDate).inDays;
-            surcharge = (amount + totalGarbageFee) *
-                (penaltyPercentage / 100) *
-                daysLate;
-            totalAmountDue =
-                amount + totalGarbageFee + surcharge + interestAmount;
-          }
+          int daysInCycle = monthEndDate.difference(monthStartDate).inDays;
+          payments.add(generatePaymentData(
+              monthStartDate, monthEndDate, daysInCycle, 'monthly'));
 
-          payments.add({
-            'startDate': dayStartDate,
-            'endDate': dayEndDate,
-            'numOfDays': numOfDays,
-            'amount': amount,
-            'totalGarbageFee': totalGarbageFee,
-            'surcharge': surcharge,
-            'interestRate': interestRate,
-            'interestAmount': interestAmount,
-            'totalAmountDue': totalAmountDue,
-            'dailyRent': dailyRent, // Add dailyRent to the payment details
-          });
+          startDate = monthStartDate.add(Duration(days: daysInCycle));
         }
+
+        // Include the next month's payment
+        DateTime nextMonthStart = startDate;
+        DateTime nextMonthEnd =
+            DateTime(nextMonthStart.year, nextMonthStart.month + 1, 7, 23, 59);
+        payments.add(generatePaymentData(nextMonthStart, nextMonthEnd,
+            nextMonthEnd.difference(nextMonthStart).inDays, 'monthly'));
         break;
 
       default:
@@ -326,7 +337,48 @@ class _PendingPaymentPageState extends State<PendingPaymentPage> {
 
     return payments;
   }
-  //nuewww
+
+// Utility to create a payment map with calculations
+  Map<String, dynamic> generatePaymentData(
+      DateTime startDate, DateTime endDate, int numOfDays, String cycle) {
+    DateTime now = DateTime.now();
+    double amount = numOfDays * dailyRent;
+    double totalGarbageFee = numOfDays * dailyGarbageFee;
+    double surcharge = 0.0;
+    double interestAmount = 0.0;
+    double totalAmountDue =
+        amount + totalGarbageFee + surcharge + interestAmount;
+    String status;
+
+    // Determine payment status
+    if (startDate.isAtSameMomentAs(DateTime(now.year, now.month, now.day))) {
+      status = 'Pending'; // Ensure today's payment is Pending
+    } else if (startDate.isBefore(now)) {
+      status = 'Overdue'; // Overdue if startDate is in the past
+      int daysLate = now.difference(startDate).inDays;
+      surcharge =
+          (amount + totalGarbageFee) * (penaltyPercentage / 100) * daysLate;
+      totalAmountDue += surcharge;
+    } else {
+      status = 'Pending'; // Future payments
+    }
+
+    return {
+      'startDate': startDate,
+      'endDate': endDate,
+      'numOfDays': numOfDays,
+      'amount': amount,
+      'totalGarbageFee': totalGarbageFee,
+      'surcharge': surcharge,
+      'interestRate': interestRate,
+      'interestAmount': interestAmount,
+      'totalAmountDue': totalAmountDue,
+      'dailyRent': dailyRent,
+      'status': status,
+      'penalty': penaltyPercentage,
+      'billingCycle': cycle
+    };
+  }
 
   void _showPaymentDetails(Map<String, dynamic> payment) {
     showModalBottomSheet(
@@ -353,8 +405,8 @@ class _PendingPaymentPageState extends State<PendingPaymentPage> {
     calculatedPayments = calculatedPayments.where((payment) {
       final dueDate = payment['endDate'] as DateTime;
       final isPaid = pendingPayments.any((paidPayment) =>
-          paidPayment['dueDate'].toDate().isAtSameMomentAs(dueDate) &&
-          paidPayment['status'] == 'Paid');
+          paidPayment['dueDate']?.toDate().isAtSameMomentAs(dueDate) ??
+          false && paidPayment['status'] == 'Paid');
       return !isPaid;
     }).toList();
 
@@ -402,6 +454,15 @@ class _PendingPaymentPageState extends State<PendingPaymentPage> {
                               Text(
                                 'Due Date: ${formatDate(payment['endDate'])}',
                                 style: TextStyle(fontSize: 14),
+                              ),
+                              SizedBox(height: 8),
+                              Text(
+                                'Status: ${payment['status']}',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: payment['status'] == 'Overdue'
+                                        ? Colors.red
+                                        : Colors.green),
                               ),
                             ],
                           ),
@@ -461,6 +522,8 @@ class PaymentDetailsBottomSheet extends StatelessWidget {
               '₱${payment['interestAmount'].toStringAsFixed(2)}'),
           _buildRow('Total Amount Due',
               '₱${payment['totalAmountDue'].toStringAsFixed(2)}'),
+          _buildRow('Status', payment['status']),
+          _buildRow('Penalty', '${payment['penalty']}%'),
           SizedBox(height: 16),
           ElevatedButton(
             onPressed: () {

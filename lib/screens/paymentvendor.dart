@@ -217,7 +217,7 @@ class _PaymentInfoScreenState extends State<PaymentInfoScreen> {
             // 'grab_pay',
             // 'paymaya',
           ],
-          'description': 'Traffic Vioations',
+          'description': 'Rental Payment',
           'line_items': [
             {
               'name': 'Test Item',

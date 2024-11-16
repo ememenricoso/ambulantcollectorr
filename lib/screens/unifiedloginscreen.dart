@@ -1,3 +1,6 @@
+import 'package:ambulantcollector/STALLHOLDER/pending_registration.dart';
+import 'package:ambulantcollector/STALLHOLDER/stallpage.dart';
+import 'package:ambulantcollector/STALLHOLDER/v_dashboard.dart';
 import 'package:ambulantcollector/reusable_widgets/reusable_widgets.dart';
 import 'package:ambulantcollector/screens/dashboard.dart';
 import 'package:ambulantcollector/screens/dashboardvendor.dart';
@@ -32,7 +35,8 @@ class _UnifiedLoginScreenState extends State<UnifiedLoginScreen> {
         ),
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(20, MediaQuery.of(context).size.height * 0.2, 20, 0),
+            padding: EdgeInsets.fromLTRB(
+                20, MediaQuery.of(context).size.height * 0.2, 20, 0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -59,31 +63,8 @@ class _UnifiedLoginScreenState extends State<UnifiedLoginScreen> {
                     ],
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ChoiceChip(
-                      label: const Text("Collector"),
-                      selected: _isCollector,
-                      onSelected: (selected) {
-                        setState(() {
-                          _isCollector = selected;
-                        });
-                      },
-                    ),
-                    const SizedBox(width: 16),
-                    ChoiceChip(
-                      label: const Text("Vendor"),
-                      selected: !_isCollector,
-                      onSelected: (selected) {
-                        setState(() {
-                          _isCollector = !selected;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-                reusableTextField("Enter Email", Icons.person_outline, false, _emailTextController),
+                reusableTextField("Enter Email", Icons.person_outline, false,
+                    _emailTextController),
                 const SizedBox(height: 20),
                 _passwordField(),
                 const SizedBox(height: 5),
@@ -91,6 +72,25 @@ class _UnifiedLoginScreenState extends State<UnifiedLoginScreen> {
                 firebaseUIButton(context, "Sign In", () {
                   _loginUser();
                 }),
+                TextButton(
+                  onPressed: () {
+                    // Navigate to vendor registration screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => StallPage()),
+                    );
+                  },
+                  child: const Text(
+                    "Register as Vendor",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue,
+                      decoration: TextDecoration
+                          .underline, // Add underline for link effect
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -148,67 +148,96 @@ class _UnifiedLoginScreenState extends State<UnifiedLoginScreen> {
 
     try {
       // Sign in using Firebase Authentication
-      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
 
       if (userCredential.user != null) {
-        if (_isCollector) {
-          // Check if the user exists in the ambulant_collector collection
-          final QuerySnapshot snapshot = await FirebaseFirestore.instance
-              .collection('ambulant_collector')
-              .where('email', isEqualTo: email)
-              .get();
+        // Check if user is an ambulant collector
+        final collectorSnapshot = await FirebaseFirestore.instance
+            .collection('ambulant_collector')
+            .where('email', isEqualTo: email)
+            .get();
 
-          if (snapshot.docs.isNotEmpty) {
-            // User found in ambulant_collector
+        if (collectorSnapshot.docs.isNotEmpty) {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const Dashboard()));
+          return;
+        }
+
+        // Check if user is in Vendorusers collection (for stallholder login)
+        final vendorSnapshot = await FirebaseFirestore.instance
+            .collection('Vendorusers')
+            .where('email', isEqualTo: email)
+            .get();
+
+        if (vendorSnapshot.docs.isNotEmpty) {
+          DocumentSnapshot vendorDoc = vendorSnapshot.docs.first;
+          String status = vendorDoc.get('status');
+
+          if (status == 'pending') {
             Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const Dashboard()),
-            );
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const RegistrationPendingPage()));
           } else {
-            _showErrorDialog("User is not registered as an ambulant collector.");
+            // Check approved vendors (for stallholder login)
+            final approvedVendorSnapshot = await FirebaseFirestore.instance
+                .collection('approvedVendors')
+                .where('email', isEqualTo: email)
+                .get();
+
+            print(
+                'Approved Vendors count: ${approvedVendorSnapshot.docs.length}'); // Debug statement
+
+            if (approvedVendorSnapshot.docs.isNotEmpty) {
+              // User is an approved vendor, redirect to HomePage
+              Navigator.pushReplacement(
+                  context, MaterialPageRoute(builder: (context) => HomePage()));
+            } else {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          TimelineScreen(userId: vendorDoc.id)));
+            }
           }
         } else {
-          // Check in the users collection for vendors
-          final QuerySnapshot userSnapshot = await FirebaseFirestore.instance
+          // General user logic
+          final userSnapshot = await FirebaseFirestore.instance
               .collection('users')
               .where('email', isEqualTo: email)
               .get();
 
           if (userSnapshot.docs.isNotEmpty) {
-            DocumentSnapshot userDoc = userSnapshot.docs.first;
-
-            // Check in the approved_vendors collection
-            final QuerySnapshot approvedVendorSnapshot = await FirebaseFirestore.instance
+            final approvedVendorSnapshot = await FirebaseFirestore.instance
                 .collection('approved_vendors')
                 .where('email', isEqualTo: email)
                 .get();
 
             if (approvedVendorSnapshot.docs.isNotEmpty) {
-              // If the email exists in both collections, navigate to DashboardVendor
               Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const DashboardVendor()),
-              );
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const DashboardVendor()));
             } else {
-              // If the user exists but is not in approved_vendors, navigate to TimelineScreen
+              DocumentSnapshot userDoc = userSnapshot.docs.first;
               Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => TimelineScreen(userId: userDoc.id)),
-              );
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          TimelineScreen(userId: userDoc.id)));
             }
           } else {
-            _showErrorDialog("User is not found.");
+            _showErrorDialog("User not found in either collectors or vendors.");
           }
         }
       }
     } on FirebaseAuthException catch (e) {
-      // Handle authentication errors
       _handleAuthError(e, email);
     } catch (e) {
-      // Handle any other errors
       _showErrorDialog("An error occurred: ${e.toString()}");
     }
   }
@@ -216,13 +245,15 @@ class _UnifiedLoginScreenState extends State<UnifiedLoginScreen> {
   void _handleAuthError(FirebaseAuthException error, String email) {
     switch (error.code) {
       case 'user-not-found':
-        _showErrorDialog("No user found with this email. Please check your email or sign up.");
+        _showErrorDialog(
+            "No user found with this email. Please check your email or sign up.");
         break;
       case 'wrong-password':
         _showErrorDialog("Incorrect password. Please try again.");
         break;
       case 'too-many-requests':
-        _showErrorDialog("The login credential is incorrect. Try resetting your password.");
+        _showErrorDialog(
+            "The login credential is incorrect. Try resetting your password.");
         break;
       default:
         _showErrorDialog("${error.message}");
@@ -245,7 +276,7 @@ class _UnifiedLoginScreenState extends State<UnifiedLoginScreen> {
               Container(
                 width: double.infinity,
                 decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 60, 218, 28),
+                  color: Colors.green,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20.0),
                     topRight: Radius.circular(20.0),
@@ -279,7 +310,7 @@ class _UnifiedLoginScreenState extends State<UnifiedLoginScreen> {
                     child: const Text(
                       "OK",
                       style: TextStyle(
-                        color: Color.fromARGB(255, 60, 218, 28),
+                        color: Colors.green,
                       ),
                     ),
                   ),
@@ -291,22 +322,22 @@ class _UnifiedLoginScreenState extends State<UnifiedLoginScreen> {
       ),
     );
   }
+}
 
-  Widget forgetPassword(BuildContext context) {
-    return Container(
-      alignment: Alignment.centerRight,
-      child: TextButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const ResetPassword()),
-          );
-        },
-        child: const Text(
-          "Forgot Password?",
-          style: TextStyle(color: Colors.black, fontSize: 14),
-        ),
+Widget forgetPassword(BuildContext context) {
+  return Container(
+    alignment: Alignment.centerRight,
+    child: TextButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const ResetPassword()),
+        );
+      },
+      child: const Text(
+        "Forgot Password?",
+        style: TextStyle(color: Colors.black, fontSize: 14),
       ),
-    );
-  }
+    ),
+  );
 }

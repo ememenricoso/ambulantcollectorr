@@ -1,3 +1,5 @@
+import 'package:ambulantcollector/STALLHOLDER/history_payment.dart';
+import 'package:ambulantcollector/STALLHOLDER/payrental.dart';
 import 'package:ambulantcollector/firebase_option.dart';
 import 'package:ambulantcollector/screens/dashboardvendor.dart';
 import 'package:ambulantcollector/screens/unifiedloginscreen.dart';
@@ -9,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 const bool USE_EMULATOR = false;
-
+final navigatorKey = GlobalKey<NavigatorState>();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -66,8 +68,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const UnifiedLoginScreen(),
+      navigatorKey: navigatorKey,
       routes: {
-        '/dashboardVendor': (_) => DashboardVendor(),
+        '/paymentScreen': (_) => PaymentScreen(),
       },
     );
   }
